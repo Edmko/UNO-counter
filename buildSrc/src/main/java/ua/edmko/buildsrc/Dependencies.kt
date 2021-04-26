@@ -19,7 +19,7 @@ object HiltDependencies {
 
     object Versions {
         const val hilt = "2.33-beta"
-        const val hiltNavigation = "1.0.0-beta01"
+        const val hiltNavigation = "1.0.0-alpha01"
         const val lifecycle = "1.0.0-alpha03"
     }
 
@@ -27,7 +27,7 @@ object HiltDependencies {
     const val lifecycle = "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.lifecycle}"
     const val kaptHilt = "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
     const val kaptLifecycle = "androidx.hilt:hilt-compiler:${Versions.lifecycle}"
-    const val hiltNavigation = "androidx.hilt:hilt-navigation-fragment:${Versions.hiltNavigation}"
+    const val hiltNavigation = "androidx.hilt:hilt-navigation-compose:${Versions.hiltNavigation}"
 }
 
 
@@ -51,14 +51,33 @@ object ComposeLibraries {
         "androidx.compose.material:material-icons-core:${Versions.compose}"
     const val materialIconsExtended =
         "androidx.compose.material:material-icons-extended:${Versions.compose}"
+    const val constraint = "androidx.constraintlayout:constraintlayout-compose:1.0.0-alpha05"
 }
 
 object LifecycleLibraries {
     object Versions {
         const val lifecycle = "2.3.1"
     }
-
     const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
     const val runtime = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycle}"
     const val liveData = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifecycle}"
+}
+
+object Navigation {
+    object Versions {
+        const val compose = "1.0.0-alpha10"
+        const val navigation ="2.3.5"
+    }
+
+    const val compose = "androidx.navigation:navigation-compose:${Versions.compose}"
+    const val ktx = "androidx.navigation:navigation-ui-ktx:${Versions.navigation}"
+}
+
+object Coroutines {
+    object Versions {
+        const val coroutines = "1.4.2"
+    }
+
+    const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
+    const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
 }

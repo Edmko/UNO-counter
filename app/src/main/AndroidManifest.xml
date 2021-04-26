@@ -3,6 +3,7 @@
     package="ua.edmko.unocounter">
 
     <application
+        android:name=".UnoApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -13,7 +14,7 @@
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.UNOcounter.NoActionBar">
+            android:theme="@style/Theme.UNOcounter">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

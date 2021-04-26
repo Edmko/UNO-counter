@@ -2,8 +2,9 @@ import ua.edmko.buildsrc.*
 
 plugins {
     id("com.android.application")
-    id("kotlin-android")
-    id("kotlin-kapt")
+    kotlin("android")
+    kotlin("kapt")
+    id("kotlin-parcelize")
     id ("dagger.hilt.android.plugin")
 }
 
@@ -49,9 +50,11 @@ dependencies {
 
     implementation(AndroidLibraries.core)
     implementation(AndroidLibraries.appCompat)
+
     implementation(LifecycleLibraries.viewModel)
     implementation(LifecycleLibraries.runtime)
     implementation(LifecycleLibraries.liveData)
+
     implementation(ComposeLibraries.ui)
     implementation(ComposeLibraries.uiTooling)
     implementation(ComposeLibraries.foundation)
@@ -62,8 +65,17 @@ dependencies {
     implementation(ComposeLibraries.liveData)
     implementation(ComposeLibraries.activity)
     implementation(ComposeLibraries.lifecycleViewModel)
+    implementation(ComposeLibraries.constraint)
+
     kapt(HiltDependencies.kaptHilt)
     kapt(HiltDependencies.kaptLifecycle)
     implementation(HiltDependencies.hilt)
     implementation(HiltDependencies.lifecycle)
+    implementation(HiltDependencies.hiltNavigation)
+
+    implementation(Navigation.compose)
+    implementation(Navigation.ktx)
+
+    implementation(Coroutines.android)
+    implementation(Coroutines.core)
 }
