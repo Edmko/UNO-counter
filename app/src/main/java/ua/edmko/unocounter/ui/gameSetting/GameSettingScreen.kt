@@ -1,5 +1,6 @@
-package ua.edmko.unocounter.ui
+package ua.edmko.unocounter.ui.gameSetting
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -24,14 +25,26 @@ import ua.edmko.unocounter.ui.theme.baseDimension
 
 @Composable
 fun GameSettingScreen(viewModel: GameSettingViewModel) {
-    UNOcounterTheme() {
+    val state by viewModel.viewStates().collectAsState()
+    UNOcounterTheme {
+        if (state?.dialogShows == true) AlertDialog(onDismissRequest = { }, confirmButton = {
+            Button(
+                onClick = {viewModel.obtainEvent(ChangeGoal(500))}, content = {
+                Text(text = "Accept")
+
+                })
+        })
+
         Box(Modifier.fillMaxSize()) {
             Column(
                 Modifier
                     .padding(0.dp, 40.dp, 0.dp, 0.dp)
                     .fillMaxSize(),
             ) {
-                TextFieldWithDivider(stringResource(R.string.goal))
+                val goal: String = if (state?.goal == -1) stringResource(R.string.goal) else state?.goal.toString()
+                TextFieldWithDivider(goal, click = {
+                    viewModel.obtainEvent(OnGoalClickEvent)
+                })
                 TextFieldWithDivider(stringResource(R.string.type))
                 Text(
                     style = MaterialTheme.typography.h6,
@@ -59,25 +72,14 @@ fun GameSettingScreen(viewModel: GameSettingViewModel) {
                     }
                 }
             }
-            Button(
-                onClick = {},
-                shape = RoundedCornerShape(10.dp),
+            GameButton(
+                text = stringResource(R.string.start_game),
                 modifier = Modifier
                     .padding(baseDimension, 0.dp, baseDimension, 40.dp)
                     .fillMaxWidth()
                     .height(56.dp)
-                    .align(Alignment.BottomCenter),
-                colors = buttonColors(backgroundColor = Color.Red),
-                contentPadding = PaddingValues(0.dp)
-            ) {
-                Text(
-                    stringResource(R.string.start_game),
-                    color = Color.Black,
-                    fontSize = 40.sp,
-                    textAlign = TextAlign.Center,
-                    fontWeight = FontWeight.Black
-                )
-            }
+                    .align(Alignment.BottomCenter)
+            )
         }
     }
 }
@@ -102,10 +104,32 @@ fun PlayerItem(player: String = "John Smith", color: Color = Color.Red) {
     }
 }
 
+@Preview
 @Composable
-fun TextFieldWithDivider(initText: String) {
-    var text by remember { mutableStateOf(initText) }
-    Column() {
+fun GameButton(text: String = "Start game", modifier: Modifier = Modifier) {
+    Button(
+        onClick = {},
+        shape = RoundedCornerShape(10.dp),
+        modifier = modifier,
+        colors = buttonColors(backgroundColor = Color.Red),
+        contentPadding = PaddingValues(0.dp)
+    ) {
+        Text(
+            text,
+            color = Color.Black,
+            fontSize = 40.sp,
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Black
+        )
+    }
+}
+
+@Preview
+@Composable
+fun TextFieldWithDivider(initText: String = "Goal", click: (() -> Unit)? = null) {
+    Column(Modifier.clickable {
+        click?.invoke()
+    }) {
         Text(
             style = MaterialTheme.typography.h5,
             color = Color.White,

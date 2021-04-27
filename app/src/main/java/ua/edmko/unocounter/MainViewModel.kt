@@ -11,7 +11,7 @@ import ua.edmko.unocounter.navigation.NavigationManager
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(private val navigationManager: NavigationManager): BaseViewModel(navigationManager){
+class MainViewModel @Inject constructor(private val navigationManager: NavigationManager): ViewModel(){
 init{
     viewModelScope.launch {
         delay(1000L)

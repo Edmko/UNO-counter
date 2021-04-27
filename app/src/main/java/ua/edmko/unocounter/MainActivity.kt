@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -19,11 +18,10 @@ import androidx.hilt.navigation.compose.hiltNavGraphViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
-import androidx.navigation.navOptions
 import dagger.hilt.android.AndroidEntryPoint
 import ua.edmko.unocounter.navigation.NavigationDirections
 import ua.edmko.unocounter.navigation.NavigationManager
-import ua.edmko.unocounter.ui.GameSettingScreen
+import ua.edmko.unocounter.ui.gameSetting.GameSettingScreen
 import ua.edmko.unocounter.ui.theme.UNOcounterTheme
 import javax.inject.Inject
 
