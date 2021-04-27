@@ -27,4 +27,19 @@ class GameSettingViewModel @Inject constructor(private val navigationManager: Na
     private fun changeGoal() {
        viewState = viewState.copy(dialogShows = true)
     }
+
+    val players = listOf(
+        "John Smith",
+        "Dali Bali",
+        "Man Quite",
+        "Vasya",
+        "John Smith",
+        "Dali Bali",
+        "Man Quite",
+        "Vasya",
+        "John Smith",
+        "Dali Bali",
+        "Man Quite",
+        "Vasya"
+    )
 }
