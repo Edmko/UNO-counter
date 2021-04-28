@@ -9,10 +9,12 @@ object AndroidLibraries {
     object Versions {
         const val core = "1.3.2"
         const val appCompat = "1.2.0"
+        const val materialCore = "1.3.0"
     }
 
     const val core = "androidx.core:core-ktx:${Versions.core}"
     const val appCompat = "androidx.appcompat:appcompat:${Versions.appCompat}"
+    const val materialCore = "com.google.android.material:material:${Versions.materialCore}"
 }
 
 object HiltDependencies {
@@ -34,8 +36,8 @@ object HiltDependencies {
 object ComposeLibraries {
     object Versions {
         const val compose = "1.0.0-beta05"
-        const val activityCompose = "1.3.0-alpha05"
-        const val viewModelCompose = "1.0.0-alpha03"
+        const val activityCompose = "1.3.0-alpha07"
+        const val viewModelCompose = "1.0.0-alpha04"
     }
 
     const val ui = "androidx.compose.ui:ui:${Versions.compose}"
@@ -43,7 +45,6 @@ object ComposeLibraries {
     const val foundation = "androidx.compose.foundation:foundation:${Versions.compose}"
     const val foundationLayout = "androidx.compose.foundation:foundation-layout:${Versions.compose}"
     const val material = "androidx.compose.material:material:${Versions.compose}"
-    const val liveData = "androidx.compose.runtime:runtime-livedata:${Versions.compose}"
     const val activity = "androidx.activity:activity-compose:${Versions.activityCompose}"
     const val lifecycleViewModel =
         "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.viewModelCompose}"
@@ -66,11 +67,9 @@ object LifecycleLibraries {
 object Navigation {
     object Versions {
         const val compose = "1.0.0-alpha10"
-        const val navigation ="2.3.5"
     }
 
     const val compose = "androidx.navigation:navigation-compose:${Versions.compose}"
-    const val ktx = "androidx.navigation:navigation-ui-ktx:${Versions.navigation}"
 }
 
 object Coroutines {

@@ -1,12 +1,15 @@
 package ua.edmko.unocounter.base
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import ua.edmko.unocounter.navigation.NavigationManager
 
 abstract class BaseViewModel<S: ViewState, A: Action, E: Event>(private val navigationManager: NavigationManager): ViewModel() {
-
+init {
+    Log.d(this.javaClass.canonicalName, "Create")
+}
     private val _viewStates: MutableStateFlow<S?> = MutableStateFlow(null)
     fun viewStates(): StateFlow<S?> = _viewStates
 
@@ -36,4 +39,9 @@ abstract class BaseViewModel<S: ViewState, A: Action, E: Event>(private val navi
         }
 
     abstract fun obtainEvent(viewEvent: E)
+
+    override fun onCleared() {
+        Log.d(this.javaClass.canonicalName, "Cleared")
+        super.onCleared()
+    }
 }

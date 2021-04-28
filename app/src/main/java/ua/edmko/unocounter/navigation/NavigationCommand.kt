@@ -4,8 +4,12 @@ import androidx.navigation.NavOptions
 import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.NamedNavArgument
 
-interface NavigationCommand {
-    val argument : List<NamedNavArgument>
-    val destination : String
-    val builder: NavOptionsBuilder.() -> Unit
+abstract class NavigationCommand {
+    abstract val argument : List<NamedNavArgument>
+    abstract val destination : String
+    abstract val builder: NavOptionsBuilder.() -> Unit
+    override fun equals(other: Any?): Boolean {
+        return false
+    }
+
 }

@@ -15,7 +15,7 @@ class MainViewModel @Inject constructor(private val navigationManager: Navigatio
 init{
     viewModelScope.launch {
         delay(1000L)
-        navigationManager.navigate(NavigationDirections.homeRoot)
+        navigationManager.navigate(NavigationDirections.gameSetting)
     }
 }
 }

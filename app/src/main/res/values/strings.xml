@@ -5,4 +5,5 @@
     <string name="players">Players</string>
     <string name="start_game">Start game</string>
     <string name="insert_goal">Insert goal</string>
+    <string name="accept">Accept</string>
 </resources>

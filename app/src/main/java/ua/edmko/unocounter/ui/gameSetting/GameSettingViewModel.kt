@@ -1,9 +1,14 @@
 package ua.edmko.unocounter.ui.gameSetting
 
+import android.util.Log
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import ua.edmko.unocounter.base.BaseViewModel
+import ua.edmko.unocounter.navigation.NavigationDirections
 import ua.edmko.unocounter.navigation.NavigationManager
 import javax.inject.Inject
+import kotlin.random.Random
 
 @HiltViewModel
 class GameSettingViewModel @Inject constructor(private val navigationManager: NavigationManager) :
@@ -17,6 +22,7 @@ class GameSettingViewModel @Inject constructor(private val navigationManager: Na
         when (viewEvent) {
             is ChangeGoal -> setGoal(viewEvent.goal)
             is OnGoalClickEvent -> changeGoal()
+            is EditPlayers -> viewModelScope.launch {navigationManager.navigate(NavigationDirections.players)}
         }
     }
 

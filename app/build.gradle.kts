@@ -50,10 +50,10 @@ dependencies {
 
     implementation(AndroidLibraries.core)
     implementation(AndroidLibraries.appCompat)
+    implementation(AndroidLibraries.materialCore)
 
     implementation(LifecycleLibraries.viewModel)
     implementation(LifecycleLibraries.runtime)
-    implementation(LifecycleLibraries.liveData)
 
     implementation(ComposeLibraries.ui)
     implementation(ComposeLibraries.uiTooling)
@@ -62,7 +62,6 @@ dependencies {
     implementation(ComposeLibraries.material)
     implementation(ComposeLibraries.materialIconsCore)
     implementation(ComposeLibraries.materialIconsExtended)
-    implementation(ComposeLibraries.liveData)
     implementation(ComposeLibraries.activity)
     implementation(ComposeLibraries.lifecycleViewModel)
     implementation(ComposeLibraries.constraint)
@@ -74,7 +73,6 @@ dependencies {
     implementation(HiltDependencies.hiltNavigation)
 
     implementation(Navigation.compose)
-    implementation(Navigation.ktx)
 
     implementation(Coroutines.android)
     implementation(Coroutines.core)

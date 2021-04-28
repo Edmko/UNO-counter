@@ -1,5 +1,6 @@
 package ua.edmko.unocounter.ui.gameSetting
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -11,6 +12,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.ButtonDefaults.buttonColors
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -22,7 +24,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -34,16 +35,16 @@ import ua.edmko.unocounter.ui.theme.baseDimension
 fun GameSettingScreen(viewModel: GameSettingViewModel) {
     val state by viewModel.viewStates().collectAsState()
     UNOcounterTheme {
-
         //dialog
         if (state?.dialogShows == true) EditDialog { text -> viewModel.obtainEvent(ChangeGoal(text.toInt())) }
 
         Box(Modifier.fillMaxSize()) {
-            Column(Modifier
+            Column(
+                Modifier
                     .padding(0.dp, 40.dp, 0.dp, 0.dp)
                     .fillMaxSize()
             ) {
-                val goal =  state?.goal.toString()
+                val goal = state?.goal.toString()
                 TextFieldWithDivider(goal) { viewModel.obtainEvent(OnGoalClickEvent) }
                 TextFieldWithDivider(stringResource(R.string.type))
                 Text(
@@ -72,6 +73,22 @@ fun GameSettingScreen(viewModel: GameSettingViewModel) {
                     }
                 }
             }
+            FloatingActionButton(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(bottom = 110.dp, end = baseDimension),
+                backgroundColor = Color.Red,
+                onClick = { viewModel.obtainEvent(EditPlayers) }) {
+                Icon(
+                    Icons.Filled.Edit,
+                    contentDescription = "Edit",
+                    modifier = Modifier
+                        .size(30.dp)
+                        .align(Alignment.Center),
+                    tint = Color.Black
+                )
+
+            }
             GameButton(
                 text = stringResource(R.string.start_game),
                 modifier = Modifier
@@ -85,7 +102,7 @@ fun GameSettingScreen(viewModel: GameSettingViewModel) {
 }
 
 @Composable
-fun EditDialog(onClick: (String) -> Unit) {
+fun EditDialog(onClick: (String) -> Unit = {}) {
     Dialog(onDismissRequest = {}) {
         var text by remember { mutableStateOf("") }
         Column(
@@ -103,7 +120,7 @@ fun EditDialog(onClick: (String) -> Unit) {
             GameEditText(value = text) { text = it }
 
             Text(
-                text = "Accept",
+                text = stringResource(R.string.accept),
                 color = Color.White,
                 fontSize = 24.sp,
                 modifier = Modifier
@@ -117,7 +134,7 @@ fun EditDialog(onClick: (String) -> Unit) {
 }
 
 @Composable
-fun GameEditText(value: String, onValueChanged: (String) -> Unit) {
+fun GameEditText(value: String, onValueChanged: (String) -> Unit = {}) {
     BasicTextField(
         modifier = Modifier
             .padding(top = 32.dp)
@@ -143,9 +160,8 @@ fun GameEditText(value: String, onValueChanged: (String) -> Unit) {
     }
 }
 
-@Preview
 @Composable
-fun PlayerItem(player: String = "John Smith", color: Color = Color.Red) {
+fun PlayerItem(player: String, color: Color) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Icon(
             Icons.Rounded.Person,
@@ -163,9 +179,8 @@ fun PlayerItem(player: String = "John Smith", color: Color = Color.Red) {
     }
 }
 
-@Preview(widthDp = 300)
 @Composable
-fun GameButton(text: String = "Start game", modifier: Modifier = Modifier) {
+fun GameButton(text: String, modifier: Modifier = Modifier) {
     Button(
         onClick = {},
         shape = RoundedCornerShape(10.dp),
@@ -183,9 +198,8 @@ fun GameButton(text: String = "Start game", modifier: Modifier = Modifier) {
     }
 }
 
-@Preview
 @Composable
-fun TextFieldWithDivider(initText: String = "Goal", click: (() -> Unit)? = null) {
+fun TextFieldWithDivider(initText: String, click: (() -> Unit)? = null) {
     Column(Modifier.clickable {
         click?.invoke()
     }) {

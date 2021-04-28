@@ -7,38 +7,30 @@ import androidx.navigation.compose.popUpTo
 
 object NavigationDirections {
 
-    val splashRoot = object : NavigationCommand {
-        override val argument = emptyList<NamedNavArgument>()
-        override val destination = "splashHome"
-        override val builder: NavOptionsBuilder.() -> Unit  = {}
-    }
-
-    val splash = object : NavigationCommand {
+    val splash = object : NavigationCommand() {
         override val argument = emptyList<NamedNavArgument>()
         override val destination: String = "splash"
         override val builder: NavOptionsBuilder.() -> Unit  = {}
     }
 
-    val gameSetting = object : NavigationCommand {
+    val gameSetting = object : NavigationCommand() {
         override val argument = emptyList<NamedNavArgument>()
         override val destination: String = "game setting"
         override val builder: NavOptionsBuilder.() -> Unit  = {
-            popUpTo(splashRoot.destination){ inclusive = true}
+            popUpTo(splash.destination){ inclusive = true}
         }
     }
 
-    val default = object : NavigationCommand{
+    val default = object : NavigationCommand(){
         override val argument = emptyList<NamedNavArgument>()
         override val destination: String = ""
         override val builder: NavOptionsBuilder.() -> Unit  = {}
+
     }
 
-
-
-    val homeRoot = object : NavigationCommand {
-
+    val players = object : NavigationCommand(){
         override val argument = emptyList<NamedNavArgument>()
-        override val destination = "homeHome"
+        override val destination: String = "players"
         override val builder: NavOptionsBuilder.() -> Unit  = {}
     }
 }
