@@ -1,6 +1,6 @@
 package ua.edmko.unocounter.ui.players
 
 import ua.edmko.unocounter.base.Action
+import ua.edmko.unocounter.ui.gameSetting.GameAction
 
-class PlayersAction: Action {
-}
+sealed class PlayersAction: Action

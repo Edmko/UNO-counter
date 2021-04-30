@@ -4,6 +4,8 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import ua.edmko.unocounter.base.BaseViewModel
+import ua.edmko.unocounter.domain.entities.Player
+import ua.edmko.unocounter.domain.entities.Player.Companion.getPlayersStub
 import ua.edmko.unocounter.navigation.NavigationDirections
 import ua.edmko.unocounter.navigation.NavigationManager
 import javax.inject.Inject
@@ -13,7 +15,7 @@ class GameSettingViewModel @Inject constructor(private val navigationManager: Na
     BaseViewModel<GameSettingViewState, GameAction, GameEvent>(navigationManager) {
 
     init {
-        viewState = GameSettingViewState()
+        viewState = GameSettingViewState(players = getPlayersStub())
     }
 
     override fun obtainEvent(viewEvent: GameEvent) {
@@ -35,19 +37,4 @@ class GameSettingViewModel @Inject constructor(private val navigationManager: Na
     private fun changeGoal() {
         viewState = viewState.copy(dialogShows = true)
     }
-
-    val players = listOf(
-        "John Smith",
-        "Dali Bali",
-        "Man Quite",
-        "Vasya",
-        "John Smith",
-        "Dali Bali",
-        "Man Quite",
-        "Vasya",
-        "John Smith",
-        "Dali Bali",
-        "Man Quite",
-        "Vasya"
-    )
 }
