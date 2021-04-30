@@ -1,4 +1,3 @@
 package ua.edmko.unocounter.base
 
-interface Action {
-}
+interface Action

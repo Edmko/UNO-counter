@@ -42,7 +42,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.0.0-beta05"
+        kotlinCompilerExtensionVersion = ComposeLibraries.Versions.compose
     }
 }
 
@@ -67,10 +67,14 @@ dependencies {
     implementation(ComposeLibraries.constraint)
 
     kapt(HiltDependencies.kaptHilt)
-    kapt(HiltDependencies.kaptLifecycle)
+    kapt(HiltDependencies.compiler)
     implementation(HiltDependencies.hilt)
     implementation(HiltDependencies.lifecycle)
     implementation(HiltDependencies.hiltNavigation)
+
+    kapt(Database.compiler)
+    implementation(Database.extensions)
+    implementation(Database.runtime)
 
     implementation(Navigation.compose)
 

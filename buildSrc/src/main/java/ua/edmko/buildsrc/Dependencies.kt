@@ -20,15 +20,16 @@ object AndroidLibraries {
 object HiltDependencies {
 
     object Versions {
-        const val hilt = "2.33-beta"
+        const val hilt = "2.35.1"
         const val hiltNavigation = "1.0.0-alpha01"
         const val lifecycle = "1.0.0-alpha03"
+        const val compilerX = "1.0.0-beta01"
     }
 
     const val hilt = "com.google.dagger:hilt-android:${Versions.hilt}"
     const val lifecycle = "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.lifecycle}"
     const val kaptHilt = "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
-    const val kaptLifecycle = "androidx.hilt:hilt-compiler:${Versions.lifecycle}"
+    const val compiler = "androidx.hilt:hilt-compiler:${Versions.compilerX}"
     const val hiltNavigation = "androidx.hilt:hilt-navigation-compose:${Versions.hiltNavigation}"
 }
 
@@ -61,7 +62,6 @@ object LifecycleLibraries {
     }
     const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
     const val runtime = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycle}"
-    const val liveData = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifecycle}"
 }
 
 object Navigation {
@@ -79,4 +79,13 @@ object Coroutines {
 
     const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
     const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
+}
+
+object Database {
+    object Version{
+        const val room = "2.3.0"
+    }
+    const val runtime = "androidx.room:room-runtime:${Version.room}"
+    const val compiler = "androidx.room:room-compiler:${Version.room}"
+    const val extensions = "androidx.room:room-ktx:${Version.room}"
 }

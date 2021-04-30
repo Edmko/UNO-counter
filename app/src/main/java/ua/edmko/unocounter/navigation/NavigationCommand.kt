@@ -1,6 +1,5 @@
 package ua.edmko.unocounter.navigation
 
-import androidx.navigation.NavOptions
 import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.NamedNavArgument
 
@@ -12,4 +11,7 @@ abstract class NavigationCommand {
         return false
     }
 
+    override fun hashCode(): Int {
+        return super.hashCode()
+    }
 }

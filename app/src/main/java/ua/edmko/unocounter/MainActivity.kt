@@ -27,6 +27,8 @@ import ua.edmko.unocounter.navigation.NavigationManager
 import ua.edmko.unocounter.ui.gameSetting.GameSettingScreen
 import ua.edmko.unocounter.ui.players.PlayersScreen
 import ua.edmko.unocounter.ui.theme.UNOcounterTheme
+import ua.edmko.unocounter.utils.LIFECYCLE
+import ua.edmko.unocounter.utils.NAVIGATION
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -36,22 +38,19 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var navigationManager: NavigationManager
     override fun onDestroy() {
-        Log.d(this.javaClass.simpleName, "OnDestroy")
+        Log.d(LIFECYCLE, "OnDestroy")
         super.onDestroy()
-
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
             val navController = rememberNavController()
             UNOcounterTheme {
-                navigationManager.commands.collectAsState(initial = NavigationDirections.default).value.also { command ->
-                    Log.d(this.javaClass.simpleName, "destination = ${command.destination}")
-                    if (command.destination.isNotEmpty()) navController.navigate(
-                        command.destination,
-                        command.builder
-                    )
+                navigationManager.commands.collectAsState(null).value?.also { command ->
+                    Log.d(NAVIGATION, "destination = ${command.destination}")
+                    navController.navigate(command.destination, command.builder)
                 }
                 val viewModel: MainViewModel = viewModel()
                 Box(modifier = Modifier.fillMaxSize()) {
