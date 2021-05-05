@@ -4,21 +4,18 @@ plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("kapt")
-    id("kotlin-parcelize")
     id ("dagger.hilt.android.plugin")
 }
 
 android {
-    compileSdk = AndroidSdk.compile
+    compileSdk = 30
 
     defaultConfig {
         applicationId = "ua.edmko.unocounter"
-        minSdk = AndroidSdk.min
-        targetSdk = AndroidSdk.compile
+        minSdk = 24
+        targetSdk = 30
         versionCode = 1
         versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -36,7 +33,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
-        useIR = true
     }
     buildFeatures {
         compose = true
