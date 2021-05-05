@@ -7,4 +7,5 @@ interface PlayersRepository {
     suspend fun removePlayer(id: String)
     suspend fun getPlayers(): List<Player>
     suspend fun getSelectedPlayers(): List<Player>
+    suspend fun updatePlayer(player: Player)
 }

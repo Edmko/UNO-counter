@@ -1,5 +1,6 @@
 package ua.edmko.unocounter.data.repository
 
+import android.util.Log
 import ua.edmko.unocounter.data.local.PlayerDatabase
 import ua.edmko.unocounter.data.local.PlayersDao
 import ua.edmko.unocounter.data.local.asDomain
@@ -22,5 +23,9 @@ class PlayersRepositoryImpl @Inject constructor(private val dao: PlayersDao): Pl
 
     override suspend fun getSelectedPlayers(): List<Player> {
         return dao.getSelectedPlayers().map { it.asDomain() }
+    }
+
+    override suspend fun updatePlayer(player: Player) {
+        return dao.updatePlayer(PlayerDatabase(player.id, player.name, player.isSelected))
     }
 }

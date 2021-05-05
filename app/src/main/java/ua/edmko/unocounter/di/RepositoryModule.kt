@@ -3,6 +3,7 @@ package ua.edmko.unocounter.di
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.components.SingletonComponent
 import ua.edmko.unocounter.data.repository.PlayersRepositoryImpl
 import ua.edmko.unocounter.domain.repository.PlayersRepository

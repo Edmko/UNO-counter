@@ -1,9 +1,6 @@
 package ua.edmko.unocounter.data.local
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface PlayersDao {
@@ -19,4 +16,7 @@ interface PlayersDao {
 
     @Query("Select * from players Where isSelected = 1")
     suspend fun getSelectedPlayers(): List<PlayerDatabase>
+
+    @Update
+    suspend fun updatePlayer(player: PlayerDatabase)
 }
