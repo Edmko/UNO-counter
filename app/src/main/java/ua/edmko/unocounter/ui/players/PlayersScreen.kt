@@ -8,8 +8,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,10 +22,12 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.google.accompanist.insets.statusBarsPadding
 import ua.edmko.unocounter.R
 import ua.edmko.unocounter.domain.entities.Player
 import ua.edmko.unocounter.domain.entities.Player.Companion.getPlayersStub
 import ua.edmko.unocounter.ui.components.EditDialog
+import ua.edmko.unocounter.ui.components.Toolbar
 import ua.edmko.unocounter.ui.theme.UNOcounterTheme
 import ua.edmko.unocounter.ui.theme.baseDimension
 
@@ -30,46 +35,52 @@ import ua.edmko.unocounter.ui.theme.baseDimension
 fun PlayersScreen(viewModel: PlayersViewModel) {
     val state by viewModel.viewStates().collectAsState()
     UNOcounterTheme {
-        Box(
-            Modifier
-                .background(Color.Black)
-                .fillMaxSize()
-                .padding(top = 40.dp)
-        ) {
-            if (state?.isDialogShows == true) EditDialog(title = stringResource(R.string.insert_name)) { text ->
-                viewModel.obtainEvent(
-                    CreatePlayer(text)
-                )
-            }
-            LazyColumn() {
-                state?.players?.let {
-                    items(it) { player ->
+        Scaffold(
+            topBar = { Toolbar(title = "Players") },
+            modifier = Modifier.fillMaxSize().statusBarsPadding()
+        ) { paddings ->
+            Box(
+                Modifier
+                    .padding(paddings)
+                    .background(Color.Black)
+                    .fillMaxSize()
+
+            ) {
+                if (state?.isDialogShows == true) EditDialog(title = stringResource(R.string.insert_name)) { text ->
+                    viewModel.obtainEvent(
+                        CreatePlayer(text)
+                    )
+                }
+                LazyColumn() {
+                    state?.players?.let {
+                        items(it) { player ->
 //                        SwipeToDismiss(state = false, background = {
 //
 //                        }) {
 //
 //                        }
-                        PlayerItem(player) { event -> viewModel.obtainEvent(event) }
+                            PlayerItem(player) { event -> viewModel.obtainEvent(event) }
+                        }
                     }
+
                 }
 
-            }
-
-            FloatingActionButton(
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(bottom = 50.dp, end = baseDimension),
-                backgroundColor = Color.Red,
-                onClick = { viewModel.obtainEvent(AddPlayerButton) }) {
-                Icon(
-                    Icons.Filled.Edit,
-                    contentDescription = "Edit",
+                FloatingActionButton(
                     modifier = Modifier
-                        .size(30.dp)
-                        .align(Alignment.Center),
-                    tint = Color.Black
-                )
+                        .align(Alignment.BottomEnd)
+                        .padding(bottom = 50.dp, end = baseDimension),
+                    backgroundColor = Color.Red,
+                    onClick = { viewModel.obtainEvent(AddPlayerButton) }) {
+                    Icon(
+                        Icons.Filled.Add,
+                        contentDescription = "Edit",
+                        modifier = Modifier
+                            .size(30.dp)
+                            .align(Alignment.Center),
+                        tint = Color.Black
+                    )
 
+                }
             }
         }
     }
@@ -87,7 +98,7 @@ fun PlayerItem(player: Player, event: (PlayersEvent) -> Unit) {
         Checkbox(
             checked = player.isSelected,
             onCheckedChange = { isChecked ->
-                event.invoke(UpdatePlayer(player.copy(isSelected = isChecked)))
+                event.invoke(UpdatePlayersSelection(player.copy(isSelected = isChecked)))
             },
             modifier = Modifier
                 .padding(start = 18.dp)

@@ -9,11 +9,11 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.ButtonDefaults.buttonColors
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.produceState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,6 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.google.accompanist.insets.statusBarsPadding
 import ua.edmko.unocounter.R
 import ua.edmko.unocounter.domain.entities.Player
 import ua.edmko.unocounter.domain.entities.Player.Companion.getPlayersStub
@@ -51,17 +52,17 @@ fun GameSettingContent(state: GameSettingViewState?, event: (GameEvent) -> Unit)
         title = stringResource(
             id = R.string.insert_goal
         )
-    ) { text -> event.invoke(ChangeGoal(text.toInt())) }
-    Surface() {
+    ) { text -> event.invoke(ChangeGoal(text.toIntOrNull()?:0)) }
+    Surface(
+        modifier = Modifier.statusBarsPadding()
+    ) {
         Box(Modifier.fillMaxSize()) {
             Column(
-                Modifier
-                    .padding(0.dp, 40.dp, 0.dp, 0.dp)
-                    .fillMaxSize()
+                Modifier.fillMaxSize()
             ) {
                 val goal = state?.goal.toString()
-                TextFieldWithDivider(goal) { event.invoke(OnGoalClickEvent) }
-                TextFieldWithDivider(stringResource(R.string.type))
+                TextFieldWithDivider(stringResource(id = R.string.goal),goal) { event.invoke(OnGoalClickEvent) }
+                TextFieldWithDivider(stringResource(R.string.type), "Normal")
                 Text(
                     style = MaterialTheme.typography.h6,
                     color = Color.White,
@@ -78,7 +79,7 @@ fun GameSettingContent(state: GameSettingViewState?, event: (GameEvent) -> Unit)
                 backgroundColor = Color.Red,
                 onClick = { event.invoke(EditPlayers) }) {
                 Icon(
-                    painterResource(R.drawable.ic_add),
+                    Icons.Filled.Edit,
                     contentDescription = "Edit",
                     modifier = Modifier
                         .size(30.dp)
@@ -122,6 +123,7 @@ fun PlayersList(modifier: Modifier = Modifier, players: List<Player>?) {
         }
     }
 }
+
 @Preview
 @Composable
 fun GameSettingContentPreview() {
@@ -188,14 +190,17 @@ fun GameButtonPreview() {
 }
 
 @Composable
-fun TextFieldWithDivider(initText: String, click: (() -> Unit)? = null) {
+fun TextFieldWithDivider(description : String, value: String, click: (() -> Unit)? = null) {
     Column(Modifier.clickable {
         click?.invoke()
     }) {
+        Row() {
+
+        }
         Text(
             style = MaterialTheme.typography.h5,
             color = Color.White,
-            text = initText,
+            text = "$description: $value",
             modifier = Modifier.padding(baseDimension)
         )
         Divider(
@@ -212,7 +217,7 @@ fun TextFieldWithDivider(initText: String, click: (() -> Unit)? = null) {
 fun TextFieldWithDividerPreview() {
     UNOcounterTheme() {
         Surface() {
-            TextFieldWithDivider(initText = "Goal")
+            TextFieldWithDivider(value = "500", description = "Goal")
         }
     }
 }

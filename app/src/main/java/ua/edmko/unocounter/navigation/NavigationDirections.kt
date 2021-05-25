@@ -2,7 +2,6 @@ package ua.edmko.unocounter.navigation
 
 import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.NamedNavArgument
-import androidx.navigation.compose.popUpTo
 
 object NavigationDirections {
 

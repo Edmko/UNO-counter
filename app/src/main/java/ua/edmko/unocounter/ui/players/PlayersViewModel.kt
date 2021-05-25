@@ -21,8 +21,7 @@ class PlayersViewModel @Inject constructor(
     private val updatePlayer: UpdatePlayer,
     private val deletePlayer: DeletePlayer,
     navigationManager: NavigationManager
-) :
-    BaseViewModel<PlayersViewState, PlayersEvent>(navigationManager) {
+) : BaseViewModel<PlayersViewState, PlayersEvent>(navigationManager) {
     init {
         viewState = PlayersViewState()
         viewModelScope.launch {

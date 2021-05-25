@@ -24,6 +24,7 @@ object HiltDependencies {
         const val hiltNavigation = "1.0.0-alpha02"
         const val lifecycle = "1.0.0-alpha03"
         const val compilerX = "1.0.0-beta01"
+
     }
 
     const val hilt = "com.google.dagger:hilt-android:${Versions.hilt}"
@@ -39,8 +40,10 @@ object ComposeLibraries {
         const val compose = "1.0.0-beta07"
         const val activityCompose = "1.3.0-alpha07"
         const val viewModelCompose = "1.0.0-alpha05"
+        const val accompanist ="0.10.0"
     }
 
+    const val accompanist = "com.google.accompanist:accompanist-insets:${Versions.accompanist}"
     const val ui = "androidx.compose.ui:ui:${Versions.compose}"
     const val uiTooling = "androidx.compose.ui:ui-tooling:${Versions.compose}"
     const val foundation = "androidx.compose.foundation:foundation:${Versions.compose}"

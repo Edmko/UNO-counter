@@ -15,11 +15,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.insets.ProvideWindowInsets
 import dagger.hilt.android.AndroidEntryPoint
 import ua.edmko.unocounter.navigation.NavigationDirections
 import ua.edmko.unocounter.navigation.NavigationManager
@@ -43,28 +45,31 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
             val navController = rememberNavController()
-            UNOcounterTheme {
-                navigationManager.commands.collectAsState(null).value?.also { command ->
-                    Log.d(NAVIGATION, "destination = ${command.destination}")
-                    navController.navigate(command.destination, command.builder)
-                }
-                val viewModel: MainViewModel = viewModel()
-                Box(modifier = Modifier.fillMaxSize()) {
-                    NavHost(
-                        navController = navController,
-                        startDestination = NavigationDirections.splash.destination
-                    ) {
-                        composable(NavigationDirections.splash.destination) {
-                            SplashScreen()
-                        }
-                        composable(NavigationDirections.gameSetting.destination) {
-                            GameSettingScreen(hiltViewModel())
-                        }
-                        composable(NavigationDirections.players.destination) {
-                            PlayersScreen(hiltViewModel())
+            ProvideWindowInsets {
+                UNOcounterTheme {
+                    navigationManager.commands.collectAsState(null).value?.also { command ->
+                        Log.d(NAVIGATION, "destination = ${command.destination}")
+                        navController.navigate(command.destination, command.builder)
+                    }
+                    val viewModel: MainViewModel = viewModel()
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        NavHost(
+                            navController = navController,
+                            startDestination = NavigationDirections.splash.destination
+                        ) {
+                            composable(NavigationDirections.splash.destination) {
+                                SplashScreen()
+                            }
+                            composable(NavigationDirections.gameSetting.destination) {
+                                GameSettingScreen(hiltViewModel())
+                            }
+                            composable(NavigationDirections.players.destination) {
+                                PlayersScreen(hiltViewModel())
+                            }
                         }
                     }
                 }

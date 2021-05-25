@@ -51,6 +51,7 @@ dependencies {
     implementation(LifecycleLibraries.viewModel)
     implementation(LifecycleLibraries.runtime)
 
+    implementation(ComposeLibraries.accompanist)
     implementation(ComposeLibraries.ui)
     implementation(ComposeLibraries.uiTooling)
     implementation(ComposeLibraries.foundation)
