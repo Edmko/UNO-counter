@@ -9,7 +9,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -36,8 +35,10 @@ fun PlayersScreen(viewModel: PlayersViewModel) {
     val state by viewModel.viewStates().collectAsState()
     UNOcounterTheme {
         Scaffold(
-            topBar = { Toolbar(title = "Players") },
-            modifier = Modifier.fillMaxSize().statusBarsPadding()
+            topBar = { Toolbar(title = "Players") { viewModel.obtainEvent(NavigateBack) } },
+            modifier = Modifier
+                .fillMaxSize()
+                .statusBarsPadding()
         ) { paddings ->
             Box(
                 Modifier
@@ -46,7 +47,9 @@ fun PlayersScreen(viewModel: PlayersViewModel) {
                     .fillMaxSize()
 
             ) {
-                if (state?.isDialogShows == true) EditDialog(title = stringResource(R.string.insert_name)) { text ->
+                if (state?.isDialogShows == true) EditDialog(
+                    title = stringResource(R.string.insert_name),
+                    dismiss = { viewModel.obtainEvent(DismissDialog) }) { text ->
                     viewModel.obtainEvent(
                         CreatePlayer(text)
                     )

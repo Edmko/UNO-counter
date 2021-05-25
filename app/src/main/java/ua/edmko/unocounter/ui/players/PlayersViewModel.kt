@@ -10,6 +10,7 @@ import ua.edmko.unocounter.domain.interactor.AddPlayer
 import ua.edmko.unocounter.domain.interactor.DeletePlayer
 import ua.edmko.unocounter.domain.interactor.ObservePlayers
 import ua.edmko.unocounter.domain.interactor.UpdatePlayer
+import ua.edmko.unocounter.navigation.NavigationDirections
 import ua.edmko.unocounter.navigation.NavigationManager
 import java.util.*
 import javax.inject.Inject
@@ -20,7 +21,7 @@ class PlayersViewModel @Inject constructor(
     private val addPlayer: AddPlayer,
     private val updatePlayer: UpdatePlayer,
     private val deletePlayer: DeletePlayer,
-    navigationManager: NavigationManager
+    private val navigationManager: NavigationManager
 ) : BaseViewModel<PlayersViewState, PlayersEvent>(navigationManager) {
     init {
         viewState = PlayersViewState()
@@ -37,6 +38,8 @@ class PlayersViewModel @Inject constructor(
             is CreatePlayer -> createPlayer(viewEvent.name)
             is UpdatePlayersSelection -> updatePlayer(viewEvent.player)
             is DeletePlayerEvent -> deletePlayer(viewEvent.player)
+            is NavigateBack -> viewModelScope.launch { navigationManager.navigate(NavigationDirections.back) }
+            is DismissDialog -> viewState = viewState.copy(isDialogShows = false)
         }
     }
 

@@ -2,6 +2,7 @@ package ua.edmko.unocounter.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -21,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import ua.edmko.unocounter.ui.theme.UNOcounterTheme
 
 @Composable
-fun Toolbar(title: String) {
+fun Toolbar(title: String, back: () -> Unit) {
     Surface() {
         Row(
             modifier = Modifier
@@ -33,7 +34,8 @@ fun Toolbar(title: String) {
                 contentDescription = "Navigate back",
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
-                    .padding(start = 18.dp, end = 18.dp)
+                    .clickable(onClick = back)
+                    .padding(18.dp)
             )
             Text(
                 modifier = Modifier.align(Alignment.CenterVertically),
@@ -48,6 +50,6 @@ fun Toolbar(title: String) {
 @Composable
 fun ToolbarPreview() {
     UNOcounterTheme {
-        Toolbar("Toolbar title")
+        Toolbar("Toolbar title", {})
     }
 }

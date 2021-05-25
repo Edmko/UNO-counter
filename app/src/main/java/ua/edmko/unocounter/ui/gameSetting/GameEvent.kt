@@ -6,3 +6,4 @@ sealed class GameEvent: Event
 class ChangeGoal(val goal: Int): GameEvent()
 object OnGoalClickEvent: GameEvent()
 object EditPlayers: GameEvent()
+object DismissDialog: GameEvent()

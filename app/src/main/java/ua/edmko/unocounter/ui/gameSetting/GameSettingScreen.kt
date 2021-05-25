@@ -17,7 +17,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -49,10 +48,9 @@ fun GameSettingContent(state: GameSettingViewState?, event: (GameEvent) -> Unit)
     //dialog
     if (state?.dialogShows == true) EditDialog(
         textType = KeyboardOptions(keyboardType = KeyboardType.Number),
-        title = stringResource(
-            id = R.string.insert_goal
-        )
-    ) { text -> event.invoke(ChangeGoal(text.toIntOrNull()?:0)) }
+        title = stringResource(id = R.string.insert_goal),
+        dismiss = { event.invoke(DismissDialog) }
+    ) { text -> event.invoke(ChangeGoal(text.toIntOrNull() ?: 0)) }
     Surface(
         modifier = Modifier.statusBarsPadding()
     ) {
@@ -61,7 +59,11 @@ fun GameSettingContent(state: GameSettingViewState?, event: (GameEvent) -> Unit)
                 Modifier.fillMaxSize()
             ) {
                 val goal = state?.goal.toString()
-                TextFieldWithDivider(stringResource(id = R.string.goal),goal) { event.invoke(OnGoalClickEvent) }
+                TextFieldWithDivider(stringResource(id = R.string.goal), goal) {
+                    event.invoke(
+                        OnGoalClickEvent
+                    )
+                }
                 TextFieldWithDivider(stringResource(R.string.type), "Normal")
                 Text(
                     style = MaterialTheme.typography.h6,
@@ -190,7 +192,7 @@ fun GameButtonPreview() {
 }
 
 @Composable
-fun TextFieldWithDivider(description : String, value: String, click: (() -> Unit)? = null) {
+fun TextFieldWithDivider(description: String, value: String, click: (() -> Unit)? = null) {
     Column(Modifier.clickable {
         click?.invoke()
     }) {

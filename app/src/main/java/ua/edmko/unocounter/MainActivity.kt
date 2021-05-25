@@ -52,8 +52,10 @@ class MainActivity : AppCompatActivity() {
             ProvideWindowInsets {
                 UNOcounterTheme {
                     navigationManager.commands.collectAsState(null).value?.also { command ->
-                        Log.d(NAVIGATION, "destination = ${command.destination}")
-                        navController.navigate(command.destination, command.builder)
+                        Log.d(NAVIGATION, "destination = ${command.destination} isBack = ${command == NavigationDirections.back}" )
+                        if (command.destination == NavigationDirections.back.destination) {
+                            navController.navigateUp()
+                        } else { navController.navigate(command.destination, command.builder) }
                     }
                     val viewModel: MainViewModel = viewModel()
                     Box(modifier = Modifier.fillMaxSize()) {

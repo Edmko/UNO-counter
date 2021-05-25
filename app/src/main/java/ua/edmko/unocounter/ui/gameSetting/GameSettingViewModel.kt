@@ -26,6 +26,7 @@ class GameSettingViewModel @Inject constructor(private val getPlayers: GetSelect
                     NavigationDirections.players
                 )
             }
+            is DismissDialog -> viewState = viewState.copy(dialogShows = false)
         }
     }
 

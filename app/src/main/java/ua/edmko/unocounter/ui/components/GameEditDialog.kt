@@ -10,16 +10,13 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -27,8 +24,14 @@ import androidx.compose.ui.window.Dialog
 import ua.edmko.unocounter.R
 
 @Composable
-fun EditDialog(textType: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text), title: String, onClick: (String) -> Unit = {}, ) {
-    Dialog(onDismissRequest = {}) {
+fun EditDialog(
+    textType: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+    title: String,
+    dismiss: () -> Unit,
+    onClick: (String) -> Unit = {}
+
+) {
+    Dialog(dismiss) {
         var text by remember { mutableStateOf("") }
         Column(
             Modifier
@@ -42,7 +45,7 @@ fun EditDialog(textType: KeyboardOptions = KeyboardOptions(keyboardType = Keyboa
                 fontSize = 24.sp
             )
 
-            GameEditText(value = text, textType = textType, { text = it }, {onClick.invoke(text) })
+            GameEditText(value = text, textType = textType, { text = it }, { onClick.invoke(text) })
 
             Text(
                 text = stringResource(R.string.accept),
@@ -59,7 +62,12 @@ fun EditDialog(textType: KeyboardOptions = KeyboardOptions(keyboardType = Keyboa
 }
 
 @Composable
-fun GameEditText(value: String, textType: KeyboardOptions, onValueChanged: (String) -> Unit = {}, onImeAction: () -> Unit) {
+fun GameEditText(
+    value: String,
+    textType: KeyboardOptions,
+    onValueChanged: (String) -> Unit = {},
+    onImeAction: () -> Unit
+) {
     val focusRequester = FocusRequester()
     BasicTextField(
         modifier = Modifier
