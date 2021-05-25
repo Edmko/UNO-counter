@@ -19,7 +19,6 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import ua.edmko.unocounter.R
 import ua.edmko.unocounter.domain.entities.Player
 import ua.edmko.unocounter.domain.entities.Player.Companion.getPlayersStub
@@ -27,7 +26,6 @@ import ua.edmko.unocounter.ui.components.EditDialog
 import ua.edmko.unocounter.ui.theme.UNOcounterTheme
 import ua.edmko.unocounter.ui.theme.baseDimension
 
-@ExperimentalCoroutinesApi
 @Composable
 fun PlayersScreen(viewModel: PlayersViewModel) {
     val state by viewModel.viewStates().collectAsState()
@@ -113,7 +111,7 @@ fun PlayerItem(player: Player, event: (PlayersEvent) -> Unit) {
                 .align(Alignment.CenterEnd)
                 .padding(end = 54.dp)
                 .clickable {
-                    event.invoke(DeletePlayer(player))
+                    event.invoke(DeletePlayerEvent(player))
                 }
         )
         Image(

@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GameSettingViewModel @Inject constructor(private val getPlayers: GetSelectedPlayers, private val navigationManager: NavigationManager) :
-    BaseViewModel<GameSettingViewState, GameAction, GameEvent>(navigationManager) {
+    BaseViewModel<GameSettingViewState, GameEvent>(navigationManager) {
 
     init {
         viewState = GameSettingViewState()

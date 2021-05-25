@@ -39,8 +39,7 @@ abstract class Interactor<in P> {
 }
 
 abstract class SubjectInteractor<P : Any, T> {
-
-    protected abstract fun createObservable(params: P): Flow<T>
+    abstract fun createObservable(params: P): Flow<T>
 }
 sealed class InvokeStatus
 object InvokeStarted : InvokeStatus()

@@ -2,7 +2,6 @@ package ua.edmko.unocounter.ui.players
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ua.edmko.unocounter.base.BaseViewModel
@@ -15,7 +14,6 @@ import ua.edmko.unocounter.navigation.NavigationManager
 import java.util.*
 import javax.inject.Inject
 
-@ExperimentalCoroutinesApi
 @HiltViewModel
 class PlayersViewModel @Inject constructor(
     private val observePlayers: ObservePlayers,
@@ -24,7 +22,7 @@ class PlayersViewModel @Inject constructor(
     private val deletePlayer: DeletePlayer,
     navigationManager: NavigationManager
 ) :
-    BaseViewModel<PlayersViewState, PlayersAction, PlayersEvent>(navigationManager) {
+    BaseViewModel<PlayersViewState, PlayersEvent>(navigationManager) {
     init {
         viewState = PlayersViewState()
         viewModelScope.launch {
@@ -38,8 +36,8 @@ class PlayersViewModel @Inject constructor(
         when (viewEvent) {
             is AddPlayerButton -> viewState = viewState.copy(isDialogShows = true)
             is CreatePlayer -> createPlayer(viewEvent.name)
-            is ua.edmko.unocounter.ui.players.UpdatePlayer -> updatePlayer(viewEvent.player)
-            is ua.edmko.unocounter.ui.players.DeletePlayer -> deletePlayer(viewEvent.player)
+            is UpdatePlayersSelection -> updatePlayer(viewEvent.player)
+            is DeletePlayerEvent -> deletePlayer(viewEvent.player)
         }
     }
 
@@ -65,9 +63,5 @@ class PlayersViewModel @Inject constructor(
         viewModelScope.launch {
             updatePlayer.executeSync(UpdatePlayer.Params(player))
         }
-    }
-
-    private fun fetchPlayers() {
-
     }
 }

@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import ua.edmko.unocounter.navigation.NavigationManager
 import ua.edmko.unocounter.utils.LIFECYCLE
 
-abstract class BaseViewModel<S : ViewState, A : Action, E : Event>(private val navigationManager: NavigationManager) :
+abstract class BaseViewModel<S : ViewState, E : Event>(private val navigationManager: NavigationManager) :
     ViewModel() {
     init {
         Log.d(LIFECYCLE, "Create")
@@ -25,21 +25,6 @@ abstract class BaseViewModel<S : ViewState, A : Action, E : Event>(private val n
                 _viewStates.value = null
             }
             _viewStates.value = value
-        }
-
-    private val _viewActions: MutableStateFlow<A?> = MutableStateFlow(null)
-    fun viewActions(): StateFlow<A?> = _viewActions
-
-    protected var viewAction: A
-        get() = _viewActions.value
-            ?: throw UninitializedPropertyAccessException("\"viewAction\" was queried before being initialized")
-        set(value) {
-            /** StateFlow doesn't work with same values */
-            if (_viewActions.value == value) {
-                _viewActions.value = null
-            }
-
-            _viewActions.value = value
         }
 
     abstract fun obtainEvent(viewEvent: E)
