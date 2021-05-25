@@ -1,10 +1,11 @@
 package ua.edmko.unocounter.domain.entities
 
-data class Player (
+data class Player(
     val id: String,
-    val name: String,
-    val isSelected: Boolean = false
-    ){
+    var name: String,
+    var isSelected: Boolean = false
+) {
+
     companion object {
         fun getPlayersStub() = listOf(
             Player("qwret34542", "John Smith"),
@@ -13,6 +14,15 @@ data class Player (
             Player("qwret3455", "Vasya"),
             Player("qwret345367", "John Smith"),
             Player("qwret34632", "Dali Bali"),
-        )
+            Player("qwret3463112", "Dali Bali"),
+            Player("qwret3463526", "Dali Bali"),
+            Player("qwret3463252", "Dali Bali"),
+            Player("qwret34634", "Dali Bali"), Player("qwret34632", "Dali Bali"),
+            Player("qwret34532632", "Dali Bali"),
+            Player("qwret3425632", "Dali Bali"),
+            Player("qwret3534632", "Dali Bali"),
+            Player("qwret3462532", "Dali Bali"),
+
+            )
     }
 }

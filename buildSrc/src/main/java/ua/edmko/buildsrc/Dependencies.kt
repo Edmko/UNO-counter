@@ -36,7 +36,7 @@ object HiltDependencies {
 
 object ComposeLibraries {
     object Versions {
-        const val compose = "1.0.0-beta05"
+        const val compose = "1.0.0-beta06"
         const val activityCompose = "1.3.0-alpha07"
         const val viewModelCompose = "1.0.0-alpha04"
     }
@@ -53,7 +53,7 @@ object ComposeLibraries {
         "androidx.compose.material:material-icons-core:${Versions.compose}"
     const val materialIconsExtended =
         "androidx.compose.material:material-icons-extended:${Versions.compose}"
-    const val constraint = "androidx.constraintlayout:constraintlayout-compose:1.0.0-alpha05"
+    const val constraint = "androidx.constraintlayout:constraintlayout-compose:1.0.0-alpha06"
 }
 
 object LifecycleLibraries {
@@ -74,7 +74,7 @@ object Navigation {
 
 object Coroutines {
     object Versions {
-        const val coroutines = "1.4.2"
+        const val coroutines = "1.5.0-RC"
     }
 
     const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"

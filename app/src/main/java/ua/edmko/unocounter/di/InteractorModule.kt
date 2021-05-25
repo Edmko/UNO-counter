@@ -4,10 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ua.edmko.unocounter.domain.interactor.AddPlayer
-import ua.edmko.unocounter.domain.interactor.DeletePlayer
-import ua.edmko.unocounter.domain.interactor.GetPlayers
-import ua.edmko.unocounter.domain.interactor.UpdatePlayer
+import ua.edmko.unocounter.domain.interactor.*
 import ua.edmko.unocounter.domain.repository.PlayersRepository
 import javax.inject.Singleton
 
@@ -17,14 +14,20 @@ class InteractorModule {
 
     @Singleton
     @Provides
-    fun provideGetPlayersInteractor(playersRepository: PlayersRepository): GetPlayers {
-        return GetPlayers(playersRepository)
+    fun provideGetPlayersInteractor(playersRepository: PlayersRepository): ObservePlayers {
+        return ObservePlayers(playersRepository)
     }
 
     @Singleton
     @Provides
     fun provideAddPlayersInteractor(playersRepository: PlayersRepository): AddPlayer {
         return AddPlayer(playersRepository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideGetSelectedPlayersInteractor(playersRepository: PlayersRepository): GetSelectedPlayers {
+        return GetSelectedPlayers(playersRepository)
     }
 
     @Singleton

@@ -2,21 +2,23 @@ package ua.edmko.unocounter.ui.players
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ua.edmko.unocounter.base.BaseViewModel
 import ua.edmko.unocounter.domain.entities.Player
 import ua.edmko.unocounter.domain.interactor.AddPlayer
 import ua.edmko.unocounter.domain.interactor.DeletePlayer
-import ua.edmko.unocounter.domain.interactor.GetPlayers
+import ua.edmko.unocounter.domain.interactor.ObservePlayers
 import ua.edmko.unocounter.domain.interactor.UpdatePlayer
 import ua.edmko.unocounter.navigation.NavigationManager
 import java.util.*
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
 @HiltViewModel
 class PlayersViewModel @Inject constructor(
-    private val getPlayers: GetPlayers,
+    private val observePlayers: ObservePlayers,
     private val addPlayer: AddPlayer,
     private val updatePlayer: UpdatePlayer,
     private val deletePlayer: DeletePlayer,
@@ -25,13 +27,19 @@ class PlayersViewModel @Inject constructor(
     BaseViewModel<PlayersViewState, PlayersAction, PlayersEvent>(navigationManager) {
     init {
         viewState = PlayersViewState()
-        fetchPlayers()
+        viewModelScope.launch {
+            observePlayers.createObservable(Unit).collect { players ->
+                viewState = viewState.copy(players = players)
+            }
+        }
     }
 
     override fun obtainEvent(viewEvent: PlayersEvent) {
         when (viewEvent) {
             is AddPlayerButton -> viewState = viewState.copy(isDialogShows = true)
             is CreatePlayer -> createPlayer(viewEvent.name)
+            is ua.edmko.unocounter.ui.players.UpdatePlayer -> updatePlayer(viewEvent.player)
+            is ua.edmko.unocounter.ui.players.DeletePlayer -> deletePlayer(viewEvent.player)
         }
     }
 
@@ -42,17 +50,24 @@ class PlayersViewModel @Inject constructor(
                 name = name
             )
             addPlayer.executeSync(AddPlayer.Params(player))
-            val players = viewState.players.toMutableList().also {
-                it.add(player)
-            }
-            viewState = viewState.copy(isDialogShows = false, players = players)
+            viewState = viewState.copy(isDialogShows = false)
         }
 
     }
 
-    private fun fetchPlayers(){
+    private fun deletePlayer(player: Player) {
         viewModelScope.launch {
-            viewState = viewState.copy(players = getPlayers.executeSync(Unit))
+            deletePlayer.executeSync(DeletePlayer.Params(player.id))
         }
+    }
+
+    private fun updatePlayer(player: Player) {
+        viewModelScope.launch {
+            updatePlayer.executeSync(UpdatePlayer.Params(player))
+        }
+    }
+
+    private fun fetchPlayers() {
+
     }
 }

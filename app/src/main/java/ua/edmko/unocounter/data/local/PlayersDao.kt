@@ -1,6 +1,7 @@
 package ua.edmko.unocounter.data.local
 
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PlayersDao {
@@ -12,7 +13,7 @@ interface PlayersDao {
     suspend fun deletePlayerById(id: String)
 
     @Query("Select * from players")
-    suspend fun getAllPlayers(): List<PlayerDatabase>
+    fun getAllPlayers(): Flow<List<PlayerDatabase>>
 
     @Query("Select * from players Where isSelected = 1")
     suspend fun getSelectedPlayers(): List<PlayerDatabase>

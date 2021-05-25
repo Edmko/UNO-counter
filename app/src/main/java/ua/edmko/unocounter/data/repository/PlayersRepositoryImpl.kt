@@ -1,6 +1,7 @@
 package ua.edmko.unocounter.data.repository
 
-import android.util.Log
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import ua.edmko.unocounter.data.local.PlayerDatabase
 import ua.edmko.unocounter.data.local.PlayersDao
 import ua.edmko.unocounter.data.local.asDomain
@@ -17,8 +18,8 @@ class PlayersRepositoryImpl @Inject constructor(private val dao: PlayersDao): Pl
         dao.deletePlayerById(id)
     }
 
-    override suspend fun getPlayers(): List<Player> {
-        return dao.getAllPlayers().map { it.asDomain() }
+    override fun observePlayers(): Flow<List<Player>> {
+        return dao.getAllPlayers().map { it.map { it.asDomain() }}
     }
 
     override suspend fun getSelectedPlayers(): List<Player> {
