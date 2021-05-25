@@ -21,7 +21,7 @@ object HiltDependencies {
 
     object Versions {
         const val hilt = "2.35.1"
-        const val hiltNavigation = "1.0.0-alpha01"
+        const val hiltNavigation = "1.0.0-alpha02"
         const val lifecycle = "1.0.0-alpha03"
         const val compilerX = "1.0.0-beta01"
     }
@@ -36,9 +36,9 @@ object HiltDependencies {
 
 object ComposeLibraries {
     object Versions {
-        const val compose = "1.0.0-beta06"
+        const val compose = "1.0.0-beta07"
         const val activityCompose = "1.3.0-alpha07"
-        const val viewModelCompose = "1.0.0-alpha04"
+        const val viewModelCompose = "1.0.0-alpha05"
     }
 
     const val ui = "androidx.compose.ui:ui:${Versions.compose}"
@@ -66,7 +66,7 @@ object LifecycleLibraries {
 
 object Navigation {
     object Versions {
-        const val compose = "1.0.0-alpha10"
+        const val compose = "2.4.0-alpha01"
     }
 
     const val compose = "androidx.navigation:navigation-compose:${Versions.compose}"
@@ -74,7 +74,7 @@ object Navigation {
 
 object Coroutines {
     object Versions {
-        const val coroutines = "1.5.0-RC"
+        const val coroutines = "1.5.0"
     }
 
     const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
