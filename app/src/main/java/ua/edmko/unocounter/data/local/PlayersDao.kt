@@ -2,22 +2,23 @@ package ua.edmko.unocounter.data.local
 
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
+import ua.edmko.unocounter.domain.entities.Player
 
 @Dao
 interface PlayersDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertPlayer(recipe: PlayerDatabase)
+    @Insert
+    suspend fun insertPlayer(recipe: Player)
 
-    @Query("Delete from players Where id =:id")
-    suspend fun deletePlayerById(id: String)
+    @Query("Delete from players Where playerId =:id")
+    suspend fun deletePlayerById(id: Long)
 
     @Query("Select * from players")
-    fun getAllPlayers(): Flow<List<PlayerDatabase>>
+    fun getAllPlayers(): Flow<List<Player>>
 
     @Query("Select * from players Where isSelected = 1")
-    suspend fun getSelectedPlayers(): List<PlayerDatabase>
+    suspend fun getSelectedPlayers(): List<Player>
 
     @Update
-    suspend fun updatePlayer(player: PlayerDatabase)
+    suspend fun updatePlayer(player: Player)
 }

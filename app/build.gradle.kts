@@ -50,7 +50,7 @@ dependencies {
 
     implementation(LifecycleLibraries.viewModel)
     implementation(LifecycleLibraries.runtime)
-
+    implementation ("com.google.code.gson:gson:2.8.6")
     implementation(ComposeLibraries.accompanist)
     implementation(ComposeLibraries.ui)
     implementation(ComposeLibraries.uiTooling)

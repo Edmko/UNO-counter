@@ -45,10 +45,7 @@ class PlayersViewModel @Inject constructor(
 
     private fun createPlayer(name: String) {
         viewModelScope.launch {
-            val player = Player(
-                id = UUID.randomUUID().toString(),
-                name = name
-            )
+            val player = Player(name = name)
             addPlayer.executeSync(AddPlayer.Params(player))
             viewState = viewState.copy(isDialogShows = false)
         }
@@ -57,7 +54,7 @@ class PlayersViewModel @Inject constructor(
 
     private fun deletePlayer(player: Player) {
         viewModelScope.launch {
-            deletePlayer.executeSync(DeletePlayer.Params(player.id))
+            deletePlayer.executeSync(DeletePlayer.Params(player.playerId))
         }
     }
 

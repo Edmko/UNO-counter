@@ -10,5 +10,5 @@ class DeletePlayer @Inject constructor(private val playersRepository: PlayersRep
         playersRepository.removePlayer(params.id)
     }
 
-    data class Params(val id: String)
+    data class Params(val id: Long)
 }

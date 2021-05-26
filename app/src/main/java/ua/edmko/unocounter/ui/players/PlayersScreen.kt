@@ -57,11 +57,6 @@ fun PlayersScreen(viewModel: PlayersViewModel) {
                 LazyColumn() {
                     state?.players?.let {
                         items(it) { player ->
-//                        SwipeToDismiss(state = false, background = {
-//
-//                        }) {
-//
-//                        }
                             PlayerItem(player) { event -> viewModel.obtainEvent(event) }
                         }
                     }

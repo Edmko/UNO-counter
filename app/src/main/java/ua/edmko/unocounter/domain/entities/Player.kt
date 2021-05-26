@@ -1,28 +1,32 @@
 package ua.edmko.unocounter.domain.entities
 
-data class Player(
-    val id: String,
-    var name: String,
-    var isSelected: Boolean = false
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "players")
+data class Player (
+    @PrimaryKey(autoGenerate = true) val playerId: Long = 0,
+    val name: String,
+    val isSelected: Boolean = true
 ) {
 
     companion object {
         fun getPlayersStub() = listOf(
-            Player("qwret34542", "John Smith"),
-            Player("qwret34541", "Dali Bali"),
-            Player("qwret34547", "Man Quite"),
-            Player("qwret3455", "Vasya"),
-            Player("qwret345367", "John Smith"),
-            Player("qwret34632", "Dali Bali"),
-            Player("qwret3463112", "Dali Bali"),
-            Player("qwret3463526", "Dali Bali"),
-            Player("qwret3463252", "Dali Bali"),
-            Player("qwret34634", "Dali Bali"), Player("qwret34632", "Dali Bali"),
-            Player("qwret34532632", "Dali Bali"),
-            Player("qwret3425632", "Dali Bali"),
-            Player("qwret3534632", "Dali Bali"),
-            Player("qwret3462532", "Dali Bali"),
-
-            )
+            Player(2665421421, "John Smith"),
+            Player(254153, "Dali Bali"),
+            Player(2754141, "Man Quite"),
+            Player(54111, "Vasya"),
+            Player(1614, "John Smith"),
+            Player(654116, "Dali Bali"),
+            Player(2541154, "Dali Bali"),
+            Player(2541451, "Dali Bali"),
+            Player(541514, "Dali Bali"),
+            Player(26541641, "Dali Bali"),
+            Player(34632, "Dali Bali"),
+            Player(2265416, "Dali Bali"),
+            Player(251, "Dali Bali"),
+            Player(214141, "Dali Bali"),
+            Player(54152345, "Dali Bali")
+        )
     }
 }

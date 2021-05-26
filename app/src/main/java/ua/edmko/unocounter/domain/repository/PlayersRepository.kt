@@ -5,7 +5,7 @@ import ua.edmko.unocounter.domain.entities.Player
 
 interface PlayersRepository {
     suspend fun createPlayer(player: Player)
-    suspend fun removePlayer(id: String)
+    suspend fun removePlayer(id: Long)
     fun observePlayers(): Flow<List<Player>>
     suspend fun getSelectedPlayers(): List<Player>
     suspend fun updatePlayer(player: Player)
