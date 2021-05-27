@@ -12,11 +12,15 @@ typealias PlayerId = Long
 
 @Entity
 data class Round(
-    @PrimaryKey(autoGenerate = true) val roundId: Long,
+    @PrimaryKey(autoGenerate = true) val roundId: Long = 0L,
     val gameRoundId: Long,
     @TypeConverters(RoundsConverter::class)
-    val result: Map<PlayerId, Score>
-)
+    val result: MutableMap<PlayerId, Score> = mutableMapOf()
+){
+    companion object{
+        fun getRoundStub() = Round(gameRoundId = 0)
+    }
+}
 
 class RoundsConverter {
     @TypeConverter

@@ -28,9 +28,8 @@ fun EditDialog(
     textType: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
     title: String,
     dismiss: () -> Unit,
-    onClick: (String) -> Unit = {}
-
-) {
+    onClick: (String) -> Unit = {},
+    ) {
     Dialog(dismiss) {
         var text by remember { mutableStateOf("") }
         Column(
@@ -45,7 +44,16 @@ fun EditDialog(
                 fontSize = 24.sp
             )
 
-            GameEditText(value = text, textType = textType, { text = it }, { onClick.invoke(text) })
+            GameEditText(
+                modifier = Modifier
+                    .padding(top = 32.dp)
+                    .height(50.dp)
+                    .fillMaxWidth(),
+                value = text,
+                textType = textType,
+                { text = it },
+                { onClick.invoke(text) }
+            )
 
             Text(
                 text = stringResource(R.string.accept),
@@ -63,6 +71,7 @@ fun EditDialog(
 
 @Composable
 fun GameEditText(
+    modifier: Modifier = Modifier,
     value: String,
     textType: KeyboardOptions,
     onValueChanged: (String) -> Unit = {},
@@ -70,15 +79,10 @@ fun GameEditText(
 ) {
     val focusRequester = FocusRequester()
     BasicTextField(
-        modifier = Modifier
-            .padding(top = 32.dp)
-            .height(50.dp)
-            .fillMaxWidth()
-            .focusRequester(focusRequester),
+        modifier = modifier.focusRequester(focusRequester),
         value = value,
         onValueChange = onValueChanged,
-        maxLines = 1,
-        singleLine = true,
+        maxLines = 2,
         textStyle = TextStyle(color = Color.White, fontSize = 24.sp),
         keyboardOptions = textType,
         cursorBrush = SolidColor(Color.White),
@@ -98,6 +102,7 @@ fun GameEditText(
             innerTextField()
         }
     }
+
     DisposableEffect(Unit) {
         focusRequester.requestFocus()
         onDispose { }

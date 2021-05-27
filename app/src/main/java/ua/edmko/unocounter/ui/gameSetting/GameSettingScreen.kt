@@ -10,7 +10,6 @@ import androidx.compose.material.*
 import androidx.compose.material.ButtonDefaults.buttonColors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.rounded.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -29,6 +28,7 @@ import ua.edmko.unocounter.R
 import ua.edmko.unocounter.domain.entities.Player
 import ua.edmko.unocounter.domain.entities.Player.Companion.getPlayersStub
 import ua.edmko.unocounter.ui.components.EditDialog
+import ua.edmko.unocounter.ui.components.PlayerItem
 import ua.edmko.unocounter.ui.theme.UNOcounterTheme
 import ua.edmko.unocounter.ui.theme.baseDimension
 
@@ -37,9 +37,7 @@ fun GameSettingScreen(viewModel: GameSettingViewModel) {
     val state by viewModel.viewStates().collectAsState()
     viewModel.fetchPlayers()
     UNOcounterTheme {
-        GameSettingContent(state = state) { viewEvent ->
-            viewModel.obtainEvent(viewEvent)
-        }
+        GameSettingContent(state = state, viewModel::obtainEvent)
     }
 }
 
@@ -119,7 +117,7 @@ fun PlayersList(modifier: Modifier = Modifier, players: List<Player>?) {
                         2 -> Color.Blue
                         else -> Color.Green
                     }
-                    PlayerItem(player = player.name, color)
+                    PlayerItem(modifier = Modifier, name = player.name, color)
                 }
             }
         }
@@ -135,34 +133,9 @@ fun GameSettingContentPreview() {
     }
 }
 
-@Composable
-fun PlayerItem(player: String, color: Color) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Icon(
-            Icons.Rounded.Person,
-            contentDescription = "Avatar",
-            modifier = Modifier
-                .padding(0.dp, 5.dp, 10.dp, 5.dp)
-                .size(40.dp),
-            tint = color
-        )
-        Text(
-            text = player,
-            style = MaterialTheme.typography.body1,
-            color = color
-        )
-    }
-}
 
-@Preview
-@Composable
-fun PlayerItemPreview() {
-    UNOcounterTheme() {
-        Surface() {
-            PlayerItem("John Smith", color = Color.Red)
-        }
-    }
-}
+
+
 
 @Composable
 fun GameButton(modifier: Modifier = Modifier, text: String, onClick: () -> Unit) {
