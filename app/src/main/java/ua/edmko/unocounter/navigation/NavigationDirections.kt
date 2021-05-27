@@ -30,4 +30,10 @@ object NavigationDirections {
         override val destination: String = "back"
         override val builder: NavOptionsBuilder.() -> Unit  = {}
     }
+
+    val game = object : NavigationCommand(){
+        override val argument = emptyList<NamedNavArgument>()
+        override val destination: String = "game"
+        override val builder: NavOptionsBuilder.() -> Unit  = {}
+    }
 }

@@ -25,6 +25,7 @@ import com.google.accompanist.insets.ProvideWindowInsets
 import dagger.hilt.android.AndroidEntryPoint
 import ua.edmko.unocounter.navigation.NavigationDirections
 import ua.edmko.unocounter.navigation.NavigationManager
+import ua.edmko.unocounter.ui.game.GameScreen
 import ua.edmko.unocounter.ui.gameSetting.GameSettingScreen
 import ua.edmko.unocounter.ui.players.PlayersScreen
 import ua.edmko.unocounter.ui.theme.UNOcounterTheme
@@ -71,6 +72,9 @@ class MainActivity : AppCompatActivity() {
                             }
                             composable(NavigationDirections.players.destination) {
                                 PlayersScreen(hiltViewModel())
+                            }
+                            composable(NavigationDirections.game.destination){
+                                GameScreen(hiltViewModel())
                             }
                         }
                     }
