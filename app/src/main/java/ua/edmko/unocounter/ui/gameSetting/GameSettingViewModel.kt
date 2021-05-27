@@ -10,7 +10,10 @@ import ua.edmko.unocounter.navigation.NavigationManager
 import javax.inject.Inject
 
 @HiltViewModel
-class GameSettingViewModel @Inject constructor(private val getPlayers: GetSelectedPlayers, private val navigationManager: NavigationManager) :
+class GameSettingViewModel @Inject constructor(
+    private val getPlayers: GetSelectedPlayers,
+    navigationManager: NavigationManager
+) :
     BaseViewModel<GameSettingViewState, GameSettingEvent>(navigationManager) {
 
     init {
@@ -21,15 +24,9 @@ class GameSettingViewModel @Inject constructor(private val getPlayers: GetSelect
         when (viewEvent) {
             is ChangeGoal -> setGoal(viewEvent.goal)
             is OnGoalClickEvent -> changeGoal()
-            is EditPlayers -> viewModelScope.launch {
-                navigationManager.navigate(
-                    NavigationDirections.players
-                )
-            }
+            is EditPlayers -> navigateTo(NavigationDirections.players)
             is DismissDialog -> viewState = viewState.copy(dialogShows = false)
-            is StartGame -> viewModelScope.launch {
-                navigationManager.navigate(NavigationDirections.game)
-            }
+            is StartGame -> navigateTo(NavigationDirections.game)
         }
     }
 
@@ -41,7 +38,7 @@ class GameSettingViewModel @Inject constructor(private val getPlayers: GetSelect
         viewState = viewState.copy(dialogShows = true)
     }
 
-    fun fetchPlayers(){
+    fun fetchPlayers() {
         viewModelScope.launch {
             viewState = viewState.copy(players = getPlayers.executeSync(Unit))
         }

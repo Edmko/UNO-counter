@@ -2,8 +2,11 @@ package ua.edmko.unocounter.base
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import ua.edmko.unocounter.navigation.NavigationCommand
 import ua.edmko.unocounter.navigation.NavigationManager
 import ua.edmko.unocounter.utils.LIFECYCLE
 
@@ -28,6 +31,12 @@ abstract class BaseViewModel<S : ViewState, E : Event>(private val navigationMan
         }
 
     abstract fun obtainEvent(viewEvent: E)
+
+    protected fun navigateTo(destination: NavigationCommand) {
+        viewModelScope.launch {
+            navigationManager.navigate(destination)
+        }
+    }
 
     override fun onCleared() {
         Log.d(LIFECYCLE, "Cleared")
