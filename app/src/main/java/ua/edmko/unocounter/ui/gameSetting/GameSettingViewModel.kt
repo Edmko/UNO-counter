@@ -11,13 +11,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GameSettingViewModel @Inject constructor(private val getPlayers: GetSelectedPlayers, private val navigationManager: NavigationManager) :
-    BaseViewModel<GameSettingViewState, GameEvent>(navigationManager) {
+    BaseViewModel<GameSettingViewState, GameSettingEvent>(navigationManager) {
 
     init {
         viewState = GameSettingViewState()
     }
 
-    override fun obtainEvent(viewEvent: GameEvent) {
+    override fun obtainEvent(viewEvent: GameSettingEvent) {
         when (viewEvent) {
             is ChangeGoal -> setGoal(viewEvent.goal)
             is OnGoalClickEvent -> changeGoal()
@@ -27,6 +27,9 @@ class GameSettingViewModel @Inject constructor(private val getPlayers: GetSelect
                 )
             }
             is DismissDialog -> viewState = viewState.copy(dialogShows = false)
+            is StartGame -> viewModelScope.launch {
+                navigationManager.navigate(NavigationDirections.game)
+            }
         }
     }
 

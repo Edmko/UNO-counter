@@ -44,7 +44,7 @@ fun GameSettingScreen(viewModel: GameSettingViewModel) {
 }
 
 @Composable
-fun GameSettingContent(state: GameSettingViewState?, event: (GameEvent) -> Unit) {
+fun GameSettingContent(state: GameSettingViewState?, event: (GameSettingEvent) -> Unit) {
     //dialog
     if (state?.dialogShows == true) EditDialog(
         textType = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -96,8 +96,8 @@ fun GameSettingContent(state: GameSettingViewState?, event: (GameEvent) -> Unit)
                     .padding(baseDimension, 0.dp, baseDimension, 40.dp)
                     .fillMaxWidth()
                     .height(56.dp)
-                    .align(Alignment.BottomCenter)
-            )
+                    .align(Alignment.BottomCenter),
+                onClick = { event.invoke(StartGame) })
         }
     }
 }
@@ -165,9 +165,9 @@ fun PlayerItemPreview() {
 }
 
 @Composable
-fun GameButton(text: String, modifier: Modifier = Modifier) {
+fun GameButton(modifier: Modifier = Modifier, text: String, onClick: () -> Unit) {
     Button(
-        onClick = {},
+        onClick = onClick,
         shape = RoundedCornerShape(10.dp),
         modifier = modifier,
         colors = buttonColors(backgroundColor = Color.Red),
@@ -187,7 +187,7 @@ fun GameButton(text: String, modifier: Modifier = Modifier) {
 @Composable
 fun GameButtonPreview() {
     Surface() {
-        GameButton(text = "Start game")
+        GameButton(text = "Start game", onClick = {})
     }
 }
 
