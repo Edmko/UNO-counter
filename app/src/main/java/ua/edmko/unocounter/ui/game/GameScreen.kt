@@ -24,7 +24,7 @@ import ua.edmko.unocounter.ui.components.PlayerItem
 import ua.edmko.unocounter.ui.theme.UNOcounterTheme
 
 @Composable
-fun GameScreen(viewModel: GameViewModel) {
+fun GameScreen(viewModel: GameViewModel, gameId: String? = "") {
     val state by viewModel.viewStates().collectAsState()
     UNOcounterTheme() {
         GameScreen(state, viewModel::obtainEvent)

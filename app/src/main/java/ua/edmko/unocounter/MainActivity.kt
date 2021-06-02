@@ -73,8 +73,8 @@ class MainActivity : AppCompatActivity() {
                             composable(NavigationDirections.players.destination) {
                                 PlayersScreen(hiltViewModel())
                             }
-                            composable(NavigationDirections.game.destination){
-                                GameScreen(hiltViewModel())
+                            composable(NavigationDirections.gameDestination){
+                                GameScreen(hiltViewModel(), it.arguments?.getString(NavigationDirections.GAME_ID))
                             }
                         }
                     }

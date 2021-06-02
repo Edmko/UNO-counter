@@ -5,6 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ua.edmko.unocounter.domain.interactor.*
+import ua.edmko.unocounter.domain.repository.GameRepository
 import ua.edmko.unocounter.domain.repository.PlayersRepository
 import javax.inject.Singleton
 
@@ -40,5 +41,11 @@ class InteractorModule {
     @Provides
     fun provideDeletePlayerInteractor(playersRepository: PlayersRepository): DeletePlayer {
         return DeletePlayer(playersRepository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideGameCreateInteractir(playersRepository: PlayersRepository, gameRepository: GameRepository): CreateGame{
+        return CreateGame(gameRepository, playersRepository)
     }
 }

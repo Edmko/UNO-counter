@@ -2,6 +2,7 @@ package ua.edmko.unocounter.navigation
 
 import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.NamedNavArgument
+import androidx.navigation.compose.navArgument
 
 object NavigationDirections {
 
@@ -31,9 +32,14 @@ object NavigationDirections {
         override val builder: NavOptionsBuilder.() -> Unit  = {}
     }
 
-    val game = object : NavigationCommand(){
-        override val argument = emptyList<NamedNavArgument>()
-        override val destination: String = "game"
+    const val GAME_ID = "gameId"
+    const val gameDestination = "game/{$GAME_ID}"
+
+    fun game(gameId: String) = object : NavigationCommand(){
+        override val argument: List<NamedNavArgument> = listOf(
+            navArgument("gameId") { defaultValue = "" }
+        )
+        override val destination: String = "game/$gameId"
         override val builder: NavOptionsBuilder.() -> Unit  = {}
     }
 }
