@@ -15,6 +15,7 @@ typealias PlayerId = Long
 data class Round(
     @PrimaryKey(autoGenerate = true) val roundId: Long = 0L,
     val gameRoundId: String,
+    val roundNum: Int = 1,
     @TypeConverters(RoundsConverter::class)
     val result: MutableMap<PlayerId, Score> = mutableMapOf()
 ){

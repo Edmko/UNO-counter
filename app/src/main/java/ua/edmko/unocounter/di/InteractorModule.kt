@@ -45,7 +45,19 @@ class InteractorModule {
 
     @Singleton
     @Provides
-    fun provideGameCreateInteractir(playersRepository: PlayersRepository, gameRepository: GameRepository): CreateGame{
+    fun provideGameCreateInteractor(playersRepository: PlayersRepository, gameRepository: GameRepository): CreateGame{
         return CreateGame(gameRepository, playersRepository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideObserveGameInteractor(gameRepository: GameRepository): ObserveGame {
+        return ObserveGame(gameRepository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideAddRoundToGameInteractor(gameRepository: GameRepository): AddRoundToGame{
+        return AddRoundToGame(gameRepository)
     }
 }

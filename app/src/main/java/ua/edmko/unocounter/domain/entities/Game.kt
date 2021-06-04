@@ -21,6 +21,10 @@ data class Game(
             gameSettings = getGameSettingsStub(),
             players = getPlayersStub()
         )
+
+        fun getEmptyGame() = Game(
+            getGameSettingsStub(),
+            emptyList())
     }
 }
 

@@ -28,6 +28,7 @@ import ua.edmko.unocounter.R
 import ua.edmko.unocounter.domain.entities.Player
 import ua.edmko.unocounter.domain.entities.Player.Companion.getPlayersStub
 import ua.edmko.unocounter.ui.components.EditDialog
+import ua.edmko.unocounter.ui.components.GameButton
 import ua.edmko.unocounter.ui.components.PlayerItem
 import ua.edmko.unocounter.ui.theme.UNOcounterTheme
 import ua.edmko.unocounter.ui.theme.baseDimension
@@ -130,37 +131,6 @@ fun GameSettingContentPreview() {
     UNOcounterTheme() {
         GameSettingContent(state = GameSettingViewState(players = getPlayersStub())) {
         }
-    }
-}
-
-
-
-
-
-@Composable
-fun GameButton(modifier: Modifier = Modifier, text: String, onClick: () -> Unit) {
-    Button(
-        onClick = onClick,
-        shape = RoundedCornerShape(10.dp),
-        modifier = modifier,
-        colors = buttonColors(backgroundColor = Color.Red),
-        contentPadding = PaddingValues(0.dp)
-    ) {
-        Text(
-            text,
-            color = Color.Black,
-            fontSize = 40.sp,
-            textAlign = TextAlign.Center,
-            fontWeight = FontWeight.Black
-        )
-    }
-}
-
-@Preview
-@Composable
-fun GameButtonPreview() {
-    Surface() {
-        GameButton(text = "Start game", onClick = {})
     }
 }
 

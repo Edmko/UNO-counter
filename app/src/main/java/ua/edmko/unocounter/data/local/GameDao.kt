@@ -18,7 +18,7 @@ interface GameDao {
 
     @Transaction
     @Query("SELECT * FROM game_settings WHERE gameSettingsId = :id")
-    suspend fun getGameById(id: String): Game
+    fun observeGameById(id: String): Flow<Game>
 
     @Insert
     suspend fun addRoundToGame(round: Round)

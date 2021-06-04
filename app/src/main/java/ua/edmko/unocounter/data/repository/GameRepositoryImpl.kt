@@ -20,8 +20,8 @@ class GameRepositoryImpl @Inject constructor(private val gameDao: GameDao) : Gam
         gameDao.addPlayerToGame(crossRef)
     }
 
-    override suspend fun getGameById(gameId: String): Game {
-        return gameDao.getGameById(gameId)
+    override fun observeGameById(gameId: String): Flow<Game> {
+        return gameDao.observeGameById(gameId)
     }
 
     override suspend fun addRoundToGame(round: Round) {

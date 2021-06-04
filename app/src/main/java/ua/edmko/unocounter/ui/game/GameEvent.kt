@@ -7,3 +7,5 @@ sealed class GameEvent: Event
 class EditScore(val player: Player): GameEvent()
 class ConfirmEdition(val score: Int): GameEvent()
 object DismissDialog: GameEvent()
+object NavigateBack: GameEvent()
+object NextRound : GameEvent()

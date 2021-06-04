@@ -1,17 +1,40 @@
 package ua.edmko.unocounter.ui.game
 
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import ua.edmko.unocounter.base.BaseViewModel
 import ua.edmko.unocounter.domain.entities.Player
+import ua.edmko.unocounter.domain.entities.Round
+import ua.edmko.unocounter.domain.interactor.AddRoundToGame
+import ua.edmko.unocounter.domain.interactor.ObserveGame
+import ua.edmko.unocounter.navigation.NavigationDirections
 import ua.edmko.unocounter.navigation.NavigationManager
 import javax.inject.Inject
 
 @HiltViewModel
-class GameViewModel @Inject constructor(navigationManager: NavigationManager) :
+class GameViewModel @Inject constructor(
+    private val getGame: ObserveGame,
+    private val addRoundToGame: AddRoundToGame,
+    navigationManager: NavigationManager
+) :
     BaseViewModel<GameViewState, GameEvent>(navigationManager) {
 
     init {
         viewState = GameViewState()
+    }
+
+    fun fetchGame(gameId: String) {
+        viewModelScope.launch {
+            getGame.createObservable(ObserveGame.Params(gameId)).collect { game ->
+                viewState = viewState.copy(
+                    game = game,
+                    currentRound = Round(gameRoundId = game.gameSettings.gameSettingsId)
+                )
+            }
+
+        }
     }
 
     override fun obtainEvent(viewEvent: GameEvent) {
@@ -19,6 +42,21 @@ class GameViewModel @Inject constructor(navigationManager: NavigationManager) :
             is ConfirmEdition -> confirmEdition(viewEvent.score)
             is DismissDialog -> viewState = viewState.copy(isDialogShows = false)
             is EditScore -> editScore(viewEvent.player)
+            is NavigateBack -> viewModelScope.launch { navigateTo(NavigationDirections.back) }
+            is NextRound -> nextRound()
+        }
+    }
+
+    private fun nextRound() {
+        viewModelScope.launch {
+            val currentRound = viewState.currentRound
+            addRoundToGame.executeSync(AddRoundToGame.Params(currentRound))
+            viewState = viewState.copy(
+                currentRound = Round(
+                    gameRoundId = viewState.game.gameSettings.gameSettingsId,
+                    roundNum = currentRound.roundNum + 1
+                )
+            )
         }
     }
 
@@ -27,7 +65,9 @@ class GameViewModel @Inject constructor(navigationManager: NavigationManager) :
     }
 
     private fun confirmEdition(score: Int) {
-        val currentRound = viewState.currentRound.also { it.result[viewState.selectedPlayer?.playerId ?: 0] = score }
+        val currentRound = viewState.currentRound.also {
+            it.result[viewState.selectedPlayer?.playerId ?: 0] = score
+        }
         viewState = viewState.copy(isDialogShows = false, currentRound = currentRound)
     }
 }

@@ -6,7 +6,7 @@ import ua.edmko.unocounter.domain.entities.Player
 import ua.edmko.unocounter.domain.entities.Round
 
 data class GameViewState(
-    val game: Game = Game.getGameStub(),
+    val game: Game = Game.getEmptyGame(),
     val isDialogShows: Boolean = false,
     val selectedPlayer : Player? = null,
     val currentRound: Round = Round(gameRoundId = game.gameSettings.gameSettingsId)

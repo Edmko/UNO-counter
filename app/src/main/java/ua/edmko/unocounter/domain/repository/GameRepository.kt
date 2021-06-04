@@ -8,7 +8,7 @@ import ua.edmko.unocounter.domain.entities.Round
 interface GameRepository {
     suspend fun createGame(gameSettings: GameSettings)
     suspend fun addPlayerToGame(playerId: Long, gameId: String)
-    suspend fun getGameById(gameId: String): Game
+    fun observeGameById(gameId: String): Flow<Game>
     suspend fun addRoundToGame(round: Round)
     fun getGameList(): Flow<List<Game>>
 }
