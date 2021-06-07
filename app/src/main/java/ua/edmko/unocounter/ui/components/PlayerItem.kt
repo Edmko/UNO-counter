@@ -23,7 +23,8 @@ fun PlayerItem(modifier: Modifier = Modifier, name: String, color: Color, statis
             contentDescription = "Avatar",
             modifier = Modifier
                 .padding(0.dp, 5.dp, 10.dp, 5.dp)
-                .size(40.dp),
+                .size(40.dp)
+                .fillMaxWidth(0.1f),
             tint = color
         )
         Text(

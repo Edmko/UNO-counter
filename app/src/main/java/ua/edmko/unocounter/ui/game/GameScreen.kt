@@ -4,7 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
@@ -66,14 +66,18 @@ fun GameScreen(state: GameViewState?, event: (GameEvent) -> Unit) {
             id = R.string.score_for_player, state.selectedPlayer?.name ?: ""
         ),
         textType = KeyboardOptions(keyboardType = KeyboardType.Number),
-        onClick = { event.invoke(ConfirmEdition(it.toIntOrNull() ?: 0)) },
-        dismiss = { event.invoke(DismissDialog) })
+        onClick = { event(ConfirmEdition(it.toIntOrNull() ?: 0)) },
+        dismiss = { event(DismissDialog) })
 
         Box(Modifier.fillMaxSize()) {
-            PlayersList(
-                state?.game,
-                currentRound = state?.currentRound
-            ) { event.invoke(EditScore(it)) }
+            Column {
+                ItemExplanation()
+                PlayersList(
+                    state?.game,
+                    currentRound = state?.currentRound
+                ) { event(EditScore(it)) }
+            }
+
 
             GameButton(
                 text = stringResource(R.string.next_round),
@@ -82,15 +86,23 @@ fun GameScreen(state: GameViewState?, event: (GameEvent) -> Unit) {
                     .fillMaxWidth()
                     .height(56.dp)
                     .align(Alignment.BottomCenter),
-                onClick = { event.invoke(NextRound) })
+                onClick = { event(NextRound) })
         }
 }
 
 @Composable
+fun ItemExplanation(){
+    Row() {
+        Spacer(modifier = Modifier.fillMaxWidth(0.5f))
+        Text(text = "Total", color = Color.White, modifier = Modifier.width(60.dp))
+        Text(text = "Round", modifier = Modifier.width(60.dp), color = Color.White)
+    }
+}
+@Composable
 fun PlayersList(game: Game?, currentRound: Round?, onClick: (Player) -> Unit) {
     LazyColumn() {
         game?.players?.let { players ->
-            itemsIndexed(players) { index, player ->
+            items(players) { player ->
                 var total = 0
                 game.rounds.forEach { round -> total += round.result[player.playerId] ?: 0 }
                 PlayerItem(
@@ -99,12 +111,12 @@ fun PlayersList(game: Game?, currentRound: Round?, onClick: (Player) -> Unit) {
                     color = Color.Green
                 ) {
                     Text(
-                        modifier = Modifier.padding(start = 18.dp),
+                        modifier = Modifier.padding(start = 8.dp).width(60.dp),
                         text = total.toString(),
                         color = Color.White
                     )
                     Text(
-                        modifier = Modifier.padding(start = 40.dp),
+                        modifier = Modifier.width(60.dp),
                         text = currentRound?.result?.getOrDefault(player.playerId, 0)
                             .toString(),
                         color = Color.White
