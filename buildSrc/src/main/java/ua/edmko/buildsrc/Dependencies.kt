@@ -20,7 +20,7 @@ object AndroidLibraries {
 object HiltDependencies {
 
     object Versions {
-        const val hilt = "2.35.1"
+        const val hilt = "2.36"
         const val hiltNavigation = "1.0.0-alpha02"
         const val lifecycle = "1.0.0-alpha03"
         const val compilerX = "1.0.0-beta01"
@@ -37,10 +37,10 @@ object HiltDependencies {
 
 object ComposeLibraries {
     object Versions {
-        const val compose = "1.0.0-beta07"
-        const val activityCompose = "1.3.0-alpha07"
-        const val viewModelCompose = "1.0.0-alpha05"
-        const val accompanist ="0.10.0"
+        const val compose = "1.0.0-beta08"
+        const val activityCompose = "1.3.0-beta01"
+        const val viewModelCompose = "1.0.0-alpha06"
+        const val accompanist ="0.11.1"
     }
 
     const val accompanist = "com.google.accompanist:accompanist-insets:${Versions.accompanist}"
@@ -69,7 +69,7 @@ object LifecycleLibraries {
 
 object Navigation {
     object Versions {
-        const val compose = "2.4.0-alpha01"
+        const val compose = "2.4.0-alpha02"
     }
 
     const val compose = "androidx.navigation:navigation-compose:${Versions.compose}"
