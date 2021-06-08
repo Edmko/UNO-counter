@@ -1,5 +1,6 @@
 package ua.edmko.unocounter.di
 
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,4 +15,8 @@ class ApplicationModule {
     @Singleton
     @Provides
     fun provideNavigationManager() = NavigationManager()
+
+    @Singleton
+    @Provides
+    fun provideGson() = Gson()
 }

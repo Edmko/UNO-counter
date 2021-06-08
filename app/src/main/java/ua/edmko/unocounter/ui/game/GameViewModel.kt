@@ -1,16 +1,18 @@
 package ua.edmko.unocounter.ui.game
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ua.edmko.unocounter.base.BaseViewModel
-import ua.edmko.unocounter.domain.entities.Player
-import ua.edmko.unocounter.domain.entities.Round
+import ua.edmko.unocounter.domain.entities.*
+import ua.edmko.unocounter.domain.entities.Game.Companion.noPlayersException
 import ua.edmko.unocounter.domain.interactor.AddRoundToGame
 import ua.edmko.unocounter.domain.interactor.ObserveGame
 import ua.edmko.unocounter.navigation.NavigationDirections
 import ua.edmko.unocounter.navigation.NavigationManager
+import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,7 +24,9 @@ class GameViewModel @Inject constructor(
     BaseViewModel<GameViewState, GameEvent>(navigationManager) {
 
     init {
+        Log.d("endGame", "init")
         viewState = GameViewState()
+
     }
 
     fun fetchGame(gameId: String) {
@@ -32,6 +36,7 @@ class GameViewModel @Inject constructor(
                     game = game,
                     currentRound = Round(gameRoundId = game.gameSettings.gameSettingsId)
                 )
+                checkIsGameEnd()
             }
 
         }
@@ -44,7 +49,13 @@ class GameViewModel @Inject constructor(
             is EditScore -> editScore(viewEvent.player)
             is NavigateBack -> viewModelScope.launch { navigateTo(NavigationDirections.back) }
             is NextRound -> nextRound()
+            is EndGame -> endGame(viewEvent.winnerName)
         }
+    }
+
+    private fun endGame(playerName: String) {
+        Log.d("end game", playerName)
+        viewModelScope.launch { navigateTo(NavigationDirections.gameEnd(playerName)) }
     }
 
     private fun nextRound() {
@@ -70,4 +81,14 @@ class GameViewModel @Inject constructor(
         }
         viewState = viewState.copy(isDialogShows = false, currentRound = currentRound)
     }
+
+    private fun checkIsGameEnd() {
+        viewState.game.let { game ->
+            val (leader, score) = game.getLeader()
+            Log.d("end game", "leader = ${leader.name}, score = $score")
+            if (score >= game.gameSettings.goal) endGame(leader.name)
+        }
+    }
+
+
 }

@@ -4,7 +4,7 @@ plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("kapt")
-    id ("dagger.hilt.android.plugin")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -50,7 +50,7 @@ dependencies {
 
     implementation(LifecycleLibraries.viewModel)
     implementation(LifecycleLibraries.runtime)
-    implementation ("com.google.code.gson:gson:2.8.7")
+    implementation(gson)
     implementation(ComposeLibraries.accompanist)
     implementation(ComposeLibraries.ui)
     implementation(ComposeLibraries.uiTooling)

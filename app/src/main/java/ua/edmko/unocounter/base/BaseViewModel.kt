@@ -13,8 +13,9 @@ import ua.edmko.unocounter.utils.LIFECYCLE
 
 abstract class BaseViewModel<S : ViewState, E : Event>(private val navigationManager: NavigationManager) :
     ViewModel() {
+
     init {
-        Log.d(LIFECYCLE, "Create")
+        Log.d(LIFECYCLE, "Create ${this.javaClass.simpleName}")
     }
 
     private val _viewStates: MutableStateFlow<S?> = MutableStateFlow(null)
@@ -33,12 +34,12 @@ abstract class BaseViewModel<S : ViewState, E : Event>(private val navigationMan
 
     abstract fun obtainEvent(viewEvent: E)
 
-    protected suspend fun navigateTo(destination: NavigationCommand) = with(Dispatchers.Default) {
+    protected suspend fun navigateTo(destination: NavigationCommand) {
         navigationManager.navigate(destination)
     }
 
     override fun onCleared() {
-        Log.d(LIFECYCLE, "Cleared")
+        Log.d(LIFECYCLE, "Cleared ${this.javaClass.simpleName}")
         super.onCleared()
     }
 }

@@ -25,6 +25,7 @@ import com.google.accompanist.insets.ProvideWindowInsets
 import dagger.hilt.android.AndroidEntryPoint
 import ua.edmko.unocounter.navigation.NavigationDirections
 import ua.edmko.unocounter.navigation.NavigationManager
+import ua.edmko.unocounter.ui.components.EndGameScreen
 import ua.edmko.unocounter.ui.game.GameScreen
 import ua.edmko.unocounter.ui.gameSetting.GameSettingScreen
 import ua.edmko.unocounter.ui.players.PlayersScreen
@@ -53,10 +54,15 @@ class MainActivity : AppCompatActivity() {
             ProvideWindowInsets {
                 UNOcounterTheme {
                     navigationManager.commands.collectAsState(null).value?.also { command ->
-                        Log.d(NAVIGATION, "destination = ${command.destination} isBack = ${command == NavigationDirections.back}" )
+                        Log.d(
+                            NAVIGATION,
+                            "destination = ${command.destination} isBack = ${command == NavigationDirections.back}"
+                        )
                         if (command.destination == NavigationDirections.back.destination) {
                             navController.navigateUp()
-                        } else { navController.navigate(command.destination, command.builder) }
+                        } else {
+                            navController.navigate(command.destination, command.builder)
+                        }
                     }
                     val viewModel: MainViewModel = viewModel()
                     Box(modifier = Modifier.fillMaxSize()) {
@@ -73,8 +79,20 @@ class MainActivity : AppCompatActivity() {
                             composable(NavigationDirections.players.destination) {
                                 PlayersScreen(hiltViewModel())
                             }
-                            composable(NavigationDirections.gameDestination){
-                                GameScreen(hiltViewModel(), it.arguments?.getString(NavigationDirections.GAME_ID))
+                            composable(NavigationDirections.gameDestination) {
+                                GameScreen(
+                                    hiltViewModel(),
+                                    it.arguments?.getString(NavigationDirections.GAME_ID)
+                                )
+                            }
+                            composable(NavigationDirections.gameEndDestination) {
+                                EndGameScreen(
+                                    hiltViewModel(),
+                                    it.arguments?.getString(NavigationDirections.PLAYER_NAME) ?: ""
+                                )
+                            }
+                            composable(NavigationDirections.lobby.destination) {
+                                GameSettingScreen(hiltViewModel())
                             }
                         }
                     }

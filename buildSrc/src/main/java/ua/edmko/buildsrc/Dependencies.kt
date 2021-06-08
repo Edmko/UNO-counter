@@ -34,6 +34,7 @@ object HiltDependencies {
     const val hiltNavigation = "androidx.hilt:hilt-navigation-compose:${Versions.hiltNavigation}"
 }
 
+const val gson = "com.google.code.gson:gson:2.8.7"
 
 object ComposeLibraries {
     object Versions {

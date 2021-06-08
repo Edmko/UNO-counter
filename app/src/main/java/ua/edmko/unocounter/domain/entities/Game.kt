@@ -14,9 +14,27 @@ data class Game(
     val players: List<Player>,
 
     @Relation(parentColumn = "gameSettingsId", entityColumn = "gameRoundId")
-    val rounds: List<Round> = emptyList()
-){
+    val rounds: List<Round> = emptyList(),
+) {
+
+    fun calculatePlayersTotal(): Map<Player, Int> {
+        val total: MutableMap<Player, Int> = mutableMapOf()
+        players.forEach { player ->
+            var playersTotal = 0
+            rounds.forEach { round ->
+                playersTotal += round.result[player.playerId] ?: 0
+            }
+            total[player] = playersTotal
+        }
+        return total.toMap()
+    }
+
+    fun getLeader(): Pair<Player, Int>{
+        return calculatePlayersTotal().maxByOrNull {it.value}?.toPair()?: throw noPlayersException
+    }
+
     companion object {
+        val noPlayersException = Exception("No players found")
         fun getGameStub() = Game(
             gameSettings = getGameSettingsStub(),
             players = getPlayersStub()
@@ -24,7 +42,8 @@ data class Game(
 
         fun getEmptyGame() = Game(
             getGameSettingsStub(),
-            emptyList())
+            emptyList()
+        )
     }
 }
 
@@ -33,8 +52,8 @@ data class GameSettings(
     val type: GameType,
     val goal: Int,
     @PrimaryKey val gameSettingsId: String = UUID.randomUUID().toString()
-){
-    companion object{
+) {
+    companion object {
         fun getGameSettingsStub() = GameSettings(type = GameType.CLASSIC, goal = 500)
     }
 }

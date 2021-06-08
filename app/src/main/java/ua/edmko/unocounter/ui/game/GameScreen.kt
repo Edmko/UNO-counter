@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.statusBarsPadding
 import ua.edmko.unocounter.R
 import ua.edmko.unocounter.domain.entities.Game
+import ua.edmko.unocounter.domain.entities.Game.Companion.noPlayersException
 import ua.edmko.unocounter.domain.entities.Player
 import ua.edmko.unocounter.domain.entities.Round
 import ua.edmko.unocounter.domain.entities.Round.Companion.getRoundStub
@@ -31,6 +32,7 @@ import ua.edmko.unocounter.ui.components.PlayerItem
 import ua.edmko.unocounter.ui.components.Toolbar
 import ua.edmko.unocounter.ui.theme.UNOcounterTheme
 import ua.edmko.unocounter.ui.theme.baseDimension
+import java.lang.Exception
 
 @Composable
 fun GameScreen(viewModel: GameViewModel, gameId: String?) {
@@ -69,61 +71,61 @@ fun GameScreen(state: GameViewState?, event: (GameEvent) -> Unit) {
         onClick = { event(ConfirmEdition(it.toIntOrNull() ?: 0)) },
         dismiss = { event(DismissDialog) })
 
-        Box(Modifier.fillMaxSize()) {
-            Column {
-                ItemExplanation()
-                PlayersList(
-                    state?.game,
-                    currentRound = state?.currentRound
-                ) { event(EditScore(it)) }
-            }
-
-
-            GameButton(
-                text = stringResource(R.string.next_round),
-                modifier = Modifier
-                    .padding(baseDimension, 0.dp, baseDimension, 40.dp)
-                    .fillMaxWidth()
-                    .height(56.dp)
-                    .align(Alignment.BottomCenter),
-                onClick = { event(NextRound) })
+    Box(Modifier.fillMaxSize()) {
+        Column {
+            ItemExplanation()
+            PlayersList(
+                state?.game?.calculatePlayersTotal()?:throw Exception("No game found"),
+                currentRound = state.currentRound
+            ) { event(EditScore(it)) }
         }
-}
 
-@Composable
-fun ItemExplanation(){
-    Row() {
-        Spacer(modifier = Modifier.fillMaxWidth(0.5f))
-        Text(text = "Total", color = Color.White, modifier = Modifier.width(60.dp))
-        Text(text = "Round", modifier = Modifier.width(60.dp), color = Color.White)
+
+        GameButton(
+            text = stringResource(R.string.next_round),
+            modifier = Modifier
+                .padding(baseDimension, 0.dp, baseDimension, 40.dp)
+                .fillMaxWidth()
+                .height(56.dp)
+                .align(Alignment.BottomCenter),
+            onClick = { event(NextRound) })
     }
 }
-@Composable
-fun PlayersList(game: Game?, currentRound: Round?, onClick: (Player) -> Unit) {
-    LazyColumn() {
-        game?.players?.let { players ->
-            items(players) { player ->
-                var total = 0
-                game.rounds.forEach { round -> total += round.result[player.playerId] ?: 0 }
-                PlayerItem(
-                    modifier = Modifier.clickable { onClick.invoke(player) },
-                    name = player.name,
-                    color = Color.Green
-                ) {
-                    Text(
-                        modifier = Modifier.padding(start = 8.dp).width(60.dp),
-                        text = total.toString(),
-                        color = Color.White
-                    )
-                    Text(
-                        modifier = Modifier.width(60.dp),
-                        text = currentRound?.result?.getOrDefault(player.playerId, 0)
-                            .toString(),
-                        color = Color.White
-                    )
-                }
 
+@Composable
+fun ItemExplanation() {
+    Row() {
+        Spacer(modifier = Modifier.fillMaxWidth(0.5f))
+        Text(text = "Total", color = Color.Red, modifier = Modifier.width(60.dp))
+        Text(text = "Round", modifier = Modifier.width(60.dp), color = Color.Red)
+    }
+}
+
+@Composable
+fun PlayersList(playersTotal : Map<Player, Int>, currentRound: Round?, onClick: (Player) -> Unit) {
+    LazyColumn() {
+        items(playersTotal.keys.toList()) { player ->
+            val total = playersTotal[player] ?: throw noPlayersException
+            PlayerItem(
+                modifier = Modifier.clickable { onClick.invoke(player) },
+                name = player.name,
+                color = Color.Green
+            ) {
+                Text(
+                    modifier = Modifier
+                        .padding(start = 8.dp)
+                        .width(60.dp),
+                    text = total.toString(),
+                    color = Color.White
+                )
+                Text(
+                    modifier = Modifier.width(60.dp),
+                    text = currentRound?.result?.getOrDefault(player.playerId, 0)
+                        .toString(),
+                    color = Color.White
+                )
             }
+
         }
     }
 }
@@ -141,7 +143,7 @@ fun GameScreenPreview() {
 fun PlayersListPreview() {
     UNOcounterTheme() {
         Surface() {
-            PlayersList(Game.getGameStub(), getRoundStub()) {}
+            PlayersList(Game.getGameStub().calculatePlayersTotal(), getRoundStub()) {}
         }
     }
 }

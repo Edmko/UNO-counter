@@ -7,6 +7,7 @@ import androidx.room.TypeConverters
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.util.*
+import javax.inject.Inject
 
 typealias Score = Int
 typealias PlayerId = Long
@@ -25,6 +26,7 @@ data class Round(
 }
 
 class RoundsConverter {
+
     @TypeConverter
     fun fromRounds(rounds: Map<PlayerId, Score>): String {
         return Gson().toJson(rounds)
