@@ -8,6 +8,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -45,6 +46,7 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
+    @ExperimentalMaterialApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -83,6 +85,7 @@ class MainActivity : AppCompatActivity() {
                                 GameScreen(
                                     hiltViewModel(),
                                     it.arguments?.getString(NavigationDirections.GAME_ID)
+                                        ?: throw IllegalArgumentException("Game id must not be null")
                                 )
                             }
                             composable(NavigationDirections.gameEndDestination) {

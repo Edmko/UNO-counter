@@ -15,12 +15,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ua.edmko.unocounter.ui.theme.UNOcounterTheme
 
+/**
+ * @param statistics get second half of row space
+ */
 @Composable
 fun PlayerItem(modifier: Modifier = Modifier, name: String, color: Color, statistics: @Composable () -> Unit = {}) {
     Row(verticalAlignment = Alignment.CenterVertically, modifier = modifier.fillMaxWidth()) {
         Icon(
             Icons.Rounded.Person,
-            contentDescription = "Avatar",
+            contentDescription = null,
             modifier = Modifier
                 .padding(0.dp, 5.dp, 10.dp, 5.dp)
                 .size(40.dp)
@@ -33,7 +36,7 @@ fun PlayerItem(modifier: Modifier = Modifier, name: String, color: Color, statis
             color = color,
             modifier = Modifier.fillMaxWidth(0.4f)
         )
-        statistics.invoke()
+        statistics()
     }
 }
 

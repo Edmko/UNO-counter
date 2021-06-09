@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -25,12 +26,15 @@ import ua.edmko.unocounter.R
 
 @Composable
 fun EditDialog(
-    textType: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+    textType: KeyboardOptions = KeyboardOptions(
+        keyboardType = KeyboardType.Text,
+        imeAction = ImeAction.Done
+    ),
     title: String,
-    dismiss: () -> Unit,
+    onDismiss: () -> Unit,
     onClick: (String) -> Unit = {},
     ) {
-    Dialog(dismiss) {
+    Dialog(onDismiss) {
         var text by remember { mutableStateOf("") }
         Column(
             Modifier
@@ -52,7 +56,7 @@ fun EditDialog(
                 value = text,
                 textType = textType,
                 { text = it },
-                { onClick.invoke(text) }
+                { onClick(text) }
             )
 
             Text(
@@ -62,7 +66,7 @@ fun EditDialog(
                 modifier = Modifier
                     .padding(top = 18.dp)
                     .align(Alignment.End)
-                    .clickable(onClick = { onClick.invoke(text) }),
+                    .clickable(onClick = { onClick(text) }),
             )
         }
 
@@ -82,15 +86,11 @@ fun GameEditText(
         modifier = modifier.focusRequester(focusRequester),
         value = value,
         onValueChange = onValueChanged,
-        maxLines = 2,
+        maxLines = 1,
         textStyle = TextStyle(color = Color.White, fontSize = 24.sp),
         keyboardOptions = textType,
         cursorBrush = SolidColor(Color.White),
-        keyboardActions = KeyboardActions(
-            onDone = {
-                onImeAction.invoke()
-            }
-        )
+        keyboardActions = KeyboardActions(onDone = { onImeAction()}),
     ) { innerTextField ->
         Box(
             modifier = Modifier

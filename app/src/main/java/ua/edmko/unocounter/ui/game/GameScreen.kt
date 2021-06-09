@@ -1,10 +1,9 @@
 package ua.edmko.unocounter.ui.game
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
@@ -16,13 +15,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.statusBarsPadding
 import ua.edmko.unocounter.R
 import ua.edmko.unocounter.domain.entities.Game
-import ua.edmko.unocounter.domain.entities.Game.Companion.noPlayersException
 import ua.edmko.unocounter.domain.entities.Player
 import ua.edmko.unocounter.domain.entities.Round
 import ua.edmko.unocounter.domain.entities.Round.Companion.getRoundStub
@@ -31,13 +30,13 @@ import ua.edmko.unocounter.ui.components.GameButton
 import ua.edmko.unocounter.ui.components.PlayerItem
 import ua.edmko.unocounter.ui.components.Toolbar
 import ua.edmko.unocounter.ui.theme.UNOcounterTheme
-import ua.edmko.unocounter.ui.theme.baseDimension
-import java.lang.Exception
+import ua.edmko.unocounter.ui.theme.baseDp
+import ua.edmko.unocounter.utils.getColorByIndex
 
 @Composable
-fun GameScreen(viewModel: GameViewModel, gameId: String?) {
+fun GameScreen(viewModel: GameViewModel, gameId: String) {
 
-    viewModel.fetchGame(gameId ?: "")
+    viewModel.fetchGame(gameId)
     val state by viewModel.viewStates().collectAsState()
 
     UNOcounterTheme() {
@@ -47,35 +46,31 @@ fun GameScreen(viewModel: GameViewModel, gameId: String?) {
                 .fillMaxSize()
                 .statusBarsPadding()
         ) { paddings ->
-            Box(
-                Modifier
-                    .padding(paddings)
-                    .background(Color.Black)
-                    .fillMaxSize()
-
-            ) {
+            Surface(Modifier.padding(paddings).fillMaxSize()) {
                 GameScreen(state, viewModel::obtainEvent)
             }
+
         }
     }
 }
 
 @Composable
 fun GameScreen(state: GameViewState?, event: (GameEvent) -> Unit) {
-
-    if (state?.isDialogShows == true) EditDialog(
+    requireNotNull(state)
+    if (state.isDialogShows && state.selectedPlayer?.name != null) EditDialog(
         title = stringResource(
-            id = R.string.score_for_player, state.selectedPlayer?.name ?: ""
+            id = R.string.score_for_player,
+            state.selectedPlayer.name
         ),
-        textType = KeyboardOptions(keyboardType = KeyboardType.Number),
-        onClick = { event(ConfirmEdition(it.toIntOrNull() ?: 0)) },
-        dismiss = { event(DismissDialog) })
+        textType = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
+        onClick = { score -> event(ConfirmEdition(score.toIntOrNull() ?: 0)) },
+        onDismiss = { event(DismissDialog) })
 
     Box(Modifier.fillMaxSize()) {
         Column {
             ItemExplanation()
             PlayersList(
-                state?.game?.calculatePlayersTotal()?:throw Exception("No game found"),
+                state.game.calculatePlayersTotal(),
                 currentRound = state.currentRound
             ) { event(EditScore(it)) }
         }
@@ -84,7 +79,7 @@ fun GameScreen(state: GameViewState?, event: (GameEvent) -> Unit) {
         GameButton(
             text = stringResource(R.string.next_round),
             modifier = Modifier
-                .padding(baseDimension, 0.dp, baseDimension, 40.dp)
+                .padding(baseDp, 0.dp, baseDp, 40.dp)
                 .fillMaxWidth()
                 .height(56.dp)
                 .align(Alignment.BottomCenter),
@@ -102,27 +97,24 @@ fun ItemExplanation() {
 }
 
 @Composable
-fun PlayersList(playersTotal : Map<Player, Int>, currentRound: Round?, onClick: (Player) -> Unit) {
+fun PlayersList(playersTotal: Map<Player, Int>, currentRound: Round?, onClick: (Player) -> Unit) {
     LazyColumn() {
-        items(playersTotal.keys.toList()) { player ->
-            val total = playersTotal[player] ?: throw noPlayersException
+        itemsIndexed(playersTotal.toList()) { index, (player, total) ->
             PlayerItem(
                 modifier = Modifier.clickable { onClick.invoke(player) },
                 name = player.name,
-                color = Color.Green
+                color = getColorByIndex(index)
             ) {
                 Text(
                     modifier = Modifier
                         .padding(start = 8.dp)
                         .width(60.dp),
-                    text = total.toString(),
-                    color = Color.White
+                    text = total.toString()
                 )
                 Text(
                     modifier = Modifier.width(60.dp),
                     text = currentRound?.result?.getOrDefault(player.playerId, 0)
-                        .toString(),
-                    color = Color.White
+                        .toString()
                 )
             }
 

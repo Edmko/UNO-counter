@@ -7,12 +7,10 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ua.edmko.unocounter.base.BaseViewModel
 import ua.edmko.unocounter.domain.entities.*
-import ua.edmko.unocounter.domain.entities.Game.Companion.noPlayersException
 import ua.edmko.unocounter.domain.interactor.AddRoundToGame
 import ua.edmko.unocounter.domain.interactor.ObserveGame
 import ua.edmko.unocounter.navigation.NavigationDirections
 import ua.edmko.unocounter.navigation.NavigationManager
-import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel

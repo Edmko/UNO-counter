@@ -30,11 +30,11 @@ data class Game(
     }
 
     fun getLeader(): Pair<Player, Int>{
-        return calculatePlayersTotal().maxByOrNull {it.value}?.toPair()?: throw noPlayersException
+        return calculatePlayersTotal().maxByOrNull {it.value}?.toPair()?: throw noPlayersFoundException
     }
 
     companion object {
-        val noPlayersException = Exception("No players found")
+        val noPlayersFoundException = Exception("No players found")
         fun getGameStub() = Game(
             gameSettings = getGameSettingsStub(),
             players = getPlayersStub()

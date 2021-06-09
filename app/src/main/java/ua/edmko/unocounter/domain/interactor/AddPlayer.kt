@@ -1,6 +1,5 @@
 package ua.edmko.unocounter.domain.interactor
 
-import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ua.edmko.unocounter.domain.entities.Player

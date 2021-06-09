@@ -1,13 +1,10 @@
 package ua.edmko.unocounter.ui.gameSetting
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.material.ButtonDefaults.buttonColors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
@@ -17,12 +14,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.google.accompanist.insets.statusBarsPadding
 import ua.edmko.unocounter.R
 import ua.edmko.unocounter.domain.entities.Player
@@ -30,73 +25,88 @@ import ua.edmko.unocounter.domain.entities.Player.Companion.getPlayersStub
 import ua.edmko.unocounter.ui.components.EditDialog
 import ua.edmko.unocounter.ui.components.GameButton
 import ua.edmko.unocounter.ui.components.PlayerItem
+import ua.edmko.unocounter.ui.components.TextFieldDivided
 import ua.edmko.unocounter.ui.theme.UNOcounterTheme
-import ua.edmko.unocounter.ui.theme.baseDimension
+import ua.edmko.unocounter.ui.theme.baseDp
+import ua.edmko.unocounter.utils.getColorByIndex
 
 @Composable
 fun GameSettingScreen(viewModel: GameSettingViewModel) {
     val state by viewModel.viewStates().collectAsState()
     viewModel.fetchPlayers()
     UNOcounterTheme {
-        GameSettingContent(state = state, viewModel::obtainEvent)
+        GameSettingContent(state, viewModel::obtainEvent)
     }
 }
 
 @Composable
 fun GameSettingContent(state: GameSettingViewState?, event: (GameSettingEvent) -> Unit) {
-    //dialog
-    if (state?.dialogShows == true) EditDialog(
-        textType = KeyboardOptions(keyboardType = KeyboardType.Number),
-        title = stringResource(id = R.string.insert_goal),
-        dismiss = { event.invoke(DismissDialog) }
-    ) { text -> event.invoke(ChangeGoal(text.toIntOrNull() ?: 0)) }
     Surface(
         modifier = Modifier.statusBarsPadding()
     ) {
+        //dialog
+        if (state?.dialogShows == true) EditDialog(
+            textType = KeyboardOptions(
+                keyboardType = KeyboardType.Number,
+                imeAction = ImeAction.Done
+            ),
+            title = stringResource(id = R.string.insert_goal),
+            onDismiss = { event(DismissDialog) }
+        ) { text -> event(ChangeGoal(text.toIntOrNull() ?: 0)) }
+
+        //content
         Box(Modifier.fillMaxSize()) {
+
             Column(
                 Modifier.fillMaxSize()
             ) {
                 val goal = state?.goal.toString()
-                TextFieldWithDivider(stringResource(id = R.string.goal), goal) {
-                    event.invoke(
-                        OnGoalClickEvent
-                    )
-                }
-                TextFieldWithDivider(stringResource(R.string.type), "Normal")
+                TextFieldDivided(
+                    modifier = Modifier,
+                    stringResource(id = R.string.goal),
+                    goal
+                ) { event(OnGoalClickEvent) }
+                TextFieldDivided(
+                    modifier = Modifier,
+                    stringResource(R.string.type),
+                    "Classic"
+                )
                 Text(
                     style = MaterialTheme.typography.h6,
                     color = Color.White,
                     text = stringResource(R.string.players),
-                    modifier = Modifier.padding(baseDimension, 32.dp, baseDimension, 18.dp)
+                    modifier = Modifier.padding(baseDp, 32.dp, baseDp, 18.dp)
                 )
-                Divider(color = Color.White)
+                Divider(color = MaterialTheme.colors.onSurface)
                 PlayersList(modifier = Modifier.weight(1f), players = state?.players)
             }
+
             FloatingActionButton(
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
-                    .padding(bottom = 110.dp, end = baseDimension),
-                backgroundColor = Color.Red,
-                onClick = { event.invoke(EditPlayers) }) {
+                    .padding(bottom = 110.dp, end = baseDp),
+                backgroundColor = MaterialTheme.colors.primary,
+                onClick = { event(EditPlayers) }) {
                 Icon(
                     Icons.Filled.Edit,
-                    contentDescription = "Edit",
+                    contentDescription = "Edit players",
                     modifier = Modifier
                         .size(30.dp)
                         .align(Alignment.Center),
-                    tint = Color.Black
+                    tint = MaterialTheme.colors.surface
                 )
 
             }
+
             GameButton(
                 text = stringResource(R.string.start_game),
                 modifier = Modifier
-                    .padding(baseDimension, 0.dp, baseDimension, 40.dp)
+                    .padding(baseDp, 0.dp, baseDp, 40.dp)
                     .fillMaxWidth()
                     .height(56.dp)
                     .align(Alignment.BottomCenter),
-                onClick = { event.invoke(StartGame) })
+                isEnabled = state?.players?.isNotEmpty()?:false,
+                onClick = { event(StartGame) })
         }
     }
 }
@@ -105,20 +115,15 @@ fun GameSettingContent(state: GameSettingViewState?, event: (GameSettingEvent) -
 fun PlayersList(modifier: Modifier = Modifier, players: List<Player>?) {
     Box(modifier) {
         LazyColumn(
-            Modifier
+            modifier = Modifier
                 .fillMaxSize()
-                .padding(baseDimension, 0.dp, baseDimension, 0.dp),
+                .padding(baseDp, 0.dp, baseDp, 0.dp),
             contentPadding = PaddingValues(bottom = 110.dp)
         ) {
             players?.let {
                 itemsIndexed(it) { index, player ->
-                    val color = when (index % 4) {
-                        0 -> Color.Yellow
-                        1 -> Color.Red
-                        2 -> Color.Blue
-                        else -> Color.Green
-                    }
-                    PlayerItem(modifier = Modifier, name = player.name, color)
+                    val color = getColorByIndex(index)
+                    PlayerItem(name = player.name, color = color)
                 }
             }
         }
@@ -134,36 +139,5 @@ fun GameSettingContentPreview() {
     }
 }
 
-@Composable
-fun TextFieldWithDivider(description: String, value: String, click: (() -> Unit)? = null) {
-    Column(Modifier.clickable {
-        click?.invoke()
-    }) {
-        Row() {
 
-        }
-        Text(
-            style = MaterialTheme.typography.h5,
-            color = Color.White,
-            text = "$description: $value",
-            modifier = Modifier.padding(baseDimension)
-        )
-        Divider(
-            Modifier
-                .fillMaxWidth()
-                .padding(baseDimension, 10.dp, baseDimension, 0.dp), color = Color.White
-        )
-    }
-
-}
-
-@Preview
-@Composable
-fun TextFieldWithDividerPreview() {
-    UNOcounterTheme() {
-        Surface() {
-            TextFieldWithDivider(value = "500", description = "Goal")
-        }
-    }
-}
 

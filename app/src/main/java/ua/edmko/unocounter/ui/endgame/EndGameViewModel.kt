@@ -1,4 +1,4 @@
-package ua.edmko.unocounter.ui.endgane
+package ua.edmko.unocounter.ui.endgame
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,7 +13,7 @@ import javax.inject.Inject
 class EndGameViewModel @Inject constructor(navigationManager: NavigationManager): ViewModel() {
     init {
         viewModelScope.launch {
-            delay(3000L)
+            delay(2000L)
             navigationManager.navigate(NavigationDirections.back )
         }
     }

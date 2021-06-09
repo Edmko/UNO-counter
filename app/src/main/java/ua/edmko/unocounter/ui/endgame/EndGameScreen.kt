@@ -12,7 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import ua.edmko.unocounter.ui.endgane.EndGameViewModel
+import ua.edmko.unocounter.ui.endgame.EndGameViewModel
 import ua.edmko.unocounter.ui.theme.UNOcounterTheme
 
 @Composable
