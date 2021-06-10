@@ -12,7 +12,6 @@ import ua.edmko.unocounter.domain.interactor.ObservePlayers
 import ua.edmko.unocounter.domain.interactor.UpdatePlayer
 import ua.edmko.unocounter.navigation.NavigationDirections
 import ua.edmko.unocounter.navigation.NavigationManager
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,8 +20,9 @@ class PlayersViewModel @Inject constructor(
     private val addPlayer: AddPlayer,
     private val updatePlayer: UpdatePlayer,
     private val deletePlayer: DeletePlayer,
-    private val navigationManager: NavigationManager
+    navigationManager: NavigationManager
 ) : BaseViewModel<PlayersViewState, PlayersEvent>(navigationManager) {
+
     init {
         viewState = PlayersViewState()
         viewModelScope.launch {
@@ -34,12 +34,40 @@ class PlayersViewModel @Inject constructor(
 
     override fun obtainEvent(viewEvent: PlayersEvent) {
         when (viewEvent) {
-            is AddPlayerButton -> viewState = viewState.copy(isDialogShows = true)
+            is AddPlayerButton -> viewState = viewState.copy(editDialogShows = true)
             is CreatePlayer -> createPlayer(viewEvent.name)
             is UpdatePlayersSelection -> updatePlayer(viewEvent.player)
-            is DeletePlayerEvent -> deletePlayer(viewEvent.player)
-            is NavigateBack -> viewModelScope.launch { navigationManager.navigate(NavigationDirections.back) }
-            is DismissDialog -> viewState = viewState.copy(isDialogShows = false)
+            is OnDeletePlayer -> onDeletePlayer(viewEvent.player)
+            is NavigateBack -> navigateBack()
+            is DismissDialog -> dismissDialog()
+            is EditPlayer -> onUpdatePlayerName(viewEvent.player)
+            is ChangePlayersName -> changePlayersName(viewEvent.name)
+            is DeletePlayerEvent -> deletePlayer()
+        }
+    }
+
+    private fun dismissDialog() {
+        viewState = viewState.copy(
+            editDialogShows = false,
+            confirmationDialogShows = false,
+            selectedPlayer = null
+        )
+    }
+
+    private fun changePlayersName(name: String) {
+        val player = viewState.selectedPlayer?.copy(name = name)
+            ?: throw Exception("player must not be null")
+        updatePlayer(player)
+        viewState = viewState.copy(selectedPlayer = null, editDialogShows = false)
+    }
+
+    private fun onUpdatePlayerName(player: Player) {
+        viewState = viewState.copy(editDialogShows = true, selectedPlayer = player)
+    }
+
+    private fun navigateBack() {
+        viewModelScope.launch {
+            navigateTo(NavigationDirections.back)
         }
     }
 
@@ -47,14 +75,20 @@ class PlayersViewModel @Inject constructor(
         viewModelScope.launch {
             val player = Player(name = name)
             addPlayer.executeSync(AddPlayer.Params(player))
-            viewState = viewState.copy(isDialogShows = false)
+            viewState = viewState.copy(editDialogShows = false)
         }
-
     }
 
-    private fun deletePlayer(player: Player) {
+    private fun onDeletePlayer(player: Player) {
+        viewState = viewState.copy(selectedPlayer = player, confirmationDialogShows = true)
+    }
+
+    private fun deletePlayer() {
         viewModelScope.launch {
-            deletePlayer.executeSync(DeletePlayer.Params(player.playerId))
+            val player =
+                viewState.selectedPlayer?.playerId ?: throw Exception("Player must not be null")
+            deletePlayer.executeSync(DeletePlayer.Params(player))
+            viewState = viewState.copy(confirmationDialogShows = false, selectedPlayer = null)
         }
     }
 

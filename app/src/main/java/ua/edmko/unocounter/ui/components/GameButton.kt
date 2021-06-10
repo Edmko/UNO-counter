@@ -9,12 +9,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ua.edmko.unocounter.ui.theme.UNOcounterTheme
 
 @Composable
-fun GameButton(modifier: Modifier = Modifier, isEnabled: Boolean = true , text: String, onClick: () -> Unit) {
+fun GameButton(modifier: Modifier = Modifier, isEnabled: Boolean = true , text: String, onClick: () -> Unit, fontSize: TextUnit = 40.sp) {
     Button(
         onClick = onClick,
         shape = RoundedCornerShape(10.dp),
@@ -26,7 +27,7 @@ fun GameButton(modifier: Modifier = Modifier, isEnabled: Boolean = true , text: 
         Text(
             text,
             color = MaterialTheme.colors.surface,
-            fontSize = 40.sp,
+            fontSize = fontSize,
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Black
         )
