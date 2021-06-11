@@ -91,8 +91,8 @@ fun GameScreen(state: GameViewState?, event: (GameEvent) -> Unit) {
 fun ItemExplanation() {
     Row() {
         Spacer(modifier = Modifier.fillMaxWidth(0.5f))
-        Text(text = "Total", color = Color.Red, modifier = Modifier.width(60.dp))
-        Text(text = "Round", modifier = Modifier.width(60.dp), color = Color.Red)
+        Text(text = stringResource(R.string.total), color = Color.Red, modifier = Modifier.width(60.dp))
+        Text(text = stringResource(R.string.round), modifier = Modifier.width(60.dp), color = Color.Red)
     }
 }
 

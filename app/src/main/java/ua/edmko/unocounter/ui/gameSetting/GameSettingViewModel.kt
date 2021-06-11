@@ -2,26 +2,33 @@ package ua.edmko.unocounter.ui.gameSetting
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ua.edmko.unocounter.base.BaseViewModel
 import ua.edmko.unocounter.domain.entities.GameSettings
 import ua.edmko.unocounter.domain.entities.GameType
 import ua.edmko.unocounter.domain.interactor.CreateGame
 import ua.edmko.unocounter.domain.interactor.GetSelectedPlayers
+import ua.edmko.unocounter.domain.interactor.ObserveSelectedPlayers
 import ua.edmko.unocounter.navigation.NavigationDirections
 import ua.edmko.unocounter.navigation.NavigationManager
 import javax.inject.Inject
 
 @HiltViewModel
 class GameSettingViewModel @Inject constructor(
-    private val getPlayers: GetSelectedPlayers,
     private val createGame: CreateGame,
+    private val observeSelectedPlayers: ObserveSelectedPlayers,
     navigationManager: NavigationManager
 ) :
     BaseViewModel<GameSettingViewState, GameSettingEvent>(navigationManager) {
 
     init {
         viewState = GameSettingViewState()
+        viewModelScope.launch {
+            observeSelectedPlayers.createObservable(Unit).collect { players ->
+                viewState = viewState.copy(players = players)
+            }
+        }
     }
 
     override fun obtainEvent(viewEvent: GameSettingEvent) {
@@ -48,11 +55,5 @@ class GameSettingViewModel @Inject constructor(
 
     private fun changeGoal() {
         viewState = viewState.copy(dialogShows = true)
-    }
-
-    fun fetchPlayers() {
-        viewModelScope.launch {
-            viewState = viewState.copy(players = getPlayers.executeSync(Unit))
-        }
     }
 }

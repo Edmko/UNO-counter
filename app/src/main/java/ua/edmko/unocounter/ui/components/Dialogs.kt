@@ -7,6 +7,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -47,7 +48,7 @@ fun EditDialog(
         ) {
             Text(
                 text = title,
-                color = Color.White,
+                color = MaterialTheme.colors.onSurface,
                 fontSize = 24.sp
             )
 
@@ -64,7 +65,7 @@ fun EditDialog(
 
             Text(
                 text = stringResource(R.string.accept),
-                color = Color.White,
+                color = MaterialTheme.colors.onSurface,
                 fontSize = 24.sp,
                 modifier = Modifier
                     .padding(top = 18.dp)
@@ -91,7 +92,7 @@ fun ConfirmationDialog(
         ) {
             Text(
                 text = title,
-                color = Color.White,
+                color = MaterialTheme.colors.onSurface,
                 fontSize = 24.sp
             )
             Row(

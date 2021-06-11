@@ -2,9 +2,7 @@ package ua.edmko.unocounter.ui.players
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -23,7 +21,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
@@ -33,6 +30,7 @@ import com.google.accompanist.insets.statusBarsPadding
 import ua.edmko.unocounter.R
 import ua.edmko.unocounter.domain.entities.Player
 import ua.edmko.unocounter.domain.entities.Player.Companion.getPlayersStub
+import ua.edmko.unocounter.ui.components.ConfirmationDialog
 import ua.edmko.unocounter.ui.components.EditDialog
 import ua.edmko.unocounter.ui.components.Toolbar
 import ua.edmko.unocounter.ui.theme.UNOcounterTheme
@@ -56,83 +54,22 @@ fun PlayersScreen(viewModel: PlayersViewModel) {
                     .fillMaxSize()
 
             ) {
-                if (state?.isDialogShows == true) EditDialog(
+                if (state?.editDialogShows == true) EditDialog(
                     title = stringResource(R.string.insert_name),
                     onDismiss = { viewModel.obtainEvent(DismissDialog) },
                     onClick = { text ->
-                        viewModel.obtainEvent(CreatePlayer(text))
-                    })
-                LazyColumn() {
-                    state?.players?.let {
-                        items(it) { player ->
-                            key(player.playerId) {
-                                val dismissState = rememberDismissState { dismissState ->
-                                    when (dismissState) {
-                                        Default -> {
-                                        }
-                                        DismissedToEnd -> viewModel.obtainEvent(
-                                            DeletePlayerEvent(
-                                                player
-                                            )
-                                        )
-                                        DismissedToStart -> {
-                                        }
-                                    }
-                                    dismissState == Default
-                                }
-                                SwipeToDismiss(
-                                    state = dismissState,
-                                    background = {
-                                        val direction =
-                                            dismissState.dismissDirection ?: return@SwipeToDismiss
-                                        val icon = when (direction) {
-                                            StartToEnd -> Icons.Default.Delete
-                                            EndToStart -> Icons.Default.Edit
-                                        }
-                                        val color by animateColorAsState(
-                                            when (dismissState.targetValue) {
-                                                Default -> Color.White
-                                                DismissedToEnd -> Color.Red
-                                                DismissedToStart -> Color.Gray
-                                            }
-                                        )
-                                        val scale by animateFloatAsState(
-                                            if (dismissState.targetValue == Default) 0.75f else 1f
-                                        )
-
-                                        val alignment = when (direction) {
-                                            StartToEnd -> Alignment.CenterStart
-                                            EndToStart -> Alignment.CenterEnd
-                                        }
-
-                                        Box(
-                                            modifier = Modifier
-                                                .fillMaxSize()
-                                                .background(color),
-                                            contentAlignment = alignment
-                                        ) {
-                                            Icon(
-                                                icon,
-                                                contentDescription = "Localized description",
-                                                modifier = Modifier
-                                                    .scale(scale)
-                                                    .size(60.dp)
-                                                    .padding(10.dp)
-                                            )
-                                        }
-                                    },
-                                    dismissThresholds = {
-                                        FractionalThreshold(0.5f)
-                                    },
-                                    dismissContent = {
-                                        PlayerItem(player) { event -> viewModel.obtainEvent(event) }
-                                    }
-                                )
-                            }
+                        if (state?.selectedPlayer == null) {
+                            viewModel.obtainEvent(CreatePlayer(text))
+                        } else {
+                            viewModel.obtainEvent(ChangePlayersName(text))
                         }
-                    }
-
-                }
+                    })
+                if (state?.confirmationDialogShows == true) ConfirmationDialog(
+                    title = stringResource(R.string.are_delete_player),
+                    dismiss = { viewModel.obtainEvent(DismissDialog) },
+                    accept = {viewModel.obtainEvent(DeletePlayerEvent)}
+                )
+                state?.players?.let { players -> PLayersList(players, viewModel::obtainEvent) }
 
                 FloatingActionButton(
                     modifier = Modifier
@@ -155,19 +92,97 @@ fun PlayersScreen(viewModel: PlayersViewModel) {
     }
 }
 
+@ExperimentalMaterialApi
+@Composable
+fun PLayersList(players: List<Player>, event: (PlayersEvent) -> Unit) {
+    LazyColumn() {
+        items(players) { player ->
+            key(player.playerId) {
+                val dismissState = rememberDismissState { dismissState ->
+                    when (dismissState) {
+                        DismissedToEnd -> event(OnDeletePlayer(player))
+                        DismissedToStart -> event(EditPlayer(player))
+                        Default -> Unit
+                    }
+                    dismissState == Default
+                }
+                SwipeToDismiss(
+                    state = dismissState,
+                    background = {
+                        val direction =
+                            dismissState.dismissDirection ?: return@SwipeToDismiss
+                        val icon = when (direction) {
+                            StartToEnd -> Icons.Default.Delete
+                            EndToStart -> Icons.Default.Edit
+                        }
+                        val color by animateColorAsState(
+                            when (dismissState.targetValue) {
+                                Default -> Color.White
+                                DismissedToEnd -> Color.Red
+                                DismissedToStart -> Color.Gray
+                            }
+                        )
+                        val scale by animateFloatAsState(
+                            if (dismissState.targetValue == Default) 0.75f else 1f
+                        )
+
+                        val alignment = when (direction) {
+                            StartToEnd -> Alignment.CenterStart
+                            EndToStart -> Alignment.CenterEnd
+                        }
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(color),
+                            contentAlignment = alignment
+                        ) {
+                            Icon(
+                                icon,
+                                contentDescription = "Delete by swipe left end edit by swipe right",
+                                modifier = Modifier
+                                    .scale(scale)
+                                    .size(60.dp)
+                                    .padding(10.dp)
+                            )
+                        }
+                    },
+                    dismissContent = { PlayerItem(player, event) }
+                )
+            }
+        }
+
+    }
+}
+
+@ExperimentalMaterialApi
+@Preview
+@Composable
+fun PlayerListPreview() {
+    UNOcounterTheme() {
+        PLayersList(players = getPlayersStub()) {}
+    }
+}
+
 @Composable
 fun PlayerItem(player: Player, event: (PlayersEvent) -> Unit) {
-    val textColor = if (player.isSelected) MaterialTheme.colors.secondary else MaterialTheme.colors.onSurface
+    val textColor by animateColorAsState(
+        if (player.isSelected) {
+            MaterialTheme.colors.secondary
+        } else {
+            MaterialTheme.colors.onSurface
+        }
+    )
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color.Black)
+            .background(MaterialTheme.colors.surface)
             .height(50.dp)
     ) {
         Checkbox(
             checked = player.isSelected,
             onCheckedChange = { isChecked ->
-                event.invoke(UpdatePlayersSelection(player.copy(isSelected = isChecked)))
+                event(UpdatePlayersSelection(player.copy(isSelected = isChecked)))
             },
             modifier = Modifier
                 .padding(start = 18.dp)
@@ -179,9 +194,7 @@ fun PlayerItem(player: Player, event: (PlayersEvent) -> Unit) {
             fontSize = 24.sp,
             fontFamily = FontFamily.Serif,
             modifier = Modifier
-                .align(
-                    Alignment.CenterStart
-                )
+                .align(Alignment.CenterStart)
                 .padding(start = 54.dp)
         )
         Divider(
@@ -189,14 +202,16 @@ fun PlayerItem(player: Player, event: (PlayersEvent) -> Unit) {
                 .height(1.dp)
                 .align(Alignment.BottomCenter)
                 .fillMaxWidth(),
-            color = Color.White
+            color = MaterialTheme.colors.onSurface
         )
     }
 }
 
 
-@Preview(backgroundColor = 0x000000, showBackground = true)
+@Preview
 @Composable
 fun PlayerItemPreview(name: String = "John Simons") {
-    PlayerItem(player = getPlayersStub().first(), {})
+    UNOcounterTheme() {
+        PlayerItem(player = getPlayersStub().first()) {}
+    }
 }

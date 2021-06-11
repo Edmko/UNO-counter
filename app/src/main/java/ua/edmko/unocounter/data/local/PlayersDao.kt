@@ -14,7 +14,7 @@ interface PlayersDao {
     suspend fun deletePlayerById(id: Long)
 
     @Query("Select * from players")
-    fun getAllPlayers(): Flow<List<Player>>
+    fun observePlayers(): Flow<List<Player>>
 
     @Query("Select * from players Where isSelected = 1")
     suspend fun getSelectedPlayers(): List<Player>

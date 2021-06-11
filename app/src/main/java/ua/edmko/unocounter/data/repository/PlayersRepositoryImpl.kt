@@ -16,7 +16,7 @@ class PlayersRepositoryImpl @Inject constructor(private val dao: PlayersDao): Pl
     }
 
     override fun observePlayers(): Flow<List<Player>> {
-        return dao.getAllPlayers()
+        return dao.observePlayers()
     }
 
     override suspend fun getSelectedPlayers(): List<Player> {

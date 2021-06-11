@@ -60,4 +60,10 @@ class InteractorModule {
     fun provideAddRoundToGameInteractor(gameRepository: GameRepository): AddRoundToGame{
         return AddRoundToGame(gameRepository)
     }
+
+    @Singleton
+    @Provides
+    fun provideObserveSelectedPlayersInteractor(playersRepository: PlayersRepository): ObserveSelectedPlayers {
+        return ObserveSelectedPlayers(playersRepository)
+    }
 }

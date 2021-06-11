@@ -33,7 +33,6 @@ import ua.edmko.unocounter.utils.getColorByIndex
 @Composable
 fun GameSettingScreen(viewModel: GameSettingViewModel) {
     val state by viewModel.viewStates().collectAsState()
-    viewModel.fetchPlayers()
     UNOcounterTheme {
         GameSettingContent(state, viewModel::obtainEvent)
     }
@@ -73,7 +72,7 @@ fun GameSettingContent(state: GameSettingViewState?, event: (GameSettingEvent) -
                 )
                 Text(
                     style = MaterialTheme.typography.h6,
-                    color = Color.White,
+                    color = MaterialTheme.colors.onSurface,
                     text = stringResource(R.string.players),
                     modifier = Modifier.padding(baseDp, 32.dp, baseDp, 18.dp)
                 )
