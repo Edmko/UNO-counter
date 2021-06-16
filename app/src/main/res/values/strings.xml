@@ -12,4 +12,6 @@
     <string name="are_delete_player">Are your sure you want to delete player?</string>
     <string name="total">Total</string>
     <string name="round">Round</string>
+    <string name="choose_type">Choose type of game</string>
+    <string name="winner">Winner</string>
 </resources>

@@ -12,7 +12,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -22,10 +21,7 @@ import com.google.accompanist.insets.statusBarsPadding
 import ua.edmko.unocounter.R
 import ua.edmko.unocounter.domain.entities.Player
 import ua.edmko.unocounter.domain.entities.Player.Companion.getPlayersStub
-import ua.edmko.unocounter.ui.components.EditDialog
-import ua.edmko.unocounter.ui.components.GameButton
-import ua.edmko.unocounter.ui.components.PlayerItem
-import ua.edmko.unocounter.ui.components.TextFieldDivided
+import ua.edmko.unocounter.ui.components.*
 import ua.edmko.unocounter.ui.theme.UNOcounterTheme
 import ua.edmko.unocounter.ui.theme.baseDp
 import ua.edmko.unocounter.utils.getColorByIndex
@@ -52,7 +48,12 @@ fun GameSettingContent(state: GameSettingViewState?, event: (GameSettingEvent) -
             title = stringResource(id = R.string.insert_goal),
             onDismiss = { event(DismissDialog) }
         ) { text -> event(ChangeGoal(text.toIntOrNull() ?: 0)) }
-
+        if (state?.typeDialogShows == true) OptionsDialog(
+            title = stringResource(R.string.choose_type),
+            type = state.gameType
+        ) {
+            event(SetGameType(it))
+        }
         //content
         Box(Modifier.fillMaxSize()) {
 
@@ -68,8 +69,8 @@ fun GameSettingContent(state: GameSettingViewState?, event: (GameSettingEvent) -
                 TextFieldDivided(
                     modifier = Modifier,
                     stringResource(R.string.type),
-                    "Classic"
-                )
+                    state?.gameType?.title ?: ""
+                ) { event(OnTypeClickEvent) }
                 Text(
                     style = MaterialTheme.typography.h6,
                     color = MaterialTheme.colors.onSurface,
@@ -104,7 +105,7 @@ fun GameSettingContent(state: GameSettingViewState?, event: (GameSettingEvent) -
                     .fillMaxWidth()
                     .height(56.dp)
                     .align(Alignment.BottomCenter),
-                isEnabled = state?.players?.isNotEmpty()?:false,
+                isEnabled = state?.players?.isNotEmpty() ?: false,
                 onClick = { event(StartGame) })
         }
     }

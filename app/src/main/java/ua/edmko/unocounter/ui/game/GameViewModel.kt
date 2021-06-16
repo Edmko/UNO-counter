@@ -48,6 +48,7 @@ class GameViewModel @Inject constructor(
             is NavigateBack -> viewModelScope.launch { navigateTo(NavigationDirections.back) }
             is NextRound -> nextRound()
             is EndGame -> endGame(viewEvent.winnerName)
+            is SetWinner -> viewState = viewState.copy(winner = viewEvent.player)
         }
     }
 

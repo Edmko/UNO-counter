@@ -8,7 +8,6 @@ import ua.edmko.unocounter.base.BaseViewModel
 import ua.edmko.unocounter.domain.entities.GameSettings
 import ua.edmko.unocounter.domain.entities.GameType
 import ua.edmko.unocounter.domain.interactor.CreateGame
-import ua.edmko.unocounter.domain.interactor.GetSelectedPlayers
 import ua.edmko.unocounter.domain.interactor.ObserveSelectedPlayers
 import ua.edmko.unocounter.navigation.NavigationDirections
 import ua.edmko.unocounter.navigation.NavigationManager
@@ -24,7 +23,7 @@ class GameSettingViewModel @Inject constructor(
 
     init {
         viewState = GameSettingViewState()
-        viewModelScope.launch {
+        viewModelScope.smartLaunch {
             observeSelectedPlayers.createObservable(Unit).collect { players ->
                 viewState = viewState.copy(players = players)
             }
@@ -38,7 +37,13 @@ class GameSettingViewModel @Inject constructor(
             is EditPlayers -> viewModelScope.launch { navigateTo(NavigationDirections.players) }
             is DismissDialog -> viewState = viewState.copy(dialogShows = false)
             is StartGame -> startGame()
+            is OnTypeClickEvent -> viewState = viewState.copy(typeDialogShows = true)
+            is SetGameType -> setGameType(viewEvent.gameType)
         }
+    }
+
+    private fun setGameType(gameType: GameType) {
+        viewState = viewState.copy(typeDialogShows = false, gameType = gameType)
     }
 
     private fun startGame() {

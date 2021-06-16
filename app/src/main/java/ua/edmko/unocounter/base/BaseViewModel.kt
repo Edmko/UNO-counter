@@ -8,27 +8,25 @@ import kotlinx.coroutines.flow.StateFlow
 import ua.edmko.unocounter.navigation.NavigationCommand
 import ua.edmko.unocounter.navigation.NavigationManager
 import ua.edmko.unocounter.utils.LIFECYCLE
-import kotlin.coroutines.CoroutineContext
 
 abstract class BaseViewModel<S : ViewState, E : Event>(private val navigationManager: NavigationManager) :
-    ViewModel(), CoroutineScope {
+    ViewModel() {
 
     init {
         Log.d(LIFECYCLE, "Create ${this.javaClass.simpleName}")
     }
 
-    private val scopeJob: Job = SupervisorJob()
-
     private val errorHandler = CoroutineExceptionHandler { _, throwable ->
         handleError(throwable)
     }
 
-    private fun handleError(throwable: Throwable) {
-        Log.e("Exception", throwable.message ?: "")
-
+    protected fun CoroutineScope.smartLaunch( context: suspend () -> Unit): Job {
+        return this.launch(errorHandler) { context() }
     }
 
-    override val coroutineContext: CoroutineContext = scopeJob + Dispatchers.Main + errorHandler
+    private fun handleError(throwable: Throwable) {
+        Log.e(throwable.cause.toString(), throwable.message ?: "")
+    }
 
     private val _viewStates: MutableStateFlow<S?> = MutableStateFlow(null)
     fun viewStates(): StateFlow<S?> = _viewStates

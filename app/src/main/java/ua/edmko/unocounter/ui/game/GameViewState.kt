@@ -9,5 +9,6 @@ data class GameViewState(
     val game: Game = Game.getEmptyGame(),
     val isDialogShows: Boolean = false,
     val selectedPlayer : Player? = null,
-    val currentRound: Round = Round(gameRoundId = game.gameSettings.gameSettingsId)
+    val currentRound: Round = Round(gameRoundId = game.gameSettings.gameSettingsId),
+    val winner : Player? = null
 ): ViewState

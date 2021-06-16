@@ -5,12 +5,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.RadioButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -46,7 +45,11 @@ fun GameScreen(viewModel: GameViewModel, gameId: String) {
                 .fillMaxSize()
                 .statusBarsPadding()
         ) { paddings ->
-            Surface(Modifier.padding(paddings).fillMaxSize()) {
+            Surface(
+                Modifier
+                    .padding(paddings)
+                    .fillMaxSize()
+            ) {
                 GameScreen(state, viewModel::obtainEvent)
             }
 
@@ -71,8 +74,10 @@ fun GameScreen(state: GameViewState?, event: (GameEvent) -> Unit) {
             ItemExplanation()
             PlayersList(
                 state.game.calculatePlayersTotal(),
-                currentRound = state.currentRound
-            ) { event(EditScore(it)) }
+                currentRound = state.currentRound,
+                onClick = { event(EditScore(it)) },
+                winner = state.winner,
+                selectWinner = { event(SetWinner(it)) })
         }
 
 
@@ -91,13 +96,29 @@ fun GameScreen(state: GameViewState?, event: (GameEvent) -> Unit) {
 fun ItemExplanation() {
     Row() {
         Spacer(modifier = Modifier.fillMaxWidth(0.5f))
-        Text(text = stringResource(R.string.total), color = Color.Red, modifier = Modifier.width(60.dp))
-        Text(text = stringResource(R.string.round), modifier = Modifier.width(60.dp), color = Color.Red)
+        Text(
+            text = stringResource(R.string.total),
+            color = Color.Red,
+            modifier = Modifier.width(60.dp)
+        )
+        Text(
+            text = stringResource(R.string.round),
+            modifier = Modifier.width(60.dp),
+            color = Color.Red
+        )
+        Text(text = stringResource(R.string.winner), color = Color.Red)
     }
 }
 
 @Composable
-fun PlayersList(playersTotal: Map<Player, Int>, currentRound: Round?, onClick: (Player) -> Unit) {
+fun PlayersList(
+    playersTotal: Map<Player, Int>,
+    currentRound: Round?,
+    onClick: (Player) -> Unit,
+    winner: Player? = null,
+    selectWinner: (Player) -> Unit
+) {
+    var roundWinner by remember { mutableStateOf(winner) }
     LazyColumn() {
         itemsIndexed(playersTotal.toList()) { index, (player, total) ->
             PlayerItem(
@@ -116,6 +137,10 @@ fun PlayersList(playersTotal: Map<Player, Int>, currentRound: Round?, onClick: (
                     text = currentRound?.result?.getOrDefault(player.playerId, 0)
                         .toString()
                 )
+                RadioButton(selected = player == roundWinner, onClick = {
+                    roundWinner = player
+                    selectWinner(player)
+                })
             }
 
         }
@@ -135,7 +160,7 @@ fun GameScreenPreview() {
 fun PlayersListPreview() {
     UNOcounterTheme() {
         Surface() {
-            PlayersList(Game.getGameStub().calculatePlayersTotal(), getRoundStub()) {}
+            PlayersList(Game.getGameStub().calculatePlayersTotal(), getRoundStub(), {}) {}
         }
     }
 }

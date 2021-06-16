@@ -2,12 +2,14 @@ package ua.edmko.unocounter.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.RadioButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -25,8 +27,34 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import ua.edmko.unocounter.R
+import ua.edmko.unocounter.domain.entities.GameType
 import ua.edmko.unocounter.ui.theme.UNOcounterTheme
 import ua.edmko.unocounter.ui.theme.baseDp
+
+
+@Composable
+fun DialogApp(
+    title: String,
+    onDismiss: () -> Unit,
+    content: @Composable ColumnScope.() -> Unit
+) {
+    Dialog(onDismiss) {
+
+        Column(
+            Modifier
+                .background(color = Color.DarkGray, shape = RoundedCornerShape(15.dp))
+                .padding(15.dp)
+                .fillMaxWidth()
+        ) {
+            Text(
+                text = title,
+                color = MaterialTheme.colors.onSurface,
+                fontSize = 24.sp
+            )
+            content()
+        }
+    }
+}
 
 @Composable
 fun EditDialog(
@@ -38,43 +66,30 @@ fun EditDialog(
     onDismiss: () -> Unit,
     onClick: (String) -> Unit = {},
 ) {
-    Dialog(onDismiss) {
-        var text by remember { mutableStateOf("") }
-        Column(
-            Modifier
-                .background(color = Color.DarkGray, shape = RoundedCornerShape(15.dp))
-                .padding(15.dp)
-                .fillMaxWidth()
-        ) {
-            Text(
-                text = title,
-                color = MaterialTheme.colors.onSurface,
-                fontSize = 24.sp
-            )
+    var text by remember { mutableStateOf("") }
+    DialogApp(title = title, onDismiss = onDismiss) {
+        GameEditText(
+            modifier = Modifier
+                .padding(top = 32.dp)
+                .height(50.dp)
+                .fillMaxWidth(),
+            value = text,
+            textType = textType,
+            { text = it },
+            { onClick(text) }
+        )
 
-            GameEditText(
-                modifier = Modifier
-                    .padding(top = 32.dp)
-                    .height(50.dp)
-                    .fillMaxWidth(),
-                value = text,
-                textType = textType,
-                { text = it },
-                { onClick(text) }
-            )
-
-            Text(
-                text = stringResource(R.string.accept),
-                color = MaterialTheme.colors.onSurface,
-                fontSize = 24.sp,
-                modifier = Modifier
-                    .padding(top = 18.dp)
-                    .align(Alignment.End)
-                    .clickable(onClick = { onClick(text) }),
-            )
-        }
-
+        Text(
+            text = stringResource(R.string.accept),
+            color = MaterialTheme.colors.onSurface,
+            fontSize = 24.sp,
+            modifier = Modifier
+                .padding(top = 18.dp)
+                .align(Alignment.End)
+                .clickable(onClick = { onClick(text) }),
+        )
     }
+
 }
 
 @Composable
@@ -83,49 +98,79 @@ fun ConfirmationDialog(
     dismiss: () -> Unit,
     accept: () -> Unit,
 ) {
-    Dialog(dismiss) {
-        Column(
-            Modifier
-                .background(color = Color.DarkGray, shape = RoundedCornerShape(15.dp))
-                .padding(15.dp)
-                .fillMaxWidth()
+    DialogApp(title = title, onDismiss = dismiss) {
+        Row(
+            modifier = Modifier
+                .padding(baseDp)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = title,
-                color = MaterialTheme.colors.onSurface,
+            GameButton(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(end = 10.dp)
+                    .height(50.dp),
+                onClick = accept,
+                isEnabled = true,
+                text = "Accept",
                 fontSize = 24.sp
             )
-            Row(
+
+            GameButton(
                 modifier = Modifier
-                    .padding(baseDp)
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                GameButton(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(end = 10.dp)
-                        .height(50.dp),
-                    onClick = accept,
-                    isEnabled = true,
-                    text = "Accept",
-                    fontSize = 24.sp
-                )
+                    .weight(1f)
+                    .padding(start = 10.dp)
+                    .height(50.dp),
+                onClick = dismiss,
+                isEnabled = true,
+                text = "Cancel",
+                fontSize = 24.sp
+            )
+        }
+    }
+}
 
-                GameButton(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(start = 10.dp)
-                        .height(50.dp),
-                    onClick = dismiss,
-                    isEnabled = true,
-                    text = "Cancel",
-                    fontSize = 24.sp
-                )
-            }
+@Composable
+fun OptionsDialog(
+    title: String,
+    type: GameType,
+    dismiss: (GameType) -> Unit
+) {
+    var selected by remember { mutableStateOf(type) }
+    DialogApp(title = title, onDismiss = { dismiss(selected) }) {
 
+
+        Spacer(modifier = Modifier.size(15.dp))
+        Row(Modifier.clickable(
+            interactionSource = remember { MutableInteractionSource() },
+            indication = null
+        ) { selected = GameType.CLASSIC }) {
+            RadioButton(selected = selected == GameType.CLASSIC, onClick = {
+                selected = GameType.CLASSIC
+            })
+            Text(text = GameType.CLASSIC.title, modifier = Modifier.padding(start = 10.dp), fontSize = 18.sp)
         }
 
+        Spacer(modifier = Modifier.size(15.dp))
+        Row(
+            Modifier.clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null
+            ) { selected = GameType.COLLECTIVE }) {
+            RadioButton(
+                selected = selected == GameType.COLLECTIVE,
+                onClick = { selected = GameType.COLLECTIVE })
+            Text(text = GameType.COLLECTIVE.title, modifier = Modifier.padding(start = 10.dp), fontSize = 18.sp)
+        }
+        Text(
+            text = stringResource(R.string.accept),
+            color = MaterialTheme.colors.onSurface,
+            fontSize = 24.sp,
+            modifier = Modifier
+                .padding(top = 18.dp)
+                .align(Alignment.End)
+                .clickable(onClick = { dismiss(selected) }),
+        )
     }
 }
 

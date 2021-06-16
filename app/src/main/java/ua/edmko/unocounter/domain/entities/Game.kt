@@ -58,7 +58,7 @@ data class GameSettings(
     }
 }
 
-enum class GameType { CLASSIC, COLLECTIVE }
+enum class GameType(val title : String) { CLASSIC("Classic"), COLLECTIVE("Collective") }
 
 @Entity(primaryKeys = ["playerId", "gameSettingsId"])
 data class GameCrossRef(
