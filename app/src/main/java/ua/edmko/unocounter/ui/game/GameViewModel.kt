@@ -6,7 +6,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ua.edmko.unocounter.base.BaseViewModel
-import ua.edmko.unocounter.domain.entities.*
+import ua.edmko.unocounter.domain.entities.Player
+import ua.edmko.unocounter.domain.entities.Round
 import ua.edmko.unocounter.domain.interactor.AddRoundToGame
 import ua.edmko.unocounter.domain.interactor.ObserveGame
 import ua.edmko.unocounter.navigation.NavigationDirections
@@ -48,8 +49,17 @@ class GameViewModel @Inject constructor(
             is NavigateBack -> viewModelScope.launch { navigateTo(NavigationDirections.back) }
             is NextRound -> nextRound()
             is EndGame -> endGame(viewEvent.winnerName)
-            is SetWinner -> viewState = viewState.copy(winner = viewEvent.player)
+            is SetWinner -> setWinner(viewEvent.player.playerId)
         }
+    }
+
+    private fun setWinner(playerId: Long) {
+        val result = viewState.currentRound.result.apply {
+            this[playerId] = 0
+        }
+        val round = viewState.currentRound.copy(winner = playerId, result = result)
+
+        viewState = viewState.copy(currentRound = round)
     }
 
     private fun endGame(playerName: String) {

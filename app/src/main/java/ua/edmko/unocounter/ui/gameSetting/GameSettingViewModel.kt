@@ -48,7 +48,7 @@ class GameSettingViewModel @Inject constructor(
 
     private fun startGame() {
         viewModelScope.launch {
-            val settings = GameSettings(type = GameType.CLASSIC, goal = viewState.goal)
+            val settings = GameSettings(type = viewState.gameType, goal = viewState.goal)
             createGame.executeSync(CreateGame.Params(settings))
             navigateTo(NavigationDirections.game(settings.gameSettingsId))
         }

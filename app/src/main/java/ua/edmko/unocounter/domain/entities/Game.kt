@@ -18,6 +18,28 @@ data class Game(
 ) {
 
     fun calculatePlayersTotal(): Map<Player, Int> {
+        val total = when (gameSettings.type) {
+            GameType.CLASSIC -> calculateClassicTotal()
+            GameType.COLLECTIVE -> calculateCollectiveTotal()
+        }
+        return total.toMap()
+    }
+
+    private fun calculateCollectiveTotal(): Map<Player, Int> {
+        val total: MutableMap<Player, Int> = mutableMapOf()
+        players.forEach { player ->
+                var playersTotal = 0
+                rounds.forEach { round ->
+                    if (player.playerId == round.winner) {
+                        round.result.forEach { (_, v) -> playersTotal +=v}
+                    }
+                }
+                total[player] = playersTotal
+            }
+        return total
+    }
+
+    private fun calculateClassicTotal(): Map<Player, Int> {
         val total: MutableMap<Player, Int> = mutableMapOf()
         players.forEach { player ->
             var playersTotal = 0
@@ -26,11 +48,12 @@ data class Game(
             }
             total[player] = playersTotal
         }
-        return total.toMap()
+        return total
     }
 
-    fun getLeader(): Pair<Player, Int>{
-        return calculatePlayersTotal().maxByOrNull {it.value}?.toPair()?: throw noPlayersFoundException
+    fun getLeader(): Pair<Player, Int> {
+        return calculatePlayersTotal().maxByOrNull { it.value }?.toPair()
+            ?: throw noPlayersFoundException
     }
 
     companion object {
@@ -58,7 +81,7 @@ data class GameSettings(
     }
 }
 
-enum class GameType(val title : String) { CLASSIC("Classic"), COLLECTIVE("Collective") }
+enum class GameType(val title: String) { CLASSIC("Classic"), COLLECTIVE("Collective") }
 
 @Entity(primaryKeys = ["playerId", "gameSettingsId"])
 data class GameCrossRef(

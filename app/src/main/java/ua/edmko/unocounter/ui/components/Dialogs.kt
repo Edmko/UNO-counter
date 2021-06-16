@@ -174,14 +174,6 @@ fun OptionsDialog(
     }
 }
 
-@Preview
-@Composable
-fun ConfirmationDialogPreview() {
-    UNOcounterTheme() {
-        ConfirmationDialog(title = "Delete player", dismiss = {}) {}
-    }
-}
-
 @Composable
 fun GameEditText(
     modifier: Modifier = Modifier,

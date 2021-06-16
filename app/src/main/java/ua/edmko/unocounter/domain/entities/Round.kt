@@ -7,7 +7,6 @@ import androidx.room.TypeConverters
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.util.*
-import javax.inject.Inject
 
 typealias Score = Int
 typealias PlayerId = Long
@@ -18,9 +17,10 @@ data class Round(
     val gameRoundId: String,
     val roundNum: Int = 1,
     @TypeConverters(RoundsConverter::class)
-    val result: MutableMap<PlayerId, Score> = mutableMapOf()
-){
-    companion object{
+    val result: MutableMap<PlayerId, Score> = mutableMapOf(),
+    val winner: PlayerId? = null
+) {
+    companion object {
         fun getRoundStub() = Round(gameRoundId = UUID.randomUUID().toString())
     }
 }

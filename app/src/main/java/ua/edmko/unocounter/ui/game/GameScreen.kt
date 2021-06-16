@@ -22,6 +22,7 @@ import com.google.accompanist.insets.statusBarsPadding
 import ua.edmko.unocounter.R
 import ua.edmko.unocounter.domain.entities.Game
 import ua.edmko.unocounter.domain.entities.Player
+import ua.edmko.unocounter.domain.entities.PlayerId
 import ua.edmko.unocounter.domain.entities.Round
 import ua.edmko.unocounter.domain.entities.Round.Companion.getRoundStub
 import ua.edmko.unocounter.ui.components.EditDialog
@@ -76,7 +77,7 @@ fun GameScreen(state: GameViewState?, event: (GameEvent) -> Unit) {
                 state.game.calculatePlayersTotal(),
                 currentRound = state.currentRound,
                 onClick = { event(EditScore(it)) },
-                winner = state.winner,
+                winner = state.currentRound.winner,
                 selectWinner = { event(SetWinner(it)) })
         }
 
@@ -115,14 +116,16 @@ fun PlayersList(
     playersTotal: Map<Player, Int>,
     currentRound: Round?,
     onClick: (Player) -> Unit,
-    winner: Player? = null,
+    winner: PlayerId? = null,
     selectWinner: (Player) -> Unit
 ) {
     var roundWinner by remember { mutableStateOf(winner) }
     LazyColumn() {
         itemsIndexed(playersTotal.toList()) { index, (player, total) ->
             PlayerItem(
-                modifier = Modifier.clickable { onClick.invoke(player) },
+                modifier = Modifier.clickable(enabled = winner != player.playerId) {
+                    onClick.invoke(player)
+                },
                 name = player.name,
                 color = getColorByIndex(index)
             ) {
@@ -137,10 +140,13 @@ fun PlayersList(
                     text = currentRound?.result?.getOrDefault(player.playerId, 0)
                         .toString()
                 )
-                RadioButton(selected = player == roundWinner, onClick = {
-                    roundWinner = player
-                    selectWinner(player)
-                })
+                RadioButton(
+                    modifier = Modifier.fillMaxHeight(),
+                    selected = player.playerId == roundWinner,
+                    onClick = {
+                        roundWinner = player.playerId
+                        selectWinner(player)
+                    })
             }
 
         }

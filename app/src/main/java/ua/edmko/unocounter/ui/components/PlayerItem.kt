@@ -20,13 +20,13 @@ import ua.edmko.unocounter.ui.theme.UNOcounterTheme
  */
 @Composable
 fun PlayerItem(modifier: Modifier = Modifier, name: String, color: Color, statistics: @Composable () -> Unit = {}) {
-    Row(verticalAlignment = Alignment.CenterVertically, modifier = modifier.fillMaxWidth()) {
+    Row(verticalAlignment = Alignment.CenterVertically, modifier = modifier.fillMaxWidth().height(60.dp)) {
         Icon(
             Icons.Rounded.Person,
             contentDescription = null,
             modifier = Modifier
                 .padding(0.dp, 5.dp, 10.dp, 5.dp)
-                .size(40.dp)
+                .fillMaxHeight()
                 .fillMaxWidth(0.1f),
             tint = color
         )
@@ -34,7 +34,7 @@ fun PlayerItem(modifier: Modifier = Modifier, name: String, color: Color, statis
             text = name,
             style = MaterialTheme.typography.body1,
             color = color,
-            modifier = Modifier.fillMaxWidth(0.4f)
+            modifier = Modifier.fillMaxWidth(0.4f).align(Alignment.CenterVertically)
         )
         statistics()
     }
