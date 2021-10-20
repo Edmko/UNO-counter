@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -19,13 +19,16 @@ import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.insets.ProvideWindowInsets
 import dagger.hilt.android.AndroidEntryPoint
-import ua.edmko.unocounter.navigation.NavigationDirections
-import ua.edmko.unocounter.navigation.NavigationManager
+import kotlinx.coroutines.flow.onEach
+import ua.edmko.navigation.NavigationDirections
+import ua.edmko.navigation.NavigationManager
+import ua.edmko.unocounter.navigation.NavigationComponent
 import ua.edmko.unocounter.ui.components.EndGameScreen
 import ua.edmko.unocounter.ui.game.GameScreen
 import ua.edmko.unocounter.ui.gameSetting.GameSettingScreen
@@ -38,13 +41,11 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-
-    @Inject
-    lateinit var navigationManager: NavigationManager
     override fun onDestroy() {
         Log.d(LIFECYCLE, "OnDestroy")
         super.onDestroy()
     }
+
 
     @ExperimentalMaterialApi
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,52 +53,15 @@ class MainActivity : AppCompatActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
-            val navController = rememberNavController()
+            NavigationComponent(
+                navController = rememberNavController(),
+                navigationManager = NavigationManager()
+            )
             ProvideWindowInsets {
                 UNOcounterTheme {
-                    navigationManager.commands.collectAsState(null).value?.also { command ->
-                        Log.d(
-                            NAVIGATION,
-                            "destination = ${command.destination} isBack = ${command == NavigationDirections.back}"
-                        )
-                        if (command.destination == NavigationDirections.back.destination) {
-                            navController.navigateUp()
-                        } else {
-                            navController.navigate(command.destination, command.builder)
-                        }
-                    }
                     val viewModel: MainViewModel = viewModel()
                     Box(modifier = Modifier.fillMaxSize()) {
-                        NavHost(
-                            navController = navController,
-                            startDestination = NavigationDirections.splash.destination
-                        ) {
-                            composable(NavigationDirections.splash.destination) {
-                                SplashScreen()
-                            }
-                            composable(NavigationDirections.gameSetting.destination) {
-                                GameSettingScreen(hiltViewModel())
-                            }
-                            composable(NavigationDirections.players.destination) {
-                                PlayersScreen(hiltViewModel())
-                            }
-                            composable(NavigationDirections.gameDestination) {
-                                GameScreen(
-                                    hiltViewModel(),
-                                    it.arguments?.getString(NavigationDirections.GAME_ID)
-                                        ?: throw IllegalArgumentException("Game id must not be null")
-                                )
-                            }
-                            composable(NavigationDirections.gameEndDestination) {
-                                EndGameScreen(
-                                    hiltViewModel(),
-                                    it.arguments?.getString(NavigationDirections.PLAYER_NAME) ?: ""
-                                )
-                            }
-                            composable(NavigationDirections.lobby.destination) {
-                                GameSettingScreen(hiltViewModel())
-                            }
-                        }
+
                     }
                 }
             }

@@ -36,7 +36,7 @@ import ua.edmko.unocounter.ui.components.Toolbar
 import ua.edmko.unocounter.ui.theme.UNOcounterTheme
 import ua.edmko.unocounter.ui.theme.baseDp
 
-@ExperimentalMaterialApi
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun PlayersScreen(viewModel: PlayersViewModel) {
     val state by viewModel.viewStates().collectAsState()

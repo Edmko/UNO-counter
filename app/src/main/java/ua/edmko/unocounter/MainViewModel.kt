@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import ua.edmko.unocounter.navigation.NavigationDirections
-import ua.edmko.unocounter.navigation.NavigationManager
+import ua.edmko.navigation.NavigationDirections
+import ua.edmko.navigation.NavigationManager
 import javax.inject.Inject
 
 @HiltViewModel

@@ -4,16 +4,15 @@ plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("kapt")
-    id("dagger.hilt.android.plugin")
 }
 
 android {
-    compileSdk = 30
+    compileSdk = 31
 
     defaultConfig {
         applicationId = "ua.edmko.unocounter"
         minSdk = 24
-        targetSdk = 30
+        targetSdk = 31
         versionCode = 1
         versionName = "1.0"
     }
@@ -27,13 +26,6 @@ android {
             )
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
     buildFeatures {
         compose = true
     }
@@ -43,13 +35,17 @@ android {
 }
 
 dependencies {
+    implementation(project(":navigation"))
+    implementation(project(":data"))
+    implementation(project(":domain"))
 
     implementation(AndroidLibraries.core)
     implementation(AndroidLibraries.appCompat)
     implementation(AndroidLibraries.materialCore)
 
-    implementation(LifecycleLibraries.viewModel)
+    implementation(LifecycleLibraries.vmKtx)
     implementation(LifecycleLibraries.runtime)
+    implementation(LifecycleLibraries.vmCompose)
     implementation(gson)
     implementation(ComposeLibraries.accompanist)
     implementation(ComposeLibraries.ui)
@@ -57,10 +53,9 @@ dependencies {
     implementation(ComposeLibraries.foundation)
     implementation(ComposeLibraries.foundationLayout)
     implementation(ComposeLibraries.material)
-    implementation(ComposeLibraries.materialIconsCore)
-    implementation(ComposeLibraries.materialIconsExtended)
+    implementation(ComposeLibraries.iconsCore)
+    implementation(ComposeLibraries.iconExtended)
     implementation(ComposeLibraries.activity)
-    implementation(ComposeLibraries.lifecycleViewModel)
     implementation(ComposeLibraries.constraint)
 
     kapt(HiltDependencies.kaptHilt)

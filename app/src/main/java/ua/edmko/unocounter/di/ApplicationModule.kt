@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ua.edmko.unocounter.navigation.NavigationManager
+import ua.edmko.navigation.NavigationManager
 import javax.inject.Singleton
 
 @Module

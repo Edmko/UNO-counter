@@ -10,8 +10,8 @@ import ua.edmko.unocounter.domain.entities.Player
 import ua.edmko.unocounter.domain.entities.Round
 import ua.edmko.unocounter.domain.interactor.AddRoundToGame
 import ua.edmko.unocounter.domain.interactor.ObserveGame
-import ua.edmko.unocounter.navigation.NavigationDirections
-import ua.edmko.unocounter.navigation.NavigationManager
+import ua.edmko.navigation.NavigationDirections
+import ua.edmko.navigation.NavigationManager
 import javax.inject.Inject
 
 @HiltViewModel

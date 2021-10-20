@@ -9,8 +9,8 @@ import ua.edmko.unocounter.domain.entities.GameSettings
 import ua.edmko.unocounter.domain.entities.GameType
 import ua.edmko.unocounter.domain.interactor.CreateGame
 import ua.edmko.unocounter.domain.interactor.ObserveSelectedPlayers
-import ua.edmko.unocounter.navigation.NavigationDirections
-import ua.edmko.unocounter.navigation.NavigationManager
+import ua.edmko.navigation.NavigationDirections
+import ua.edmko.navigation.NavigationManager
 import javax.inject.Inject
 
 @HiltViewModel

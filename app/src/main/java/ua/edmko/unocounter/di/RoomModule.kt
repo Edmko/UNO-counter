@@ -1,14 +1,13 @@
 package ua.edmko.unocounter.di
 
 import android.content.Context
-import android.os.Debug
 import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import ua.edmko.unocounter.data.local.AppDatabase
+import ua.edmko.data.local.AppDatabase
 import ua.edmko.unocounter.data.local.GameDao
 import ua.edmko.unocounter.data.local.PlayersDao
 import javax.inject.Singleton

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">UNOcounter</string>
+    <string name="app_name">UnoCounter</string>
     <string name="goal">Goal</string>
     <string name="type">Type</string>
     <string name="players">Players</string>

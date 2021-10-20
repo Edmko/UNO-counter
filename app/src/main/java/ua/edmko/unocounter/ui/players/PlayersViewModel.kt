@@ -10,8 +10,8 @@ import ua.edmko.unocounter.domain.interactor.AddPlayer
 import ua.edmko.unocounter.domain.interactor.DeletePlayer
 import ua.edmko.unocounter.domain.interactor.ObservePlayers
 import ua.edmko.unocounter.domain.interactor.UpdatePlayer
-import ua.edmko.unocounter.navigation.NavigationDirections
-import ua.edmko.unocounter.navigation.NavigationManager
+import ua.edmko.navigation.NavigationDirections
+import ua.edmko.navigation.NavigationManager
 import javax.inject.Inject
 
 @HiltViewModel

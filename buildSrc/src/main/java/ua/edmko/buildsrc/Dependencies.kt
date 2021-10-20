@@ -2,14 +2,21 @@ package ua.edmko.buildsrc
 
 object AndroidSdk {
     const val min = 24
-    const val compile = 30
+    const val compile = 31
+}
+
+object Classpath {
+    const val gradle = "com.android.tools.build:gradle:7.0.3"
+    const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31"
+    const val hilt = "com.google.dagger:hilt-android-gradle-plugin:2.36"
+    const val ktlint = "org.jlleitschuh.gradle:ktlint-gradle:10.1.0"
 }
 
 object AndroidLibraries {
     object Versions {
-        const val core = "1.3.2"
-        const val appCompat = "1.2.0"
-        const val materialCore = "1.3.0"
+        const val core = "1.6.0"
+        const val appCompat = "1.3.1"
+        const val materialCore = "1.4.0"
     }
 
     const val core = "androidx.core:core-ktx:${Versions.core}"
@@ -38,10 +45,10 @@ const val gson = "com.google.code.gson:gson:2.8.7"
 
 object ComposeLibraries {
     object Versions {
-        const val compose = "1.0.0-beta08"
-        const val activityCompose = "1.3.0-beta01"
-        const val viewModelCompose = "1.0.0-alpha06"
-        const val accompanist ="0.11.1"
+        const val compose = "1.1.0-alpha03"
+        const val activityCompose = "1.4.0-alpha02"
+        const val accompanist = "0.18.0"
+        const val constraint = "1.0.0-beta02"
     }
 
     const val accompanist = "com.google.accompanist:accompanist-insets:${Versions.accompanist}"
@@ -51,26 +58,26 @@ object ComposeLibraries {
     const val foundationLayout = "androidx.compose.foundation:foundation-layout:${Versions.compose}"
     const val material = "androidx.compose.material:material:${Versions.compose}"
     const val activity = "androidx.activity:activity-compose:${Versions.activityCompose}"
-    const val lifecycleViewModel =
-        "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.viewModelCompose}"
-    const val materialIconsCore =
-        "androidx.compose.material:material-icons-core:${Versions.compose}"
-    const val materialIconsExtended =
-        "androidx.compose.material:material-icons-extended:${Versions.compose}"
-    const val constraint = "androidx.constraintlayout:constraintlayout-compose:1.0.0-alpha06"
+    const val iconsCore = "androidx.compose.material:material-icons-core:${Versions.compose}"
+    const val iconExtended = "androidx.compose.material:material-icons-extended:${Versions.compose}"
+    const val constraint =
+        "androidx.constraintlayout:constraintlayout-compose:${Versions.constraint}"
 }
 
 object LifecycleLibraries {
     object Versions {
-        const val lifecycle = "2.3.1"
+        const val lifecycle = "2.4.0-beta01"
+        const val compose = "2.4.0-beta01"
     }
-    const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
+
+    const val vmCompose = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.lifecycle}"
+    const val vmKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
     const val runtime = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycle}"
 }
 
 object Navigation {
     object Versions {
-        const val compose = "2.4.0-alpha02"
+        const val compose = "2.4.0-alpha10"
     }
 
     const val compose = "androidx.navigation:navigation-compose:${Versions.compose}"
@@ -86,9 +93,10 @@ object Coroutines {
 }
 
 object Database {
-    object Version{
+    object Version {
         const val room = "2.3.0"
     }
+
     const val runtime = "androidx.room:room-runtime:${Version.room}"
     const val compiler = "androidx.room:room-compiler:${Version.room}"
     const val extensions = "androidx.room:room-ktx:${Version.room}"

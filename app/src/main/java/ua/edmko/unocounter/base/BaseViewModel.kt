@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import ua.edmko.unocounter.navigation.NavigationCommand
-import ua.edmko.unocounter.navigation.NavigationManager
+import ua.edmko.navigation.NavigationCommand
+import ua.edmko.navigation.NavigationManager
 import ua.edmko.unocounter.utils.LIFECYCLE
 
 abstract class BaseViewModel<S : ViewState, E : Event>(private val navigationManager: NavigationManager) :
