@@ -13,17 +13,13 @@ typealias PlayerId = Long
 
 @Entity
 data class RoundLocal(
-    @PrimaryKey(autoGenerate = true) val roundId: Long = 0L,
+    @PrimaryKey val roundId: String,
     val gameRoundId: String,
     val roundNum: Int = 1,
     @TypeConverters(RoundsConverter::class)
     val result: MutableMap<PlayerId, Score> = mutableMapOf(),
     val winner: PlayerId? = null
-): DaoModel() {
-    companion object {
-        fun getRoundStub() = RoundLocal(gameRoundId = UUID.randomUUID().toString())
-    }
-}
+): DaoModel()
 
 class RoundsConverter {
 

@@ -8,8 +8,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ua.edmko.data.local.AppDatabase
-import ua.edmko.unocounter.data.local.GameDao
-import ua.edmko.unocounter.data.local.PlayersDao
+import ua.edmko.data.local.GameDao
+import ua.edmko.data.local.PlayersDao
 import javax.inject.Singleton
 
 @Module

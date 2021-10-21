@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Players</string>
+    <string name="insert_name">Insert name</string>
+    <string name="are_delete_player">Are your sure you want to delete player?</string>
+</resources>

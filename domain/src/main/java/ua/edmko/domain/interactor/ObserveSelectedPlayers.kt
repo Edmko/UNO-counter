@@ -1,9 +1,8 @@
-package ua.edmko.unocounter.domain.interactor
+package ua.edmko.domain.interactor
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import ua.edmko.domain.entities.Player
-import ua.edmko.domain.interactor.SubjectInteractor
 import ua.edmko.domain.repository.PlayersRepository
 import javax.inject.Inject
 

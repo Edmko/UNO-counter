@@ -2,6 +2,7 @@ package ua.edmko.domain.entities
 
 import ua.edmko.domain.entities.GameSettings.Companion.getGameSettingsStub
 import ua.edmko.domain.entities.Player.Companion.getPlayersStub
+import java.util.*
 
 data class Game(
     val gameSettings: GameSettings,
@@ -9,7 +10,7 @@ data class Game(
     val rounds: List<Round>,
 ): Entity {
 
-    private fun calculatePlayersTotal(): Map<Player, Int> {
+    fun calculatePlayersTotal(): Map<Player, Int> {
         val total = when (gameSettings.type) {
             GameType.CLASSIC -> calculateClassicTotal()
             GameType.COLLECTIVE -> calculateCollectiveTotal()
@@ -67,11 +68,11 @@ data class Game(
 data class GameSettings(
     val type: GameType,
     val goal: Int,
-    val gameSettingsId: String
+    val id: String = UUID.randomUUID().toString()
 ): Entity {
     companion object {
         fun getGameSettingsStub() =
-            GameSettings(gameSettingsId = "", type = GameType.CLASSIC, goal = 500)
+            GameSettings(id = "", type = GameType.CLASSIC, goal = 500)
     }
 }
 

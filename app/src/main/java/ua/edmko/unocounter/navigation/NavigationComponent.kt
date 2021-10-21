@@ -1,41 +1,44 @@
 package ua.edmko.unocounter.navigation
 
 import android.util.Log
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navigation
+import com.edmko.setup.GameSettingScreen
 import kotlinx.coroutines.flow.onEach
+import ua.edmko.endgame.EndGameScreen
+import ua.edmko.game.GameScreen
 import ua.edmko.navigation.NavigationDirections
 import ua.edmko.navigation.NavigationManager
+import ua.edmko.players.PlayersScreen
 import ua.edmko.unocounter.SplashScreen
-import ua.edmko.unocounter.ui.components.EndGameScreen
-import ua.edmko.unocounter.ui.game.GameScreen
-import ua.edmko.unocounter.ui.gameSetting.GameSettingScreen
-import ua.edmko.unocounter.ui.players.PlayersScreen
-import ua.edmko.unocounter.utils.NAVIGATION
 
+const val TAG = "NAVIGATION"
+
+@ExperimentalMaterialApi
 @Composable
 fun NavigationComponent(
     navController: NavHostController,
     navigationManager: NavigationManager
 ) {
-    LaunchedEffect("navigation") {
-        navigationManager.commands.onEach {
-            it?.let { command ->
-                Log.d(
-                    NAVIGATION,
-                    "destination = ${command.destination} " +
-                            "isBack = ${command == NavigationDirections.back}"
-                )
-                if (command.destination == NavigationDirections.back.destination) {
-                    navController.navigateUp()
-                } else {
-                    navController.navigate(command.destination, command.builder)
-                }
+    val manager by navigationManager.commands.collectAsState(null)
+    manager.let {
+        it?.let { command ->
+            Log.d(
+                TAG,
+                "destination = ${command.destination} " +
+                        "isBack = ${command == NavigationDirections.back}"
+            )
+            if (command.destination == NavigationDirections.back.destination) {
+                navController.navigateUp()
+            } else {
+                navController.navigate(command.destination, command.builder)
             }
         }
     }

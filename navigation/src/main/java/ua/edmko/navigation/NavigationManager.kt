@@ -1,17 +1,27 @@
 package ua.edmko.navigation
 
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
+import android.util.Log
+import kotlinx.coroutines.flow.*
+import javax.inject.Inject
 
-class NavigationManager {
-    private val _commands: MutableSharedFlow<NavigationCommand?> = MutableSharedFlow()
-    val commands = _commands.asSharedFlow()
+interface NavigationManager {
+    val commands: StateFlow<NavigationCommand?>
+    fun navigate(directions: NavigationCommand)
+    fun back()
+}
 
-    fun navigate(directions: NavigationCommand) {
+class NavigationManagerImpl @Inject constructor() : NavigationManager {
+    init {
+        Log.d("manager","init manager")
+    }
+    private val _commands: MutableStateFlow<NavigationCommand?> = MutableStateFlow(null)
+    override val commands = _commands.asStateFlow()
+
+    override fun navigate(directions: NavigationCommand) {
         _commands.tryEmit(directions)
     }
 
-   fun back() {
+    override fun back() {
         _commands.tryEmit(NavigationDirections.back)
     }
 

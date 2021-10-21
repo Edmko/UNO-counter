@@ -3,6 +3,7 @@ package ua.edmko.data.repository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import ua.edmko.data.local.PlayersDao
+import ua.edmko.data.local.entities.PlayerLocal
 import ua.edmko.data.mappers.PlayerMapper
 import ua.edmko.domain.entities.Player
 import ua.edmko.domain.repository.PlayersRepository
@@ -13,8 +14,8 @@ class PlayersRepositoryImpl @Inject constructor(
     private val playerMapper: PlayerMapper
 ) : PlayersRepository {
 
-    override suspend fun createPlayer(player: Player) {
-        dao.insertPlayer(playerMapper.map(player))
+    override suspend fun createPlayer(name: String) {
+        dao.insertPlayer(PlayerLocal(name = name))
     }
 
     override suspend fun removePlayer(id: Long) {

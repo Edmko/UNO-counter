@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Game</string>
+    <string name="next_round">Next round</string>
+    <string name="total">Total</string>
+    <string name="round">Round</string>
+    <string name="winner">Winner</string>
+    <string name="score_for_player">Score for player</string>
+</resources>

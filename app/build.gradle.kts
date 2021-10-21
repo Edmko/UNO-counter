@@ -4,6 +4,7 @@ plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -26,6 +27,9 @@ android {
             )
         }
     }
+    compileOptions {
+        isCoreLibraryDesugaringEnabled = true
+    }
     buildFeatures {
         compose = true
     }
@@ -38,6 +42,11 @@ dependencies {
     implementation(project(":navigation"))
     implementation(project(":data"))
     implementation(project(":domain"))
+    implementation(project(":core"))
+    implementation(project(":features:endgame"))
+    implementation(project(":features:game"))
+    implementation(project(":features:players"))
+    implementation(project(":features:setup"))
 
     implementation(AndroidLibraries.core)
     implementation(AndroidLibraries.appCompat)
@@ -72,4 +81,6 @@ dependencies {
 
     implementation(Coroutines.android)
     implementation(Coroutines.core)
+
+    coreLibraryDesugaring(desugarJdk)
 }

@@ -4,9 +4,9 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ua.edmko.unocounter.domain.interactor.*
-import ua.edmko.unocounter.domain.repository.GameRepository
-import ua.edmko.unocounter.domain.repository.PlayersRepository
+import ua.edmko.domain.interactor.*
+import ua.edmko.domain.repository.GameRepository
+import ua.edmko.domain.repository.PlayersRepository
 import javax.inject.Singleton
 
 @Module(includes = [RepositoryModule::class])

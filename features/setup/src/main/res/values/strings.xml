@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Setup</string>
+    <string name="insert_goal">Insert goal</string>
+    <string name="choose_type">Choose type</string>
+    <string name="goal">Goal</string>
+    <string name="type">Type</string>
+    <string name="players">Здфнукы</string>
+    <string name="start_game">Start game</string>
+</resources>

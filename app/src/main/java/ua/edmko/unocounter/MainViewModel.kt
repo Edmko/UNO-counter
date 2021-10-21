@@ -10,11 +10,12 @@ import ua.edmko.navigation.NavigationManager
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(private val navigationManager: NavigationManager): ViewModel(){
-init{
-    viewModelScope.launch {
-        delay(1000L)
-        navigationManager.navigate(NavigationDirections.gameSetting)
+class MainViewModel @Inject constructor(private val navigationManager: NavigationManager) :
+    ViewModel() {
+    init {
+        viewModelScope.launch {
+            delay(3000L)
+            navigationManager.navigate(NavigationDirections.gameSetting)
+        }
     }
-}
 }

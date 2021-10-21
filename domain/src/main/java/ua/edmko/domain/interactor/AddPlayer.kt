@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class AddPlayer @Inject constructor(private val playersRepository: PlayersRepository): Interactor<AddPlayer.Params>() {
     override suspend fun doWork(params: Params): Unit = withContext(Dispatchers.IO) {
-        playersRepository.createPlayer(params.player)
+        playersRepository.createPlayer(params.name)
     }
-    data class Params(val player : Player)
+    data class Params(val name: String)
 }

@@ -1,0 +1,64 @@
+package com.edmko.setup
+
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import ua.edmko.core.base.BaseViewModel
+import ua.edmko.domain.entities.GameSettings
+import ua.edmko.domain.entities.GameType
+import ua.edmko.domain.interactor.CreateGame
+import ua.edmko.domain.interactor.ObserveSelectedPlayers
+import ua.edmko.navigation.NavigationDirections
+import ua.edmko.navigation.NavigationManager
+import javax.inject.Inject
+
+@HiltViewModel
+class SetupViewModel @Inject constructor(
+    private val createGame: CreateGame,
+    private val observeSelectedPlayers: ObserveSelectedPlayers,
+    navigationManager: NavigationManager
+) :
+    BaseViewModel<SetupViewState, GameSettingEvent>(navigationManager) {
+
+    init {
+        viewState = SetupViewState()
+        viewModelScope.smartLaunch {
+            observeSelectedPlayers.createObservable(Unit).collect { players ->
+                viewState = viewState.copy(players = players)
+            }
+        }
+    }
+
+    override fun obtainEvent(viewEvent: GameSettingEvent) {
+        when (viewEvent) {
+            is ChangeGoal -> setGoal(viewEvent.goal)
+            is OnGoalClickEvent -> changeGoal()
+            is EditPlayers -> viewModelScope.launch { navigateTo(NavigationDirections.players) }
+            is DismissDialog -> viewState = viewState.copy(dialogShows = false)
+            is StartGame -> startGame()
+            is OnTypeClickEvent -> viewState = viewState.copy(typeDialogShows = true)
+            is SetGameType -> setGameType(viewEvent.gameType)
+        }
+    }
+
+    private fun setGameType(gameType: GameType) {
+        viewState = viewState.copy(typeDialogShows = false, gameType = gameType)
+    }
+
+    private fun startGame() {
+        viewModelScope.launch {
+            val settings = GameSettings(type = viewState.gameType, goal = viewState.goal)
+            createGame.executeSync(CreateGame.Params(settings))
+            navigateTo(NavigationDirections.game(settings.id))
+        }
+    }
+
+    private fun setGoal(goal: Int) {
+        viewState = viewState.copy(dialogShows = false, goal = goal)
+    }
+
+    private fun changeGoal() {
+        viewState = viewState.copy(dialogShows = true)
+    }
+}

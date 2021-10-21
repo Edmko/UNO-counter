@@ -9,10 +9,7 @@ plugins {
 android {
     compileSdk = 31
     defaultConfig {
-        minSdk = 23
-    }
-    compileOptions {
-        isCoreLibraryDesugaringEnabled = true
+        minSdk = 24
     }
 }
 

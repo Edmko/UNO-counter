@@ -6,6 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ua.edmko.navigation.NavigationManager
+import ua.edmko.navigation.NavigationManagerImpl
 import javax.inject.Singleton
 
 @Module
@@ -14,9 +15,6 @@ class ApplicationModule {
 
     @Singleton
     @Provides
-    fun provideNavigationManager() = NavigationManager()
-
-    @Singleton
-    @Provides
     fun provideGson() = Gson()
+
 }

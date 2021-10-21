@@ -2,8 +2,9 @@ package ua.edmko.data.mappers
 
 import ua.edmko.data.local.entities.RoundLocal
 import ua.edmko.domain.entities.Round
+import javax.inject.Inject
 
-class RoundMapper : DataMapper<RoundLocal, Round> {
+class RoundMapper @Inject constructor() : DataMapper<RoundLocal, Round> {
     override fun map(domain: Round): RoundLocal {
         return RoundLocal(
             domain.roundId,

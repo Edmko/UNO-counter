@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class GameSettingsMapper @Inject constructor() : DataMapper<GameSettingsLocal, GameSettings> {
     override fun map(domain: GameSettings): GameSettingsLocal {
-        return GameSettingsLocal(domain.type, domain.goal, domain.gameSettingsId)
+        return GameSettingsLocal(domain.type, domain.goal, domain.id)
     }
 
     override fun map(local: GameSettingsLocal): GameSettings {

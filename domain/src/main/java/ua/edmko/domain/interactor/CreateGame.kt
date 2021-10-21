@@ -15,7 +15,7 @@ class CreateGame @Inject constructor(
     data class Params(val settings: GameSettings)
 
     override suspend fun doWork(params: Params) = withContext(Dispatchers.IO) {
-        val gameId = params.settings.gameSettingsId
+        val gameId = params.settings.id
         gameRepository.createGame(params.settings)
         playersRepository.getSelectedPlayers().forEach {
             gameRepository.addPlayerToGame(it.playerId, gameId)

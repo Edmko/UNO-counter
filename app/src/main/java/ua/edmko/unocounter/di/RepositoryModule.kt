@@ -4,11 +4,10 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ua.edmko.unocounter.data.repository.GameRepositoryImpl
-import ua.edmko.unocounter.data.repository.PlayersRepositoryImpl
-import ua.edmko.unocounter.domain.entities.Game
-import ua.edmko.unocounter.domain.repository.GameRepository
-import ua.edmko.unocounter.domain.repository.PlayersRepository
+import ua.edmko.data.repository.GameRepositoryImpl
+import ua.edmko.data.repository.PlayersRepositoryImpl
+import ua.edmko.domain.repository.GameRepository
+import ua.edmko.domain.repository.PlayersRepository
 
 @Module
 @InstallIn(SingletonComponent::class)

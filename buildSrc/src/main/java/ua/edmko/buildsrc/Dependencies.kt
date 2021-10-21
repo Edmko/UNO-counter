@@ -6,7 +6,7 @@ object AndroidSdk {
 }
 
 object Classpath {
-    const val gradle = "com.android.tools.build:gradle:7.0.3"
+    const val gradle = "com.android.tools.build:gradle:7.0.2"
     const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31"
     const val hilt = "com.google.dagger:hilt-android-gradle-plugin:2.36"
     const val ktlint = "org.jlleitschuh.gradle:ktlint-gradle:10.1.0"
@@ -45,8 +45,8 @@ const val gson = "com.google.code.gson:gson:2.8.7"
 
 object ComposeLibraries {
     object Versions {
-        const val compose = "1.1.0-alpha03"
-        const val activityCompose = "1.4.0-alpha02"
+        const val compose = "1.1.0-alpha06"
+        const val activityCompose = "1.4.0-rc01"
         const val accompanist = "0.18.0"
         const val constraint = "1.0.0-beta02"
     }
@@ -101,3 +101,5 @@ object Database {
     const val compiler = "androidx.room:room-compiler:${Version.room}"
     const val extensions = "androidx.room:room-ktx:${Version.room}"
 }
+
+const val desugarJdk = "com.android.tools:desugar_jdk_libs:1.1.5"
