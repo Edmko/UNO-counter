@@ -31,9 +31,7 @@ import ua.edmko.domain.entities.Player.Companion.getPlayersStub
 @Composable
 fun GameSettingScreen(viewModel: SetupViewModel) {
     val state by viewModel.viewStates().collectAsState()
-    UnoCounterTheme {
         GameSettingContent(state, viewModel::obtainEvent)
-    }
 }
 
 @Composable

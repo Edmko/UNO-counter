@@ -3,7 +3,6 @@ package ua.edmko.unocounter.navigation
 import android.util.Log
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -11,13 +10,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.edmko.setup.GameSettingScreen
-import kotlinx.coroutines.flow.onEach
 import ua.edmko.endgame.EndGameScreen
 import ua.edmko.game.GameScreen
 import ua.edmko.navigation.NavigationDirections
 import ua.edmko.navigation.NavigationManager
 import ua.edmko.players.PlayersScreen
-import ua.edmko.unocounter.SplashScreen
 
 const val TAG = "NAVIGATION"
 
@@ -44,11 +41,8 @@ fun NavigationComponent(
     }
     NavHost(
         navController = navController,
-        startDestination = NavigationDirections.splash.destination
+        startDestination = NavigationDirections.gameSetting.destination
     ) {
-        composable(NavigationDirections.splash.destination) {
-            SplashScreen()
-        }
         composable(NavigationDirections.gameSetting.destination) {
             GameSettingScreen(hiltViewModel())
         }

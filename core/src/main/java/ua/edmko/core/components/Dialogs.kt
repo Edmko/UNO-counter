@@ -23,6 +23,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import ua.edmko.core.R
 import ua.edmko.core.theme.baseDp
 
@@ -126,7 +128,6 @@ fun ConfirmationDialog(
 }
 
 
-
 @Composable
 fun GameEditText(
     modifier: Modifier = Modifier,
@@ -135,7 +136,8 @@ fun GameEditText(
     onValueChanged: (String) -> Unit = {},
     onImeAction: () -> Unit
 ) {
-    val focusRequester = FocusRequester()
+    val focusRequester = remember { FocusRequester() }
+    val coroutine = rememberCoroutineScope()
     BasicTextField(
         modifier = modifier.focusRequester(focusRequester),
         value = value,
@@ -157,8 +159,11 @@ fun GameEditText(
         }
     }
 
-    DisposableEffect(Unit) {
-        focusRequester.requestFocus()
-        onDispose { }
+    SideEffect {
+        coroutine.launch {
+            delay(100L)
+            focusRequester.requestFocus()
+        }
+
     }
 }

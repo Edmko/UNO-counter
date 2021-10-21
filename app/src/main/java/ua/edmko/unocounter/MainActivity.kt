@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
@@ -32,8 +33,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen()
         WindowCompat.setDecorFitsSystemWindows(window, false)
-
         setContent {
 
             ProvideWindowInsets {
@@ -49,19 +50,5 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-    }
-}
-
-@Composable
-fun SplashScreen() {
-    Surface(modifier = Modifier.fillMaxSize()) {
-        Image(
-            painter = painterResource(R.drawable.ic_logo),
-            contentDescription = "logo",
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(20.dp),
-            contentScale = ContentScale.FillWidth,
-        )
     }
 }

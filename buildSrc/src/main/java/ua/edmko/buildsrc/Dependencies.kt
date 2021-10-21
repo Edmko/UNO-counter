@@ -17,8 +17,10 @@ object AndroidLibraries {
         const val core = "1.6.0"
         const val appCompat = "1.3.1"
         const val materialCore = "1.4.0"
+        const val splash = "1.0.0-alpha02"
     }
 
+    const val splash = "androidx.core:core-splashscreen:${Versions.splash}"
     const val core = "androidx.core:core-ktx:${Versions.core}"
     const val appCompat = "androidx.appcompat:appcompat:${Versions.appCompat}"
     const val materialCore = "com.google.android.material:material:${Versions.materialCore}"

@@ -6,18 +6,10 @@ import androidx.navigation.navArgument
 
 object NavigationDirections {
 
-    val splash = object : NavigationCommand {
-        override val argument = emptyList<NamedNavArgument>()
-        override val destination: String = "splash"
-        override val builder: NavOptionsBuilder.() -> Unit = {}
-    }
-
     val gameSetting = object : NavigationCommand {
         override val argument = emptyList<NamedNavArgument>()
         override val destination: String = "game setting"
-        override val builder: NavOptionsBuilder.() -> Unit = {
-            popUpTo(splash.destination) { inclusive = true }
-        }
+        override val builder: NavOptionsBuilder.() -> Unit = {}
     }
 
     val players = object : NavigationCommand {
@@ -47,9 +39,7 @@ object NavigationDirections {
     val lobby = object : NavigationCommand {
         override val argument: List<NamedNavArgument> = emptyList()
         override val destination: String = "lobby"
-        override val builder: NavOptionsBuilder.() -> Unit = {
-            popUpTo(splash.destination) { inclusive = true }
-        }
+        override val builder: NavOptionsBuilder.() -> Unit = {}
     }
     const val PLAYER_NAME = "PlayerName"
     const val gameEndDestination = "gameEnd/{$PLAYER_NAME}"

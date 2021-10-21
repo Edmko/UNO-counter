@@ -51,6 +51,7 @@ dependencies {
     implementation(AndroidLibraries.core)
     implementation(AndroidLibraries.appCompat)
     implementation(AndroidLibraries.materialCore)
+    implementation(AndroidLibraries.splash)
 
     implementation(LifecycleLibraries.vmKtx)
     implementation(LifecycleLibraries.runtime)

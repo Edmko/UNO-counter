@@ -119,7 +119,6 @@ fun PlayersList(
     winner: PlayerId? = null,
     selectWinner: (Player) -> Unit
 ) {
-    var roundWinner by remember { mutableStateOf(winner) }
     LazyColumn() {
         itemsIndexed(playersTotal.toList()) { index, (player, total) ->
             PlayerItem(
@@ -142,9 +141,8 @@ fun PlayersList(
                 )
                 RadioButton(
                     modifier = Modifier.fillMaxHeight(),
-                    selected = player.playerId == roundWinner,
+                    selected = player.playerId == winner,
                     onClick = {
-                        roundWinner = player.playerId
                         selectWinner(player)
                     })
             }

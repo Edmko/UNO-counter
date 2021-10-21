@@ -1,7 +1,8 @@
 package ua.edmko.navigation
 
-import android.util.Log
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 interface NavigationManager {
@@ -11,9 +12,7 @@ interface NavigationManager {
 }
 
 class NavigationManagerImpl @Inject constructor() : NavigationManager {
-    init {
-        Log.d("manager","init manager")
-    }
+
     private val _commands: MutableStateFlow<NavigationCommand?> = MutableStateFlow(null)
     override val commands = _commands.asStateFlow()
 
