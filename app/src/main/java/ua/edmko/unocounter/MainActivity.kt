@@ -23,6 +23,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import ua.edmko.core.theme.UnoCounterTheme
 import ua.edmko.navigation.NavigationManager
 import ua.edmko.unocounter.navigation.NavigationComponent
+import ua.edmko.unocounter.navigation.Navigator
 import javax.inject.Inject
 
 @ExperimentalMaterialApi
@@ -39,14 +40,12 @@ class MainActivity : AppCompatActivity() {
 
             ProvideWindowInsets {
                 UnoCounterTheme {
-                    val viewModel: MainViewModel = viewModel()
                     Box(modifier = Modifier.fillMaxSize()) {
                         NavigationComponent(
                             navController = rememberNavController(),
                             navigationManager = navigationManager
                         )
                     }
-                    viewModel.hashCode()
                 }
             }
         }

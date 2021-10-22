@@ -5,16 +5,14 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import ua.edmko.navigation.NavigationDirections
-import ua.edmko.navigation.NavigationManager
 import javax.inject.Inject
 
 @HiltViewModel
-class EndGameViewModel @Inject constructor(navigationManager: NavigationManager): ViewModel() {
+class EndGameViewModel @Inject constructor(endGameNavigator: EndGameNavigator) : ViewModel() {
     init {
         viewModelScope.launch {
             delay(2000L)
-            navigationManager.navigate(NavigationDirections.back )
+            endGameNavigator.back()
         }
     }
 }

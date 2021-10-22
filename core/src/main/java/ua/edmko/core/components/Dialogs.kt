@@ -86,7 +86,6 @@ fun EditDialog(
                 .clickable(onClick = { onClick(text) }),
         )
     }
-
 }
 
 @Composable
@@ -164,6 +163,5 @@ fun GameEditText(
             delay(100L)
             focusRequester.requestFocus()
         }
-
     }
 }

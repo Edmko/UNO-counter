@@ -10,17 +10,15 @@ import ua.edmko.domain.entities.Player
 import ua.edmko.domain.entities.Round
 import ua.edmko.domain.interactor.AddRoundToGame
 import ua.edmko.domain.interactor.ObserveGame
-import ua.edmko.navigation.NavigationDirections
-import ua.edmko.navigation.NavigationManager
 import javax.inject.Inject
 
 @HiltViewModel
 class GameViewModel @Inject constructor(
     private val getGame: ObserveGame,
     private val addRoundToGame: AddRoundToGame,
-    navigationManager: NavigationManager
+    private val gameNavigator: GameNavigator
 ) :
-    BaseViewModel<GameViewState, GameEvent>(navigationManager) {
+    BaseViewModel<GameViewState, GameEvent>() {
 
     init {
         viewState = GameViewState()
@@ -47,7 +45,7 @@ class GameViewModel @Inject constructor(
             is ConfirmEdition -> confirmEdition(viewEvent.score)
             is DismissDialog -> viewState = viewState.copy(isDialogShows = false)
             is EditScore -> editScore(viewEvent.player)
-            is NavigateBack -> viewModelScope.launch { navigateTo(NavigationDirections.back) }
+            is NavigateBack -> viewModelScope.launch { gameNavigator.back() }
             is NextRound -> nextRound()
             is EndGame -> endGame(viewEvent.winnerName)
             is SetWinner -> setWinner(viewEvent.player.playerId)
@@ -65,7 +63,7 @@ class GameViewModel @Inject constructor(
 
     private fun endGame(playerName: String) {
         Log.d("end game", playerName)
-        viewModelScope.launch { navigateTo(NavigationDirections.gameEnd(playerName)) }
+        viewModelScope.launch { gameNavigator.toEnd(playerName) }
     }
 
     private fun nextRound() {

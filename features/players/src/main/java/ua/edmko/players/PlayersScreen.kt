@@ -27,66 +27,64 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.insets.statusBarsPadding
+import ua.edmko.core.components.ConfirmationDialog
+import ua.edmko.core.components.EditDialog
 import ua.edmko.core.components.Toolbar
 import ua.edmko.core.theme.UnoCounterTheme
 import ua.edmko.core.theme.baseDp
 import ua.edmko.domain.entities.Player
 import ua.edmko.domain.entities.Player.Companion.getPlayersStub
 import ua.edmko.players.*
-import ua.edmko.core.components.ConfirmationDialog
-import ua.edmko.core.components.EditDialog
 
 @ExperimentalMaterialApi
 @Composable
 fun PlayersScreen(viewModel: PlayersViewModel) {
     val state by viewModel.viewStates().collectAsState()
-    UnoCounterTheme {
-        Scaffold(
-            topBar = { Toolbar(title = "Players") { viewModel.obtainEvent(NavigateBack) } },
-            modifier = Modifier
+    Scaffold(
+        topBar = { Toolbar(title = "Players") { viewModel.obtainEvent(NavigateBack) } },
+        modifier = Modifier
+            .fillMaxSize()
+            .statusBarsPadding()
+    ) { paddings ->
+        Box(
+            Modifier
+                .padding(paddings)
+                .background(Color.Black)
                 .fillMaxSize()
-                .statusBarsPadding()
-        ) { paddings ->
-            Box(
-                Modifier
-                    .padding(paddings)
-                    .background(Color.Black)
-                    .fillMaxSize()
 
-            ) {
-                if (state?.editDialogShows == true) EditDialog(
-                    title = stringResource(R.string.insert_name),
-                    onDismiss = { viewModel.obtainEvent(DismissDialog) },
-                    onClick = { text ->
-                        if (state?.selectedPlayer == null) {
-                            viewModel.obtainEvent(CreatePlayer(text))
-                        } else {
-                            viewModel.obtainEvent(ChangePlayersName(text))
-                        }
-                    })
-                if (state?.confirmationDialogShows == true) ConfirmationDialog(
-                    title = stringResource(R.string.are_delete_player),
-                    dismiss = { viewModel.obtainEvent(DismissDialog) },
-                    accept = {viewModel.obtainEvent(DeletePlayerEvent)}
-                )
-                state?.players?.let { players -> PLayersList(players, viewModel::obtainEvent) }
+        ) {
+            if (state?.editDialogShows == true) EditDialog(
+                title = stringResource(R.string.insert_name),
+                onDismiss = { viewModel.obtainEvent(DismissDialog) },
+                onClick = { text ->
+                    if (state?.selectedPlayer == null) {
+                        viewModel.obtainEvent(CreatePlayer(text))
+                    } else {
+                        viewModel.obtainEvent(ChangePlayersName(text))
+                    }
+                })
+            if (state?.confirmationDialogShows == true) ConfirmationDialog(
+                title = stringResource(R.string.are_delete_player),
+                dismiss = { viewModel.obtainEvent(DismissDialog) },
+                accept = { viewModel.obtainEvent(DeletePlayerEvent) }
+            )
+            state?.players?.let { players -> PLayersList(players, viewModel::obtainEvent) }
 
-                FloatingActionButton(
+            FloatingActionButton(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(bottom = 50.dp, end = baseDp),
+                backgroundColor = Color.Red,
+                onClick = { viewModel.obtainEvent(AddPlayerButton) }) {
+                Icon(
+                    Icons.Filled.Add,
+                    contentDescription = "Edit",
                     modifier = Modifier
-                        .align(Alignment.BottomEnd)
-                        .padding(bottom = 50.dp, end = baseDp),
-                    backgroundColor = Color.Red,
-                    onClick = { viewModel.obtainEvent(AddPlayerButton) }) {
-                    Icon(
-                        Icons.Filled.Add,
-                        contentDescription = "Edit",
-                        modifier = Modifier
-                            .size(30.dp)
-                            .align(Alignment.Center),
-                        tint = Color.Black
-                    )
+                        .size(30.dp)
+                        .align(Alignment.Center),
+                    tint = Color.Black
+                )
 
-                }
             }
         }
     }

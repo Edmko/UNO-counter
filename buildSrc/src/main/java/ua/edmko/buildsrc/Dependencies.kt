@@ -103,5 +103,5 @@ object Database {
     const val compiler = "androidx.room:room-compiler:${Version.room}"
     const val extensions = "androidx.room:room-ktx:${Version.room}"
 }
-
+const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2"
 const val desugarJdk = "com.android.tools:desugar_jdk_libs:1.1.5"

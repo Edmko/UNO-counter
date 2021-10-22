@@ -9,8 +9,6 @@ import ua.edmko.domain.entities.Player
 import ua.edmko.domain.interactor.AddPlayer
 import ua.edmko.domain.interactor.DeletePlayer
 import ua.edmko.domain.interactor.ObservePlayers
-import ua.edmko.navigation.NavigationDirections
-import ua.edmko.navigation.NavigationManager
 import ua.edmko.domain.interactor.UpdatePlayer
 import javax.inject.Inject
 
@@ -20,8 +18,8 @@ class PlayersViewModel @Inject constructor(
     private val addPlayer: AddPlayer,
     private val updatePlayer: UpdatePlayer,
     private val deletePlayer: DeletePlayer,
-    navigationManager: NavigationManager
-) : BaseViewModel<PlayersViewState, PlayersEvent>(navigationManager) {
+    val navigator: PlayersNavigator
+) : BaseViewModel<PlayersViewState, PlayersEvent>() {
 
     init {
         viewState = PlayersViewState()
@@ -67,7 +65,7 @@ class PlayersViewModel @Inject constructor(
 
     private fun navigateBack() {
         viewModelScope.launch {
-            navigateTo(NavigationDirections.back)
+            navigator.back()
         }
     }
 
@@ -84,8 +82,7 @@ class PlayersViewModel @Inject constructor(
 
     private fun deletePlayer() {
         viewModelScope.launch {
-            val player =
-                viewState.selectedPlayer?.playerId ?: throw Exception("Player must not be null")
+            val player = viewState.selectedPlayer?.playerId ?: throw Exception("Player must not be null")
             deletePlayer.executeSync(DeletePlayer.Params(player))
             viewState = viewState.copy(confirmationDialogShows = false, selectedPlayer = null)
         }

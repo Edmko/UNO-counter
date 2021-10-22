@@ -35,7 +35,6 @@ android {
 dependencies {
     implementation(project(":core"))
     implementation(project(":domain"))
-    implementation(project(":navigation"))
 
     implementation(AndroidLibraries.core)
     implementation(AndroidLibraries.appCompat)

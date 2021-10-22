@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import ua.edmko.navigation.NavigationCommand
 import ua.edmko.navigation.NavigationManager
 
-abstract class BaseViewModel<S : ViewState, E : Event>(private val navigationManager: NavigationManager) :
+abstract class BaseViewModel<S : ViewState, E : Event>() :
     ViewModel() {
 
     private val errorHandler = CoroutineExceptionHandler { _, throwable ->
@@ -41,8 +41,4 @@ abstract class BaseViewModel<S : ViewState, E : Event>(private val navigationMan
         }
 
     abstract fun obtainEvent(viewEvent: E)
-
-    protected fun navigateTo(destination: NavigationCommand) {
-        navigationManager.navigate(destination)
-    }
 }

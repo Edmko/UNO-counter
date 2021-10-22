@@ -32,7 +32,7 @@ android {
 dependencies {
     implementation(project(":core"))
     implementation(project(":domain"))
-    implementation(project(":navigation"))
+
     implementation(ua.edmko.buildsrc.AndroidLibraries.core)
     implementation(ua.edmko.buildsrc.AndroidLibraries.appCompat)
     implementation(ua.edmko.buildsrc.AndroidLibraries.materialCore)

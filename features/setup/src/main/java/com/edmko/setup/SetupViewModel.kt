@@ -1,6 +1,7 @@
 package com.edmko.setup
 
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -9,7 +10,6 @@ import ua.edmko.domain.entities.GameSettings
 import ua.edmko.domain.entities.GameType
 import ua.edmko.domain.interactor.CreateGame
 import ua.edmko.domain.interactor.ObserveSelectedPlayers
-import ua.edmko.navigation.NavigationDirections
 import ua.edmko.navigation.NavigationManager
 import javax.inject.Inject
 
@@ -17,9 +17,8 @@ import javax.inject.Inject
 class SetupViewModel @Inject constructor(
     private val createGame: CreateGame,
     private val observeSelectedPlayers: ObserveSelectedPlayers,
-    navigationManager: NavigationManager
-) :
-    BaseViewModel<SetupViewState, GameSettingEvent>(navigationManager) {
+    private val navigator: SetupNavigator
+) : BaseViewModel<SetupViewState, GameSettingEvent>(){
 
     init {
         viewState = SetupViewState()
@@ -34,7 +33,7 @@ class SetupViewModel @Inject constructor(
         when (viewEvent) {
             is ChangeGoal -> setGoal(viewEvent.goal)
             is OnGoalClickEvent -> changeGoal()
-            is EditPlayers -> viewModelScope.launch { navigateTo(NavigationDirections.players) }
+            is EditPlayers -> viewModelScope.launch { navigator.toPlayers() }
             is DismissDialog -> viewState = viewState.copy(dialogShows = false)
             is StartGame -> startGame()
             is OnTypeClickEvent -> viewState = viewState.copy(typeDialogShows = true)
@@ -50,7 +49,7 @@ class SetupViewModel @Inject constructor(
         viewModelScope.launch {
             val settings = GameSettings(type = viewState.gameType, goal = viewState.goal)
             createGame.executeSync(CreateGame.Params(settings))
-            navigateTo(NavigationDirections.game(settings.id))
+            navigator.toGame(settings.id)
         }
     }
 
