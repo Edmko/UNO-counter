@@ -56,5 +56,4 @@ dependencies {
     kapt(HiltDependencies.compiler)
     implementation(HiltDependencies.hilt)
     implementation(HiltDependencies.lifecycle)
-    implementation(HiltDependencies.hiltNavigation)
 }

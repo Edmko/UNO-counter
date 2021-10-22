@@ -1,6 +1,7 @@
 package ua.edmko.game
 
 import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
@@ -14,6 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GameViewModel @Inject constructor(
+    private val savedStateHandle: SavedStateHandle,
     private val getGame: ObserveGame,
     private val addRoundToGame: AddRoundToGame,
     private val gameNavigator: GameNavigator
@@ -22,9 +24,8 @@ class GameViewModel @Inject constructor(
 
     init {
         viewState = GameViewState()
-    }
-
-    fun fetchGame(gameId: String) {
+        val gameId: String = savedStateHandle["gameId"]
+            ?: throw IllegalArgumentException("Game id must not be null")
         viewModelScope.launch {
             getGame.createObservable(ObserveGame.Params(gameId)).collect { game ->
                 viewState = viewState.copy(
@@ -47,7 +48,6 @@ class GameViewModel @Inject constructor(
             is EditScore -> editScore(viewEvent.player)
             is NavigateBack -> viewModelScope.launch { gameNavigator.back() }
             is NextRound -> nextRound()
-            is EndGame -> endGame(viewEvent.winnerName)
             is SetWinner -> setWinner(viewEvent.player.playerId)
         }
     }
@@ -63,7 +63,7 @@ class GameViewModel @Inject constructor(
 
     private fun endGame(playerName: String) {
         Log.d("end game", playerName)
-        viewModelScope.launch { gameNavigator.toEnd(playerName) }
+        gameNavigator.toEnd(playerName)
     }
 
     private fun nextRound() {

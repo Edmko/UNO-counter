@@ -1,7 +1,6 @@
 package com.edmko.setup
 
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.Navigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -10,7 +9,6 @@ import ua.edmko.domain.entities.GameSettings
 import ua.edmko.domain.entities.GameType
 import ua.edmko.domain.interactor.CreateGame
 import ua.edmko.domain.interactor.ObserveSelectedPlayers
-import ua.edmko.navigation.NavigationManager
 import javax.inject.Inject
 
 @HiltViewModel

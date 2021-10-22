@@ -2,14 +2,15 @@ package ua.edmko.unocounter.navigation
 
 import android.util.Log
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.edmko.setup.GameSettingScreen
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import ua.edmko.endgame.EndGameScreen
 import ua.edmko.game.GameScreen
@@ -28,24 +29,20 @@ fun NavigationComponent(
     val coroutine = rememberCoroutineScope()
     SideEffect {
         coroutine.launch {
-            navigationManager.commands().collect {
-                Log.d(TAG, "command = ${it?.destination}")
-                it?.let { command ->
-                    Log.d(
-                        TAG,
-                        "destination = ${command.destination} " +
-                                "isBack = ${command == NavigationDirections.back}"
-                    )
-                    if (command.destination == NavigationDirections.back.destination) {
-                        navController.navigateUp()
-                    } else {
-                        navController.navigate(command.destination, command.builder)
-                    }
+            navigationManager.commands().collect { command ->
+                Log.d(
+                    TAG,
+                    "destination = ${command.destination} " +
+                            "isBack = ${command == NavigationDirections.back}"
+                )
+                if (command == NavigationDirections.back) {
+                    navController.navigateUp()
+                } else {
+                    navController.navigate(command.destination, command.builder)
                 }
             }
         }
     }
-
 
     NavHost(
         navController = navController,
@@ -58,11 +55,7 @@ fun NavigationComponent(
             PlayersScreen(hiltViewModel())
         }
         composable(NavigationDirections.gameDestination) {
-            GameScreen(
-                hiltViewModel(),
-                it.arguments?.getString(NavigationDirections.GAME_ID)
-                    ?: throw IllegalArgumentException("Game id must not be null")
-            )
+            GameScreen(hiltViewModel())
         }
         composable(NavigationDirections.gameEndDestination) {
             EndGameScreen(

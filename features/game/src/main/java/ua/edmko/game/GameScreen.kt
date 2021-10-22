@@ -34,9 +34,8 @@ import ua.edmko.domain.entities.PlayerId
 import ua.edmko.domain.entities.Round
 
 @Composable
-fun GameScreen(viewModel: GameViewModel, gameId: String) {
+fun GameScreen(viewModel: GameViewModel) {
 
-    viewModel.fetchGame(gameId)
     val state by viewModel.viewStates().collectAsState()
 
     UnoCounterTheme() {
