@@ -4,5 +4,5 @@ import ua.edmko.core.base.BaseNavigator
 
 interface SetupNavigator: BaseNavigator {
     fun toPlayers()
-    fun toGame(id: String)
+    fun toGame(gameId: String)
 }

@@ -41,12 +41,12 @@ object NavigationDirections {
         override val destination: String = "lobby"
         override val builder: NavOptionsBuilder.() -> Unit = {}
     }
-    const val PLAYER_NAME = "PlayerName"
-    const val gameEndDestination = "gameEnd/{$PLAYER_NAME}"
+    const val WINNER_NAME = "winner"
+    const val gameEndDestination = "gameEnd/{$WINNER_NAME}"
 
     fun gameEnd(playerName: String) = object : NavigationCommand {
         override val argument: List<NamedNavArgument> = listOf(
-            navArgument(PLAYER_NAME) { defaultValue = "" }
+            navArgument(WINNER_NAME) { defaultValue = "" }
         )
         override val destination: String = "gameEnd/$playerName"
         override val builder: NavOptionsBuilder.() -> Unit = {

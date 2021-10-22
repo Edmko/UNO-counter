@@ -60,7 +60,7 @@ fun NavigationComponent(
         composable(NavigationDirections.gameEndDestination) {
             EndGameScreen(
                 hiltViewModel(),
-                it.arguments?.getString(NavigationDirections.PLAYER_NAME) ?: ""
+                it.arguments?.getString(NavigationDirections.WINNER_NAME) ?: ""
             )
         }
         composable(NavigationDirections.lobby.destination) {

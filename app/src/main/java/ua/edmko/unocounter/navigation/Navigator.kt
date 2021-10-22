@@ -24,8 +24,8 @@ class Navigator @Inject constructor(
         navigationManager.navigate(NavigationDirections.players)
     }
 
-    override fun toGame(id: String) {
-        navigationManager.navigate(NavigationDirections.game(id))
+    override fun toGame(gameId: String) {
+        navigationManager.navigate(NavigationDirections.game(gameId))
     }
 
     override fun toEnd(winner: String) {
