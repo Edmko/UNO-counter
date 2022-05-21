@@ -49,11 +49,8 @@ dependencies {
     implementation(ComposeLibraries.material)
     implementation(ComposeLibraries.iconsCore)
     implementation(ComposeLibraries.iconExtended)
-    implementation(ComposeLibraries.activity)
     implementation(ComposeLibraries.constraint)
 
     kapt(HiltDependencies.kaptHilt)
-    kapt(HiltDependencies.compiler)
     implementation(HiltDependencies.hilt)
-    implementation(HiltDependencies.lifecycle)
 }

@@ -6,18 +6,18 @@ object AndroidSdk {
 }
 
 object Classpath {
-    const val gradle = "com.android.tools.build:gradle:7.0.2"
-    const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31"
-    const val hilt = "com.google.dagger:hilt-android-gradle-plugin:2.36"
-    const val ktlint = "org.jlleitschuh.gradle:ktlint-gradle:10.1.0"
+    const val gradle = "com.android.tools.build:gradle:7.2.0"
+    const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.21"
+    const val hilt = "com.google.dagger:hilt-android-gradle-plugin:${HiltDependencies.Versions.hilt}"
+    const val ktlint = "org.jlleitschuh.gradle:ktlint-gradle:10.3.0"
 }
 
 object AndroidLibraries {
     object Versions {
         const val core = "1.6.0"
-        const val appCompat = "1.3.1"
-        const val materialCore = "1.4.0"
-        const val splash = "1.0.0-alpha02"
+        const val appCompat = "1.4.1"
+        const val materialCore = "1.6.0"
+        const val splash = "1.0.0-rc01"
     }
 
     const val splash = "androidx.core:core-splashscreen:${Versions.splash}"
@@ -29,28 +29,22 @@ object AndroidLibraries {
 object HiltDependencies {
 
     object Versions {
-        const val hilt = "2.36"
-        const val hiltNavigation = "1.0.0-alpha02"
-        const val lifecycle = "1.0.0-alpha03"
-        const val compilerX = "1.0.0-beta01"
-
+        const val hilt = "2.38.1"
+        const val hiltNavigation = "1.0.0"
     }
 
     const val hilt = "com.google.dagger:hilt-android:${Versions.hilt}"
-    const val lifecycle = "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.lifecycle}"
     const val kaptHilt = "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
-    const val compiler = "androidx.hilt:hilt-compiler:${Versions.compilerX}"
     const val hiltNavigation = "androidx.hilt:hilt-navigation-compose:${Versions.hiltNavigation}"
 }
 
-const val gson = "com.google.code.gson:gson:2.8.7"
+const val gson = "com.google.code.gson:gson:2.9.0"
 
 object ComposeLibraries {
     object Versions {
-        const val compose = "1.1.0-alpha06"
-        const val activityCompose = "1.4.0-rc01"
-        const val accompanist = "0.18.0"
-        const val constraint = "1.0.0-beta02"
+        const val compose = "1.2.0-beta02"
+        const val accompanist = "0.24.9-beta"
+        const val constraint = "1.0.0"
     }
 
     const val accompanist = "com.google.accompanist:accompanist-insets:${Versions.accompanist}"
@@ -59,7 +53,6 @@ object ComposeLibraries {
     const val foundation = "androidx.compose.foundation:foundation:${Versions.compose}"
     const val foundationLayout = "androidx.compose.foundation:foundation-layout:${Versions.compose}"
     const val material = "androidx.compose.material:material:${Versions.compose}"
-    const val activity = "androidx.activity:activity-compose:${Versions.activityCompose}"
     const val iconsCore = "androidx.compose.material:material-icons-core:${Versions.compose}"
     const val iconExtended = "androidx.compose.material:material-icons-extended:${Versions.compose}"
     const val constraint =
@@ -68,8 +61,7 @@ object ComposeLibraries {
 
 object LifecycleLibraries {
     object Versions {
-        const val lifecycle = "2.4.0-beta01"
-        const val compose = "2.4.0-beta01"
+        const val lifecycle = "2.4.1"
     }
 
     const val vmCompose = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.lifecycle}"
@@ -79,7 +71,7 @@ object LifecycleLibraries {
 
 object Navigation {
     object Versions {
-        const val compose = "2.4.0-alpha10"
+        const val compose = "2.5.0-rc01"
     }
 
     const val compose = "androidx.navigation:navigation-compose:${Versions.compose}"
@@ -87,7 +79,7 @@ object Navigation {
 
 object Coroutines {
     object Versions {
-        const val coroutines = "1.5.0"
+        const val coroutines = "1.6.1"
     }
 
     const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
@@ -96,12 +88,12 @@ object Coroutines {
 
 object Database {
     object Version {
-        const val room = "2.3.0"
+        const val room = "2.4.2"
     }
 
     const val runtime = "androidx.room:room-runtime:${Version.room}"
     const val compiler = "androidx.room:room-compiler:${Version.room}"
     const val extensions = "androidx.room:room-ktx:${Version.room}"
 }
-const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2"
+
 const val desugarJdk = "com.android.tools:desugar_jdk_libs:1.1.5"

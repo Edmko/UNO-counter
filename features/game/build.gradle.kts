@@ -48,12 +48,9 @@ dependencies {
     implementation(ComposeLibraries.material)
     implementation(ComposeLibraries.iconsCore)
     implementation(ComposeLibraries.iconExtended)
-    implementation(ComposeLibraries.activity)
     implementation(ComposeLibraries.constraint)
 
     kapt(ua.edmko.buildsrc.HiltDependencies.kaptHilt)
-    kapt(ua.edmko.buildsrc.HiltDependencies.compiler)
     implementation(ua.edmko.buildsrc.HiltDependencies.hilt)
-    implementation(ua.edmko.buildsrc.HiltDependencies.lifecycle)
     implementation(ua.edmko.buildsrc.HiltDependencies.hiltNavigation)
 }

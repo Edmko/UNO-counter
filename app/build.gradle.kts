@@ -8,12 +8,12 @@ plugins {
 }
 
 android {
-    compileSdk = 31
+    compileSdk = AndroidSdk.compile
 
     defaultConfig {
         applicationId = "ua.edmko.unocounter"
-        minSdk = 24
-        targetSdk = 31
+        minSdk = AndroidSdk.min
+        targetSdk = AndroidSdk.compile
         versionCode = 1
         versionName = "1.0"
     }
@@ -65,13 +65,10 @@ dependencies {
     implementation(ComposeLibraries.material)
     implementation(ComposeLibraries.iconsCore)
     implementation(ComposeLibraries.iconExtended)
-    implementation(ComposeLibraries.activity)
     implementation(ComposeLibraries.constraint)
 
     kapt(HiltDependencies.kaptHilt)
-    kapt(HiltDependencies.compiler)
     implementation(HiltDependencies.hilt)
-    implementation(HiltDependencies.lifecycle)
     implementation(HiltDependencies.hiltNavigation)
 
     kapt(Database.compiler)
