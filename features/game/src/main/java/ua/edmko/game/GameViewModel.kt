@@ -74,7 +74,7 @@ class GameViewModel @Inject constructor(
                 currentRound = Round(
                     gameRoundId = viewState.game.gameSettings.id,
                     roundNum = currentRound.roundNum + 1,
-                    )
+                )
             )
         }
     }

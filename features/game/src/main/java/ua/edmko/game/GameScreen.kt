@@ -158,7 +158,11 @@ fun PlayersList(
                         .weight(1f)
                         .padding(vertical = 0.dp, horizontal = 10.dp)
                         .background(
-                            color = AppTheme.colors.background,
+                            color = if (player.playerId == winner) {
+                                AppTheme.colors.surface
+                            } else {
+                                AppTheme.colors.background
+                            },
                             shape = AppTheme.shapes.medium
                         )
                 ) {

@@ -1,20 +1,59 @@
 package ua.edmko.core.ui.theme
 
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.ReadOnlyComposable
-import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.compositeOver
 
-data class Colors(
-    val primary: Color = Color.Red,
-    val secondary: Color = Color.White,
-    val surface: Color = DarkGrey,
-    val onSurface: Color = Color.White,
-    val onPrimary: Color = DarkGrey,
-    val background: Color = Color.Black
-)
+@Stable
+class Colors(
+    primary: Color = Color.Red,
+    secondary: Color = Color.Red,
+    surface: Color = DarkGrey,
+    onSurface: Color = Color.White,
+    onPrimary: Color = DarkGrey,
+    background: Color = Color.Black
+) {
+    var primary by mutableStateOf(primary, structuralEqualityPolicy())
+        internal set
+    var secondary by mutableStateOf(secondary, structuralEqualityPolicy())
+        internal set
+    var background by mutableStateOf(background, structuralEqualityPolicy())
+        internal set
+    var surface by mutableStateOf(surface, structuralEqualityPolicy())
+        internal set
+    var onPrimary by mutableStateOf(onPrimary, structuralEqualityPolicy())
+        internal set
+    var onSurface by mutableStateOf(onSurface, structuralEqualityPolicy())
+        internal set
+
+    fun copy(
+        primary: Color = this.primary,
+        secondary: Color = this.secondary,
+        background: Color = this.background,
+        surface: Color = this.surface,
+        onPrimary: Color = this.onPrimary,
+        onSurface: Color = this.onSurface,
+    ): Colors = Colors(
+        primary,
+        secondary,
+        background,
+        surface,
+        onPrimary,
+        onSurface
+    )
+
+    override fun toString(): String {
+        return "Colors(" +
+                "primary=$primary, " +
+                "secondary=$secondary, " +
+                "background=$background, " +
+                "surface=$surface, " +
+                "onPrimary=$onPrimary, " +
+                "onSurface=$onSurface, " +
+                ")"
+    }
+}
 
 
 @Composable
@@ -31,6 +70,16 @@ fun getCheckboxColors() = CheckboxDefaults.colors(
     checkmarkColor = AppTheme.colors.surface,
     disabledColor = AppTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled),
     disabledIndeterminateColor = AppTheme.colors.primary.copy(alpha = ContentAlpha.disabled)
+)
+
+@Composable
+fun getButtonColors() = ButtonDefaults.buttonColors(
+    backgroundColor = AppTheme.colors.primary,
+    contentColor = AppTheme.colors.onPrimary,
+    disabledBackgroundColor = AppTheme.colors.onSurface.copy(alpha = 0.12f)
+        .compositeOver(AppTheme.colors.surface),
+    disabledContentColor = AppTheme.colors.onSurface
+        .copy(alpha = ContentAlpha.disabled)
 )
 
 @Composable
@@ -67,7 +116,7 @@ object AppTheme {
         get() = LocalShapes.current
 }
 
-internal val LocalTypography = staticCompositionLocalOf { Typography() }
+internal val LocalTypography = staticCompositionLocalOf { Typography }
 
 internal val LocalShapes = staticCompositionLocalOf { Shapes() }
 

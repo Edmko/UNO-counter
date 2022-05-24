@@ -22,6 +22,7 @@ val Typography = Typography(
     h2 = TextStyle(fontFamily = Cabin, fontWeight = FontWeight.W600, fontSize = 60.sp),
     h3 = TextStyle(fontFamily = Cabin, fontWeight = FontWeight.W600, fontSize = 48.sp),
     h4 = TextStyle(fontFamily = Cabin, fontWeight = FontWeight.W600, fontSize = 34.sp),
+    h5 = TextStyle(fontFamily = Cabin, fontWeight = FontWeight.W600, fontSize = 24.sp),
     subtitle1 = TextStyle(fontFamily = Cabin, fontWeight = FontWeight.W500, fontSize = 16.sp),
     h6 = TextStyle(fontFamily = Cabin, fontWeight = FontWeight.W400, fontSize = 20.sp),
     body1 = TextStyle(fontFamily = Cabin, fontWeight = FontWeight.W400, fontSize = 16.sp),

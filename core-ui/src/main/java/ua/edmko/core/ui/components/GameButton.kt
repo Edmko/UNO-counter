@@ -1,30 +1,31 @@
 package ua.edmko.core.ui.components
 
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ua.edmko.core.ui.theme.AppTheme
+import ua.edmko.core.ui.theme.getButtonColors
 
 @Composable
-fun GameButton(modifier: Modifier = Modifier,
-               isEnabled: Boolean = true ,
-               text: String, onClick: () -> Unit,
-               fontSize: TextUnit = 40.sp) {
-    val colors = ButtonDefaults.buttonColors(
-        backgroundColor = AppTheme.colors.primary
-    )
+fun GameButton(
+    modifier: Modifier = Modifier,
+    isEnabled: Boolean = true,
+    text: String, onClick: () -> Unit,
+    fontSize: TextUnit = 40.sp
+) {
     Button(
         onClick = onClick,
         shape = AppTheme.shapes.medium,
         modifier = modifier,
-        colors = colors,
+        colors = getButtonColors(),
         contentPadding = PaddingValues(0.dp),
         enabled = isEnabled
     ) {
@@ -32,8 +33,7 @@ fun GameButton(modifier: Modifier = Modifier,
             text,
             color = AppTheme.colors.onPrimary,
             fontSize = fontSize,
-            textAlign = TextAlign.Center,
-            fontWeight = FontWeight.Black
+            fontWeight = FontWeight.Black,
         )
     }
 }
