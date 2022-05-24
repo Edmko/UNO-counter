@@ -31,9 +31,9 @@ import ua.edmko.components.ConfirmationDialog
 import ua.edmko.components.EditDialog
 import ua.edmko.components.Toolbar
 import ua.edmko.theme.AppTheme
-import ua.edmko.theme.baseDp
+import ua.edmko.theme.baseHorizontalPadding
 import ua.edmko.domain.entities.Player
-import ua.edmko.domain.entities.Player.Companion.getPlayersStub
+import ua.edmko.domain.entities.Player.Companion.playersStubList
 
 @ExperimentalMaterialApi
 @Composable
@@ -72,7 +72,7 @@ fun PlayersScreen(viewModel: PlayersViewModel = hiltViewModel()) {
             FloatingActionButton(
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
-                    .padding(bottom = 50.dp, end = baseDp),
+                    .padding(bottom = 50.dp, end = baseHorizontalPadding),
                 backgroundColor = Color.Red,
                 onClick = { viewModel.obtainEvent(AddPlayerButton) }) {
                 Icon(
@@ -202,7 +202,7 @@ fun PlayerItem(player: Player, event: (PlayersEvent) -> Unit) {
 fun PlayerListPreview() {
     AppTheme() {
         PLayersList(
-            players = getPlayersStub(),
+            players = playersStubList,
             event = {}
         )
     }
@@ -212,6 +212,17 @@ fun PlayerListPreview() {
 @Composable
 fun PlayerItemPreview(name: String = "John Simons") {
     AppTheme {
-        PlayerItem(player = getPlayersStub().first()) {}
+        PlayerItem(player = playersStubList.first()) {}
+    }
+}
+
+@Preview
+@Composable
+fun ConfirmationDialogPreview() {
+    AppTheme {
+        ConfirmationDialog(
+            title = "Title",
+            dismiss = { /** Empty */ },
+            accept = { /** Empty */ })
     }
 }

@@ -36,7 +36,7 @@ class PlayersViewModel @Inject constructor(
             is CreatePlayer -> createPlayer(viewEvent.name)
             is UpdatePlayersSelection -> updatePlayer(viewEvent.player)
             is OnDeletePlayer -> onDeletePlayer(viewEvent.player)
-            is NavigateBack -> navigateBack()
+            is NavigateBack ->  navigator.back()
             is DismissDialog -> dismissDialog()
             is EditPlayer -> onUpdatePlayerName(viewEvent.player)
             is ChangePlayersName -> changePlayersName(viewEvent.name)
@@ -61,12 +61,6 @@ class PlayersViewModel @Inject constructor(
 
     private fun onUpdatePlayerName(player: Player) {
         viewState = viewState.copy(editDialogShows = true, selectedPlayer = player)
-    }
-
-    private fun navigateBack() {
-        viewModelScope.launch {
-            navigator.back()
-        }
     }
 
     private fun createPlayer(name: String) {

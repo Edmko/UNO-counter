@@ -23,36 +23,45 @@ import com.edmko.myapplication.R
 import ua.edmko.components.*
 import ua.edmko.core.extension.getColorByIndex
 import ua.edmko.theme.AppTheme
-import ua.edmko.theme.baseDp
+import ua.edmko.theme.baseHorizontalPadding
 import ua.edmko.domain.entities.GameType
 import ua.edmko.domain.entities.Player
-import ua.edmko.domain.entities.Player.Companion.getPlayersStub
 
 @Composable
 fun GameSettingScreen(viewModel: SetupViewModel = hiltViewModel()) {
     val state by viewModel.viewStates().collectAsState()
-    GameSettingContent(state, viewModel::obtainEvent)
+    state?.let { GameSettingContent(it, viewModel::obtainEvent) }
 }
 
 @Composable
-internal fun GameSettingContent(state: SetupViewState?, event: (GameSettingEvent) -> Unit) {
+internal fun GameSettingContent(state: SetupViewState, event: (GameSettingEvent) -> Unit) {
     Surface(
-        modifier = Modifier.statusBarsPadding()
+        modifier = Modifier.statusBarsPadding(),
+        color = AppTheme.colors.background
     ) {
         //dialog
-        if (state?.dialogShows == true) EditDialog(
-            textType = KeyboardOptions(
-                keyboardType = KeyboardType.Number,
-                imeAction = ImeAction.Done
-            ),
-            title = stringResource(id = R.string.insert_goal),
-            onDismiss = { event(DismissDialog) }
-        ) { text -> event(ChangeGoal(text.toIntOrNull() ?: 0)) }
-        if (state?.typeDialogShows == true) OptionsDialog(
-            title = stringResource(R.string.choose_type),
-            type = state.gameType
-        ) {
-            event(SetGameType(it))
+        when (state.dialog) {
+            SetupViewState.DialogType.Type -> {
+                OptionsDialog(
+                    title = stringResource(R.string.choose_type),
+                    type = state.gameType,
+                ) {
+                    event(SetGameType(it))
+                }
+            }
+            SetupViewState.DialogType.Edit -> {
+                EditDialog(
+                    textType = KeyboardOptions(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Done
+                    ),
+                    title = stringResource(id = R.string.insert_goal),
+                    onDismiss = { event(DismissDialog) }
+                ) { text -> event(ChangeGoal(text.toIntOrNull() ?: 0)) }
+            }
+            null -> {
+                /** Empty */
+            }
         }
         //content
         Box(Modifier.fillMaxSize()) {
@@ -60,7 +69,7 @@ internal fun GameSettingContent(state: SetupViewState?, event: (GameSettingEvent
             Column(
                 Modifier.fillMaxSize()
             ) {
-                val goal = state?.goal.toString()
+                val goal = state.goal.toString()
                 TextFieldDivided(
                     modifier = Modifier,
                     stringResource(id = R.string.goal),
@@ -84,7 +93,7 @@ internal fun GameSettingContent(state: SetupViewState?, event: (GameSettingEvent
             FloatingActionButton(
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
-                    .padding(bottom = 110.dp, end = baseDp),
+                    .padding(bottom = 110.dp, end = baseHorizontalPadding),
                 backgroundColor = MaterialTheme.colors.primary,
                 onClick = { event(EditPlayers) }) {
                 Icon(
@@ -105,7 +114,7 @@ internal fun GameSettingContent(state: SetupViewState?, event: (GameSettingEvent
                     .fillMaxWidth()
                     .height(56.dp)
                     .align(Alignment.BottomCenter),
-                isEnabled = state?.players?.isNotEmpty() ?: false,
+                isEnabled = state.players.isNotEmpty(),
                 onClick = { event(StartGame) })
         }
     }
@@ -134,10 +143,10 @@ fun PlayersList(modifier: Modifier = Modifier, players: List<Player>?) {
 fun OptionsDialog(
     title: String,
     type: GameType,
-    dismiss: (GameType) -> Unit
+    onDismiss: (GameType) -> Unit
 ) {
     var selected by remember { mutableStateOf(type) }
-    DialogApp(title = title, onDismiss = { dismiss(selected) }) {
+    DialogApp(title = title, onDismiss = { onDismiss(selected) }) {
 
 
         Spacer(modifier = Modifier.size(15.dp))
@@ -177,7 +186,7 @@ fun OptionsDialog(
             modifier = Modifier
                 .padding(top = 18.dp)
                 .align(Alignment.End)
-                .clickable(onClick = { dismiss(selected) }),
+                .clickable(onClick = { onDismiss(selected) }),
         )
     }
 }
@@ -186,8 +195,7 @@ fun OptionsDialog(
 @Composable
 fun GameSettingContentPreview() {
     AppTheme {
-        GameSettingContent(state = SetupViewState(players = getPlayersStub())) {
-        }
+        GameSettingContent(state = SetupViewState.Preview, event = {})
     }
 }
 

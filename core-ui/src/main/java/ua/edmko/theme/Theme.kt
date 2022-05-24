@@ -12,14 +12,16 @@ data class Colors(
     val primary: Color = Color.Red,
     val secondary: Color = Color.White,
     val background: Color = Color.Black,
-    val onBackground: Color = Color.White
+    val onBackground: Color = Color.White,
+    val onPrimary: Color = Color.White
 )
 
 private val DarkAppColors = Colors(
     primary = Color.Red,
     secondary = Color.Red,
     background = Color.Black,
-    onBackground = Color.White
+    onBackground = Color.White,
+    onPrimary = Color.White
 )
 
 @Composable

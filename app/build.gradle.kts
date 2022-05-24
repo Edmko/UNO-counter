@@ -43,6 +43,7 @@ dependencies {
     implementation(project(":data"))
     implementation(project(":domain"))
     implementation(project(":core"))
+    implementation(project(":core-ui"))
     implementation(project(":features:endgame"))
     implementation(project(":features:game"))
     implementation(project(":features:players"))

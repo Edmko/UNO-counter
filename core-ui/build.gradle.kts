@@ -38,6 +38,10 @@ dependencies {
     api(ua.edmko.buildsrc.ComposeLibraries.iconExtended)
     api(ua.edmko.buildsrc.ComposeLibraries.constraint)
 
+    implementation(ua.edmko.buildsrc.AndroidLibraries.core)
+    implementation(ua.edmko.buildsrc.AndroidLibraries.appCompat)
+
     ////workaround to show preview. it will be fixed in AS Dolphin
+    debugApi ("androidx.customview:customview:1.2.0-alpha01")
     debugApi("androidx.customview:customview-poolingcontainer:1.0.0-beta02")
 }

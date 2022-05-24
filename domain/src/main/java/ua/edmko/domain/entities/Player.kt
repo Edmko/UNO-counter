@@ -7,7 +7,7 @@ data class Player (
 ): Entity {
 
     companion object {
-        fun getPlayersStub() = listOf(
+        val playersStubList = listOf(
             Player(2665421421, "John Smith"),
             Player(254153, "Dali Bali"),
             Player(2754141, "Man Quite", isSelected = false),

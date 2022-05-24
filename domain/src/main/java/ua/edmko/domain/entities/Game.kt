@@ -1,7 +1,7 @@
 package ua.edmko.domain.entities
 
 import ua.edmko.domain.entities.GameSettings.Companion.getGameSettingsStub
-import ua.edmko.domain.entities.Player.Companion.getPlayersStub
+import ua.edmko.domain.entities.Player.Companion.playersStubList
 import java.util.*
 
 data class Game(
@@ -53,7 +53,7 @@ data class Game(
         val noPlayersFoundException = Exception("No players found")
         fun getGameStub() = Game(
             gameSettings = getGameSettingsStub(),
-            players = getPlayersStub(),
+            players = playersStubList,
             emptyList()
         )
 

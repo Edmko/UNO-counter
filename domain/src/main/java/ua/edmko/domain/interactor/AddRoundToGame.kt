@@ -4,8 +4,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ua.edmko.domain.entities.Round
 import ua.edmko.domain.repository.GameRepository
+import javax.inject.Inject
 
-class AddRoundToGame(private val gameRepository: GameRepository) :
+class AddRoundToGame @Inject constructor(private val gameRepository: GameRepository) :
     Interactor<AddRoundToGame.Params>() {
     data class Params(val round: Round?)
 

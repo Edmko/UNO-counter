@@ -23,20 +23,20 @@ import ua.edmko.components.GameButton
 import ua.edmko.components.PlayerItem
 import ua.edmko.components.Toolbar
 import ua.edmko.core.extension.getColorByIndex
-import ua.edmko.theme.UnoCounterTheme
 import ua.edmko.components.EditDialog
-import ua.edmko.theme.baseDp
+import ua.edmko.theme.baseHorizontalPadding
 import ua.edmko.domain.entities.Game
 import ua.edmko.domain.entities.Player
 import ua.edmko.domain.entities.PlayerId
 import ua.edmko.domain.entities.Round
+import ua.edmko.theme.AppTheme
 
 @Composable
 fun GameScreen(viewModel: GameViewModel = hiltViewModel()) {
 
     val state by viewModel.viewStates().collectAsState()
 
-    UnoCounterTheme() {
+    AppTheme {
         Scaffold(
             topBar = { Toolbar(title = "Game") { viewModel.obtainEvent(NavigateBack) } },
             modifier = Modifier
@@ -82,7 +82,7 @@ fun GameScreen(state: GameViewState?, event: (GameEvent) -> Unit) {
         GameButton(
             text = stringResource(R.string.next_round),
             modifier = Modifier
-                .padding(baseDp, 0.dp, baseDp, 40.dp)
+                .padding(baseHorizontalPadding, 0.dp, baseHorizontalPadding, 40.dp)
                 .fillMaxWidth()
                 .height(56.dp)
                 .align(Alignment.BottomCenter),
@@ -151,7 +151,7 @@ fun PlayersList(
 @Preview
 @Composable
 fun GameScreenPreview() {
-    UnoCounterTheme() {
+    AppTheme {
         GameScreen(state = GameViewState()) {}
     }
 }
@@ -159,7 +159,7 @@ fun GameScreenPreview() {
 @Preview
 @Composable
 fun PlayersListPreview() {
-    UnoCounterTheme() {
+    AppTheme {
         Surface() {
             PlayersList(Game.getGameStub().calculatePlayersTotal(), Round.empty, {}) {}
         }

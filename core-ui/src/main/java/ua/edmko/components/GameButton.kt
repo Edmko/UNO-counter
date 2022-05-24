@@ -18,17 +18,20 @@ fun GameButton(modifier: Modifier = Modifier,
                isEnabled: Boolean = true ,
                text: String, onClick: () -> Unit,
                fontSize: TextUnit = 40.sp) {
+    val colors = ButtonDefaults.buttonColors(
+        backgroundColor = AppTheme.colors.primary
+    )
     Button(
         onClick = onClick,
         shape = RoundedCornerShape(10.dp),
         modifier = modifier,
-        colors = ButtonDefaults.buttonColors(),
+        colors = colors,
         contentPadding = PaddingValues(0.dp),
         enabled = isEnabled
     ) {
         Text(
             text,
-            color = MaterialTheme.colors.surface,
+            color = AppTheme.colors.onPrimary,
             fontSize = fontSize,
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Black

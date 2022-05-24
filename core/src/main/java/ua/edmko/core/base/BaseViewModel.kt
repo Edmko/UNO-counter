@@ -8,8 +8,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import ua.edmko.navigation.NavigationCommand
-import ua.edmko.navigation.NavigationManager
 
 abstract class BaseViewModel<S : ViewState, E : Event>() :
     ViewModel() {

@@ -9,7 +9,6 @@ buildscript {
         classpath(ua.edmko.buildsrc.Classpath.kotlin)
         classpath(ua.edmko.buildsrc.Classpath.hilt)
         classpath(ua.edmko.buildsrc.Classpath.ktlint)
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.21")
     }
 }
 

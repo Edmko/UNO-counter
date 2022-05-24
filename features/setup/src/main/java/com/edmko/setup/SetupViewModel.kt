@@ -1,8 +1,8 @@
 package com.edmko.setup
 
 import androidx.lifecycle.viewModelScope
+import com.edmko.setup.SetupViewState.DialogType
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ua.edmko.core.base.BaseViewModel
 import ua.edmko.domain.entities.GameSettings
@@ -16,7 +16,7 @@ class SetupViewModel @Inject constructor(
     private val createGame: CreateGame,
     private val observeSelectedPlayers: ObserveSelectedPlayers,
     private val navigator: SetupNavigator
-) : BaseViewModel<SetupViewState, GameSettingEvent>(){
+) : BaseViewModel<SetupViewState, GameSettingEvent>() {
 
     init {
         viewState = SetupViewState()
@@ -29,18 +29,18 @@ class SetupViewModel @Inject constructor(
 
     override fun obtainEvent(viewEvent: GameSettingEvent) {
         when (viewEvent) {
-            is ChangeGoal -> setGoal(viewEvent.goal)
-            is OnGoalClickEvent -> changeGoal()
-            is EditPlayers -> viewModelScope.launch { navigator.toPlayers() }
-            is DismissDialog -> viewState = viewState.copy(dialogShows = false)
+            is ChangeGoal ->  viewState = viewState.copy(dialog = null, goal = viewEvent.goal)
+            is OnGoalClickEvent ->  viewState = viewState.copy(dialog = DialogType.Edit)
+            is EditPlayers -> navigator.toPlayers()
+            is DismissDialog -> viewState = viewState.copy(dialog = null)
             is StartGame -> startGame()
-            is OnTypeClickEvent -> viewState = viewState.copy(typeDialogShows = true)
+            is OnTypeClickEvent -> viewState = viewState.copy(dialog = DialogType.Type)
             is SetGameType -> setGameType(viewEvent.gameType)
         }
     }
 
     private fun setGameType(gameType: GameType) {
-        viewState = viewState.copy(typeDialogShows = false, gameType = gameType)
+        viewState = viewState.copy(dialog = null, gameType = gameType)
     }
 
     private fun startGame() {
@@ -49,13 +49,5 @@ class SetupViewModel @Inject constructor(
             createGame.executeSync(CreateGame.Params(settings))
             navigator.toGame(settings.id)
         }
-    }
-
-    private fun setGoal(goal: Int) {
-        viewState = viewState.copy(dialogShows = false, goal = goal)
-    }
-
-    private fun changeGoal() {
-        viewState = viewState.copy(dialogShows = true)
     }
 }
