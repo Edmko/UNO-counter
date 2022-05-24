@@ -1,7 +1,6 @@
 plugins {
     id("com.android.library")
-    kotlin("android")
-    kotlin("kapt")
+    id("org.jetbrains.kotlin.android")
 }
 
 android {
@@ -30,14 +29,12 @@ android {
 }
 
 dependencies {
-    implementation(project(":core"))
-    implementation(project(":domain"))
-    implementation(project(":core-ui"))
-    implementation(ua.edmko.buildsrc.AndroidLibraries.core)
-    implementation(ua.edmko.buildsrc.AndroidLibraries.appCompat)
-    implementation(ua.edmko.buildsrc.AndroidLibraries.materialCore)
-
-    kapt(ua.edmko.buildsrc.HiltDependencies.kaptHilt)
-    implementation(ua.edmko.buildsrc.HiltDependencies.hilt)
-    implementation(ua.edmko.buildsrc.HiltDependencies.hiltNavigation)
+    api(ua.edmko.buildsrc.ComposeLibraries.ui)
+    api(ua.edmko.buildsrc.ComposeLibraries.uiTooling)
+    api(ua.edmko.buildsrc.ComposeLibraries.foundation)
+    api(ua.edmko.buildsrc.ComposeLibraries.foundationLayout)
+    api(ua.edmko.buildsrc.ComposeLibraries.material)
+    api(ua.edmko.buildsrc.ComposeLibraries.iconsCore)
+    api(ua.edmko.buildsrc.ComposeLibraries.iconExtended)
+    api(ua.edmko.buildsrc.ComposeLibraries.constraint)
 }

@@ -1,4 +1,5 @@
 import ua.edmko.buildsrc.AndroidLibraries
+import ua.edmko.buildsrc.AndroidSdk
 import ua.edmko.buildsrc.ComposeLibraries
 
 plugins {
@@ -8,11 +9,11 @@ plugins {
 }
 
 android {
-    compileSdk = 31
+    compileSdk = AndroidSdk.compile
 
     defaultConfig {
-        minSdk = 24
-        targetSdk = 31
+        minSdk = AndroidSdk.min
+        targetSdk = AndroidSdk.compile
     }
 
     buildTypes {
@@ -35,20 +36,10 @@ android {
 dependencies {
     implementation(project(":core"))
     implementation(project(":domain"))
-
+    implementation(project(":core-ui"))
     implementation(AndroidLibraries.core)
     implementation(AndroidLibraries.appCompat)
     implementation(AndroidLibraries.materialCore)
-
-    implementation(ComposeLibraries.accompanist)
-    implementation(ComposeLibraries.ui)
-    implementation(ComposeLibraries.uiTooling)
-    implementation(ComposeLibraries.foundation)
-    implementation(ComposeLibraries.foundationLayout)
-    implementation(ComposeLibraries.material)
-    implementation(ComposeLibraries.iconsCore)
-    implementation(ComposeLibraries.iconExtended)
-    implementation(ComposeLibraries.constraint)
 
     kapt(ua.edmko.buildsrc.HiltDependencies.kaptHilt)
     implementation(ua.edmko.buildsrc.HiltDependencies.hilt)

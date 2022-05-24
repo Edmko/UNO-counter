@@ -1,4 +1,4 @@
-package ua.edmko.core.components
+package ua.edmko.components
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -11,7 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ua.edmko.core.theme.UnoCounterTheme
+import ua.edmko.theme.AppTheme
 
 @Composable
 fun GameButton(modifier: Modifier = Modifier,
@@ -39,10 +39,9 @@ fun GameButton(modifier: Modifier = Modifier,
 @Preview
 @Composable
 fun GameButtonPreview() {
-    UnoCounterTheme() {
+    AppTheme {
         Surface() {
             GameButton(text = "Start game", onClick = {})
         }
     }
-
 }

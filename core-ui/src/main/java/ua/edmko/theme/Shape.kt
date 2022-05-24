@@ -1,4 +1,4 @@
-package ua.edmko.core.theme
+package ua.edmko.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

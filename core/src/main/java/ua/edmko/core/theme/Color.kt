@@ -1,1 +1,0 @@
-package ua.edmko.core.theme

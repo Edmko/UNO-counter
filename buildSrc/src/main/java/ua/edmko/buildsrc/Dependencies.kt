@@ -47,7 +47,6 @@ object ComposeLibraries {
         const val constraint = "1.0.0"
     }
 
-    const val accompanist = "com.google.accompanist:accompanist-insets:${Versions.accompanist}"
     const val ui = "androidx.compose.ui:ui:${Versions.compose}"
     const val uiTooling = "androidx.compose.ui:ui-tooling:${Versions.compose}"
     const val foundation = "androidx.compose.foundation:foundation:${Versions.compose}"

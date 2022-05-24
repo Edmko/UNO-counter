@@ -57,7 +57,6 @@ dependencies {
     implementation(LifecycleLibraries.runtime)
     implementation(LifecycleLibraries.vmCompose)
     implementation(gson)
-    implementation(ComposeLibraries.accompanist)
     implementation(ComposeLibraries.ui)
     implementation(ComposeLibraries.uiTooling)
     implementation(ComposeLibraries.foundation)

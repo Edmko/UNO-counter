@@ -1,4 +1,4 @@
-package ua.edmko.core.components
+package ua.edmko.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ua.edmko.core.theme.UnoCounterTheme
+import ua.edmko.theme.UnoCounterTheme
 
 /**
  * @param statistics get second half of row space

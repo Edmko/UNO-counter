@@ -1,4 +1,4 @@
-package ua.edmko.core.components
+package ua.edmko.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
@@ -16,7 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ua.edmko.core.theme.UnoCounterTheme
+import ua.edmko.theme.UnoCounterTheme
 
 @Composable
 fun Toolbar(title: String, back: () -> Unit) {

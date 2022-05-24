@@ -1,5 +1,6 @@
-package ua.edmko.core.components
+package ua.edmko.components
 
+import android.system.Os.accept
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -25,8 +26,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import ua.edmko.core.R
-import ua.edmko.core.theme.baseDp
+import ua.edmko.R
+import ua.edmko.theme.baseDp
 
 
 @Composable

@@ -18,23 +18,21 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.insets.statusBarsPadding
-import ua.edmko.core.components.GameButton
-import ua.edmko.core.components.PlayerItem
-import ua.edmko.core.components.Toolbar
+import androidx.hilt.navigation.compose.hiltViewModel
+import ua.edmko.components.GameButton
+import ua.edmko.components.PlayerItem
+import ua.edmko.components.Toolbar
 import ua.edmko.core.extension.getColorByIndex
-import ua.edmko.core.theme.UnoCounterTheme
-
-import ua.edmko.core.components.EditDialog
-
-import ua.edmko.core.theme.baseDp
+import ua.edmko.theme.UnoCounterTheme
+import ua.edmko.components.EditDialog
+import ua.edmko.theme.baseDp
 import ua.edmko.domain.entities.Game
 import ua.edmko.domain.entities.Player
 import ua.edmko.domain.entities.PlayerId
 import ua.edmko.domain.entities.Round
 
 @Composable
-fun GameScreen(viewModel: GameViewModel) {
+fun GameScreen(viewModel: GameViewModel = hiltViewModel()) {
 
     val state by viewModel.viewStates().collectAsState()
 

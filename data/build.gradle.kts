@@ -7,9 +7,11 @@ plugins {
 }
 
 android {
-    compileSdk = 31
+    compileSdk = ua.edmko.buildsrc.AndroidSdk.compile
+
     defaultConfig {
-        minSdk = 24
+        minSdk = ua.edmko.buildsrc.AndroidSdk.min
+        targetSdk = ua.edmko.buildsrc.AndroidSdk.compile
     }
 }
 
@@ -23,4 +25,6 @@ dependencies {
     implementation(ua.edmko.buildsrc.gson)
     implementation("javax.annotation:jsr250-api:1.0")
     implementation("javax.inject:javax.inject:1")
+    implementation(ua.edmko.buildsrc.HiltDependencies.hilt)
+    kapt(ua.edmko.buildsrc.HiltDependencies.kaptHilt)
 }

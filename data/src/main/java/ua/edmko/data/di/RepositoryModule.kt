@@ -1,4 +1,4 @@
-package ua.edmko.unocounter.di
+package ua.edmko.data.di
 
 import dagger.Binds
 import dagger.Module
@@ -14,8 +14,8 @@ import ua.edmko.domain.repository.PlayersRepository
 abstract class RepositoryModule {
 
     @Binds
-    internal abstract fun providePlayersRepository(repository: PlayersRepositoryImpl): PlayersRepository
+    abstract fun providePlayersRepository(repository: PlayersRepositoryImpl): PlayersRepository
 
     @Binds
-    internal abstract fun provideGameRepository(repository: GameRepositoryImpl): GameRepository
+    abstract fun provideGameRepository(repository: GameRepositoryImpl): GameRepository
 }

@@ -1,4 +1,4 @@
-package ua.edmko.core.theme
+package ua.edmko.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

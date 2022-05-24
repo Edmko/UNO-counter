@@ -1,4 +1,4 @@
-package ua.edmko.core.components
+package ua.edmko.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ua.edmko.core.theme.UnoCounterTheme
+import ua.edmko.theme.AppTheme
 
 @Composable
 fun TextFieldDivided(
@@ -41,7 +41,7 @@ fun TextFieldDivided(
 @Preview
 @Composable
 fun TextFieldWithDividerPreview() {
-    UnoCounterTheme() {
+    AppTheme {
         Surface() {
             TextFieldDivided(value = "500", description = "Goal")
         }

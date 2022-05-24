@@ -33,8 +33,6 @@ dependencies {
     implementation(ua.edmko.buildsrc.AndroidLibraries.core)
     implementation(ua.edmko.buildsrc.AndroidLibraries.appCompat)
     implementation(ua.edmko.buildsrc.AndroidLibraries.materialCore)
-
-    implementation(ua.edmko.buildsrc.ComposeLibraries.accompanist)
     implementation(ua.edmko.buildsrc.ComposeLibraries.ui)
     implementation(ua.edmko.buildsrc.ComposeLibraries.uiTooling)
     implementation(ua.edmko.buildsrc.ComposeLibraries.foundation)

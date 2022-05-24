@@ -26,19 +26,18 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.google.accompanist.insets.statusBarsPadding
-import ua.edmko.core.components.ConfirmationDialog
-import ua.edmko.core.components.EditDialog
-import ua.edmko.core.components.Toolbar
-import ua.edmko.core.theme.UnoCounterTheme
-import ua.edmko.core.theme.baseDp
+import androidx.hilt.navigation.compose.hiltViewModel
+import ua.edmko.components.ConfirmationDialog
+import ua.edmko.components.EditDialog
+import ua.edmko.components.Toolbar
+import ua.edmko.theme.AppTheme
+import ua.edmko.theme.baseDp
 import ua.edmko.domain.entities.Player
 import ua.edmko.domain.entities.Player.Companion.getPlayersStub
-import ua.edmko.players.*
 
 @ExperimentalMaterialApi
 @Composable
-fun PlayersScreen(viewModel: PlayersViewModel) {
+fun PlayersScreen(viewModel: PlayersViewModel = hiltViewModel()) {
     val state by viewModel.viewStates().collectAsState()
     Scaffold(
         topBar = { Toolbar(title = "Players") { viewModel.obtainEvent(NavigateBack) } },
@@ -152,14 +151,6 @@ fun PLayersList(players: List<Player>, event: (PlayersEvent) -> Unit) {
     }
 }
 
-@ExperimentalMaterialApi
-@Preview
-@Composable
-fun PlayerListPreview() {
-    UnoCounterTheme() {
-        PLayersList(players = getPlayersStub()) {}
-    }
-}
 
 @Composable
 fun PlayerItem(player: Player, event: (PlayersEvent) -> Unit) {
@@ -205,11 +196,22 @@ fun PlayerItem(player: Player, event: (PlayersEvent) -> Unit) {
     }
 }
 
+@ExperimentalMaterialApi
+@Preview
+@Composable
+fun PlayerListPreview() {
+    AppTheme() {
+        PLayersList(
+            players = getPlayersStub(),
+            event = {}
+        )
+    }
+}
 
 @Preview
 @Composable
 fun PlayerItemPreview(name: String = "John Simons") {
-    UnoCounterTheme() {
+    AppTheme {
         PlayerItem(player = getPlayersStub().first()) {}
     }
 }

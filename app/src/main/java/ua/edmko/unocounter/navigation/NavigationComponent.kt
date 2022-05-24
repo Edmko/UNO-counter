@@ -49,22 +49,22 @@ fun NavigationComponent(
         startDestination = NavigationDirections.gameSetting.destination
     ) {
         composable(NavigationDirections.gameSetting.destination) {
-            GameSettingScreen(hiltViewModel())
+            GameSettingScreen()
         }
         composable(NavigationDirections.players.destination) {
-            PlayersScreen(hiltViewModel())
+            PlayersScreen()
         }
         composable(NavigationDirections.gameDestination) {
-            GameScreen(hiltViewModel())
+            GameScreen()
         }
         composable(NavigationDirections.gameEndDestination) {
             EndGameScreen(
-                hiltViewModel(),
-                it.arguments?.getString(NavigationDirections.WINNER_NAME) ?: ""
+                name = it.arguments?.getString(NavigationDirections.WINNER_NAME) ?: "",
+                back = navController::navigateUp
             )
         }
         composable(NavigationDirections.lobby.destination) {
-            GameSettingScreen(hiltViewModel())
+            GameSettingScreen()
         }
     }
 }

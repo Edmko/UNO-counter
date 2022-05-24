@@ -18,24 +18,24 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.edmko.myapplication.R
-import com.google.accompanist.insets.statusBarsPadding
-import ua.edmko.core.components.*
+import ua.edmko.components.*
 import ua.edmko.core.extension.getColorByIndex
-import ua.edmko.core.theme.UnoCounterTheme
-import ua.edmko.core.theme.baseDp
+import ua.edmko.theme.AppTheme
+import ua.edmko.theme.baseDp
 import ua.edmko.domain.entities.GameType
 import ua.edmko.domain.entities.Player
 import ua.edmko.domain.entities.Player.Companion.getPlayersStub
 
 @Composable
-fun GameSettingScreen(viewModel: SetupViewModel) {
+fun GameSettingScreen(viewModel: SetupViewModel = hiltViewModel()) {
     val state by viewModel.viewStates().collectAsState()
-        GameSettingContent(state, viewModel::obtainEvent)
+    GameSettingContent(state, viewModel::obtainEvent)
 }
 
 @Composable
-fun GameSettingContent(state: SetupViewState?, event: (GameSettingEvent) -> Unit) {
+internal fun GameSettingContent(state: SetupViewState?, event: (GameSettingEvent) -> Unit) {
     Surface(
         modifier = Modifier.statusBarsPadding()
     ) {
@@ -129,6 +129,7 @@ fun PlayersList(modifier: Modifier = Modifier, players: List<Player>?) {
         }
     }
 }
+
 @Composable
 fun OptionsDialog(
     title: String,
@@ -147,7 +148,11 @@ fun OptionsDialog(
             RadioButton(selected = selected == GameType.CLASSIC, onClick = {
                 selected = GameType.CLASSIC
             })
-            Text(text = GameType.CLASSIC.name, modifier = Modifier.padding(start = 10.dp), fontSize = 18.sp)
+            Text(
+                text = GameType.CLASSIC.name,
+                modifier = Modifier.padding(start = 10.dp),
+                fontSize = 18.sp
+            )
         }
 
         Spacer(modifier = Modifier.size(15.dp))
@@ -159,7 +164,11 @@ fun OptionsDialog(
             RadioButton(
                 selected = selected == GameType.COLLECTIVE,
                 onClick = { selected = GameType.COLLECTIVE })
-            Text(text = GameType.COLLECTIVE.name, modifier = Modifier.padding(start = 10.dp), fontSize = 18.sp)
+            Text(
+                text = GameType.COLLECTIVE.name,
+                modifier = Modifier.padding(start = 10.dp),
+                fontSize = 18.sp
+            )
         }
         Text(
             text = stringResource(ua.edmko.core.R.string.accept),
@@ -172,10 +181,11 @@ fun OptionsDialog(
         )
     }
 }
+
 @Preview
 @Composable
 fun GameSettingContentPreview() {
-    UnoCounterTheme() {
+    AppTheme {
         GameSettingContent(state = SetupViewState(players = getPlayersStub())) {
         }
     }

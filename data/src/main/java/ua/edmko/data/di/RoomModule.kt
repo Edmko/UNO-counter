@@ -1,4 +1,4 @@
-package ua.edmko.unocounter.di
+package ua.edmko.data.di
 
 import android.content.Context
 import androidx.room.Room
