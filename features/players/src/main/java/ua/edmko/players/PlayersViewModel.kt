@@ -18,7 +18,7 @@ class PlayersViewModel @Inject constructor(
     private val addPlayer: AddPlayer,
     private val updatePlayer: UpdatePlayer,
     private val deletePlayer: DeletePlayer,
-    val navigator: PlayersNavigator
+    private val navigator: PlayersNavigator
 ) : BaseViewModel<PlayersViewState, PlayersEvent>() {
 
     init {

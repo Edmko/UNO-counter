@@ -1,6 +1,5 @@
 package ua.edmko.theme
 
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Shapes
 import androidx.compose.material.Typography
 import androidx.compose.runtime.Composable
@@ -36,13 +35,13 @@ fun AppTheme(
         LocalShapes provides shapes
     ) {
         content()
-        MaterialTheme
     }
 }
 
 object AppTheme {
 
-    val colors: Colors
+    val
+            colors: Colors
         @Composable
         @ReadOnlyComposable
         get() = LocalAppColors.current

@@ -16,7 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ua.edmko.theme.UnoCounterTheme
+import ua.edmko.theme.AppTheme
 
 @Composable
 fun Toolbar(title: String, back: () -> Unit) {
@@ -46,7 +46,7 @@ fun Toolbar(title: String, back: () -> Unit) {
 @Preview
 @Composable
 fun ToolbarPreview() {
-    UnoCounterTheme {
+    AppTheme {
         Toolbar("Toolbar title") {}
     }
 }

@@ -156,16 +156,16 @@ fun PLayersList(players: List<Player>, event: (PlayersEvent) -> Unit) {
 fun PlayerItem(player: Player, event: (PlayersEvent) -> Unit) {
     val textColor by animateColorAsState(
         if (player.isSelected) {
-            MaterialTheme.colors.secondary
+            AppTheme.colors.secondary
         } else {
-            MaterialTheme.colors.onSurface
+            AppTheme.colors.onBackground
         }
     )
 
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colors.surface)
+            .background(AppTheme.colors.background)
             .height(50.dp)
     ) {
         Checkbox(
@@ -191,7 +191,7 @@ fun PlayerItem(player: Player, event: (PlayersEvent) -> Unit) {
                 .height(1.dp)
                 .align(Alignment.BottomCenter)
                 .fillMaxWidth(),
-            color = MaterialTheme.colors.onSurface
+            color = AppTheme.colors.onBackground
         )
     }
 }

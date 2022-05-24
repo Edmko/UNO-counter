@@ -18,7 +18,7 @@ abstract class BaseViewModel<S : ViewState, E : Event>() :
         handleError(throwable)
     }
 
-    protected fun CoroutineScope.smartLaunch( context: suspend () -> Unit): Job {
+    protected fun CoroutineScope.smartLaunch(context: suspend () -> Unit): Job {
         return this.launch(errorHandler) { context() }
     }
 

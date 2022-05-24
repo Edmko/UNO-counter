@@ -13,8 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ua.edmko.theme.UnoCounterTheme
-
+import ua.edmko.theme.AppTheme
 /**
  * @param statistics get second half of row space
  */
@@ -47,7 +46,7 @@ fun PlayerItem(
 @Preview
 @Composable
 fun PlayerItemPreview() {
-    UnoCounterTheme() {
+    AppTheme {
         Surface() {
             PlayerItem(modifier = Modifier, "John Smith", color = Color.Red)
         }

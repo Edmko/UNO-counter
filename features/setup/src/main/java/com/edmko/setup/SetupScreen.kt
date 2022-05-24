@@ -72,12 +72,12 @@ internal fun GameSettingContent(state: SetupViewState?, event: (GameSettingEvent
                     state?.gameType?.name ?: ""
                 ) { event(OnTypeClickEvent) }
                 Text(
-                    style = MaterialTheme.typography.h6,
-                    color = MaterialTheme.colors.onSurface,
+                    style = AppTheme.typography.h6,
+                    color = AppTheme.colors.onBackground,
                     text = stringResource(R.string.players),
                     modifier = Modifier.padding(18.dp, 32.dp, 18.dp, 18.dp)
                 )
-                Divider(color = MaterialTheme.colors.onSurface)
+                Divider(color = AppTheme.colors.onBackground)
                 PlayersList(modifier = Modifier.weight(1f), players = state?.players)
             }
 
@@ -93,7 +93,7 @@ internal fun GameSettingContent(state: SetupViewState?, event: (GameSettingEvent
                     modifier = Modifier
                         .size(30.dp)
                         .align(Alignment.Center),
-                    tint = MaterialTheme.colors.surface
+                    tint = AppTheme.colors.background
                 )
 
             }
