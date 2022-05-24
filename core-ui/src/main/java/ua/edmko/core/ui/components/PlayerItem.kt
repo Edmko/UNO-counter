@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import ua.edmko.core.ui.theme.AppTheme
 
@@ -21,9 +22,15 @@ import ua.edmko.core.ui.theme.AppTheme
 fun PlayerItem(
     modifier: Modifier = Modifier,
     name: String, color: Color,
-    statistics: @Composable () -> Unit = {}
+    height: Dp = 60.dp,
+    statistics: @Composable RowScope.() -> Unit = {}
 ) {
-    Row(verticalAlignment = Alignment.CenterVertically, modifier = modifier.fillMaxWidth().height(60.dp)) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+            .fillMaxWidth()
+            .height(height)
+    ) {
         Icon(
             Icons.Rounded.Person,
             contentDescription = null,
@@ -37,7 +44,9 @@ fun PlayerItem(
             text = name,
             style = AppTheme.typography.body1,
             color = color,
-            modifier = Modifier.fillMaxWidth(0.4f).align(Alignment.CenterVertically)
+            modifier = Modifier
+                .fillMaxWidth(0.4f)
+                .align(Alignment.CenterVertically)
         )
         statistics()
     }

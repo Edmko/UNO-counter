@@ -12,7 +12,8 @@ data class Colors(
     val secondary: Color = Color.White,
     val surface: Color = DarkGrey,
     val onSurface: Color = Color.White,
-    val onPrimary: Color = DarkGrey
+    val onPrimary: Color = DarkGrey,
+    val background: Color = Color.Black
 )
 
 

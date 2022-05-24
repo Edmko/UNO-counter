@@ -1,5 +1,6 @@
 package ua.edmko.game
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -65,7 +67,6 @@ internal fun GameScreen(state: GameViewState, event: (GameEvent) -> Unit) {
                 .padding(paddings)
         ) {
             Column {
-                ItemExplanation()
                 PlayersList(
                     state.game.calculatePlayersTotal(),
                     currentRound = state.currentRound,
@@ -88,24 +89,6 @@ internal fun GameScreen(state: GameViewState, event: (GameEvent) -> Unit) {
 }
 
 @Composable
-fun ItemExplanation() {
-    Row() {
-        Spacer(modifier = Modifier.fillMaxWidth(0.5f))
-        Text(
-            text = stringResource(R.string.total),
-            color = Color.Red,
-            modifier = Modifier.width(60.dp)
-        )
-        Text(
-            text = stringResource(R.string.round),
-            modifier = Modifier.width(60.dp),
-            color = Color.Red
-        )
-        Text(text = stringResource(R.string.winner), color = Color.Red)
-    }
-}
-
-@Composable
 fun PlayersList(
     playersTotal: Map<Player, Int>,
     currentRound: Round?,
@@ -114,6 +97,38 @@ fun PlayersList(
     selectWinner: (Player) -> Unit
 ) {
     LazyColumn() {
+        item {
+            PlayerItem(
+                height = 30.dp,
+                name = "",
+                color = Color.Transparent
+            ) {
+                Text(
+                    text = stringResource(R.string.total),
+                    color = AppTheme.colors.primary,
+                    modifier = Modifier
+                        .weight(1f),
+                    textAlign = TextAlign.Center,
+                    style = AppTheme.typography.body1
+                )
+                Text(
+                    text = stringResource(R.string.round),
+                    modifier = Modifier
+                        .weight(1f),
+                    color = AppTheme.colors.primary,
+                    textAlign = TextAlign.Center,
+                    style = AppTheme.typography.body1
+                )
+                Text(
+                    modifier = Modifier.weight(1f),
+                    text = stringResource(R.string.winner),
+                    color = AppTheme.colors.primary,
+                    textAlign = TextAlign.Center,
+                    style = AppTheme.typography.body1
+                )
+
+            }
+        }
         itemsIndexed(playersTotal.toList()) { index, (player, total) ->
             PlayerItem(
                 modifier = Modifier.clickable(enabled = winner != player.playerId) {
@@ -122,25 +137,48 @@ fun PlayersList(
                 name = player.name,
                 color = index.getColorByIndex()
             ) {
-                Text(
-                    modifier = Modifier
-                        .padding(start = 8.dp)
-                        .width(60.dp),
-                    text = total.toString(),
-                    color = AppTheme.colors.onSurface
-                )
-                Text(
-                    modifier = Modifier.width(60.dp),
-                    text = currentRound?.result?.getOrDefault(player.playerId, 0)
-                        .toString(),
-                    color = AppTheme.colors.onSurface
-                )
-                RadioButton(
-                    modifier = Modifier.fillMaxHeight(),
-                    selected = player.playerId == winner,
-                    onClick = { selectWinner(player) },
-                    colors = getAppRadioButtonColors()
-                )
+                Box(
+                    Modifier
+                        .height(30.dp)
+                        .weight(1f)
+                        .padding(vertical = 0.dp, horizontal = 10.dp)
+                ) {
+                    Text(
+                        modifier = Modifier.align(Alignment.Center),
+                        text = total.toString(),
+                        color = AppTheme.colors.onSurface,
+                        textAlign = TextAlign.Center,
+                        style = AppTheme.typography.body1
+                    )
+                }
+
+                Box(
+                    Modifier
+                        .height(30.dp)
+                        .weight(1f)
+                        .padding(vertical = 0.dp, horizontal = 10.dp)
+                        .background(
+                            color = AppTheme.colors.background,
+                            shape = AppTheme.shapes.medium
+                        )
+                ) {
+                    Text(
+                        modifier = Modifier.align(Alignment.Center),
+                        text = currentRound?.result?.getOrDefault(player.playerId, 0).toString(),
+                        color = AppTheme.colors.onSurface,
+                        textAlign = TextAlign.Center,
+                        style = AppTheme.typography.body1
+                    )
+                }
+                Box(modifier = Modifier.weight(1f)) {
+                    RadioButton(
+                        modifier = Modifier.align(Alignment.Center),
+                        selected = player.playerId == winner,
+                        onClick = { selectWinner(player) },
+                        colors = getAppRadioButtonColors()
+                    )
+                }
+
             }
 
         }
@@ -164,6 +202,5 @@ fun PlayersListPreview() {
         ) {
             PlayersList(Game.getGameStub().calculatePlayersTotal(), Round.empty, {}) {}
         }
-
     }
 }
