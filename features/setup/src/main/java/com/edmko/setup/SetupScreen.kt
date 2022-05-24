@@ -17,13 +17,13 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.edmko.myapplication.R
-import ua.edmko.components.*
+import ua.edmko.core.ui.components.*
 import ua.edmko.core.extension.getColorByIndex
-import ua.edmko.theme.AppTheme
-import ua.edmko.theme.baseHorizontalPadding
+import ua.edmko.core.ui.theme.AppTheme
+import ua.edmko.core.ui.theme.baseHorizontalPadding
+import ua.edmko.core.ui.theme.getAppRadioButtonColors
 import ua.edmko.domain.entities.GameType
 import ua.edmko.domain.entities.Player
 
@@ -36,8 +36,8 @@ fun GameSettingScreen(viewModel: SetupViewModel = hiltViewModel()) {
 @Composable
 internal fun GameSettingContent(state: SetupViewState, event: (GameSettingEvent) -> Unit) {
     Surface(
-        modifier = Modifier.statusBarsPadding(),
-        color = AppTheme.colors.background
+        modifier = Modifier,
+        color = AppTheme.colors.surface
     ) {
         //dialog
         when (state.dialog) {
@@ -64,8 +64,11 @@ internal fun GameSettingContent(state: SetupViewState, event: (GameSettingEvent)
             }
         }
         //content
-        Box(Modifier.fillMaxSize()) {
-
+        Box(
+            Modifier
+                .fillMaxSize()
+                .statusBarsPadding()
+        ) {
             Column(
                 Modifier.fillMaxSize()
             ) {
@@ -78,31 +81,36 @@ internal fun GameSettingContent(state: SetupViewState, event: (GameSettingEvent)
                 TextFieldDivided(
                     modifier = Modifier,
                     stringResource(R.string.type),
-                    state?.gameType?.name ?: ""
+                    state.gameType.name
                 ) { event(OnTypeClickEvent) }
                 Text(
-                    style = AppTheme.typography.h6,
-                    color = AppTheme.colors.onBackground,
+                    style = AppTheme.typography.h5,
+                    color = AppTheme.colors.onSurface,
                     text = stringResource(R.string.players),
                     modifier = Modifier.padding(18.dp, 32.dp, 18.dp, 18.dp)
                 )
-                Divider(color = AppTheme.colors.onBackground)
-                PlayersList(modifier = Modifier.weight(1f), players = state?.players)
+                Divider(color = AppTheme.colors.onSurface)
+                PlayersList(
+                    modifier = Modifier
+                        .weight(1f),
+                    players = state.players
+                )
             }
 
             FloatingActionButton(
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
+                    .navigationBarsPadding()
                     .padding(bottom = 110.dp, end = baseHorizontalPadding),
-                backgroundColor = MaterialTheme.colors.primary,
+                backgroundColor = AppTheme.colors.primary,
                 onClick = { event(EditPlayers) }) {
                 Icon(
-                    Icons.Filled.Edit,
+                    imageVector = Icons.Filled.Edit,
                     contentDescription = "Edit players",
                     modifier = Modifier
                         .size(30.dp)
                         .align(Alignment.Center),
-                    tint = AppTheme.colors.background
+                    tint = AppTheme.colors.surface
                 )
 
             }
@@ -110,6 +118,7 @@ internal fun GameSettingContent(state: SetupViewState, event: (GameSettingEvent)
             GameButton(
                 text = stringResource(R.string.start_game),
                 modifier = Modifier
+                    .navigationBarsPadding()
                     .padding(18.dp, 0.dp, 18.dp, 40.dp)
                     .fillMaxWidth()
                     .height(56.dp)
@@ -121,7 +130,7 @@ internal fun GameSettingContent(state: SetupViewState, event: (GameSettingEvent)
 }
 
 @Composable
-fun PlayersList(modifier: Modifier = Modifier, players: List<Player>?) {
+fun PlayersList(modifier: Modifier = Modifier, players: List<Player>) {
     Box(modifier) {
         LazyColumn(
             modifier = Modifier
@@ -129,11 +138,14 @@ fun PlayersList(modifier: Modifier = Modifier, players: List<Player>?) {
                 .padding(18.dp, 0.dp, 18.dp, 0.dp),
             contentPadding = PaddingValues(bottom = 110.dp)
         ) {
-            players?.let {
-                itemsIndexed(it) { index, player ->
-                    val color = index.getColorByIndex()
-                    PlayerItem(name = player.name, color = color)
-                }
+            itemsIndexed(players) { index, player ->
+                val color = index.getColorByIndex()
+                PlayerItem(name = player.name, color = color)
+            }
+            item {
+                Spacer(
+                    Modifier.windowInsetsBottomHeight(WindowInsets.safeDrawing)
+                )
             }
         }
     }
@@ -147,47 +159,56 @@ fun OptionsDialog(
 ) {
     var selected by remember { mutableStateOf(type) }
     DialogApp(title = title, onDismiss = { onDismiss(selected) }) {
-
-
         Spacer(modifier = Modifier.size(15.dp))
-        Row(Modifier.clickable(
-            interactionSource = remember { MutableInteractionSource() },
-            indication = null
-        ) { selected = GameType.CLASSIC }) {
-            RadioButton(selected = selected == GameType.CLASSIC, onClick = {
-                selected = GameType.CLASSIC
-            })
+        Row(
+            modifier = Modifier.clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null,
+                onClick = { selected = GameType.CLASSIC }
+            ),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            RadioButton(
+                selected = selected == GameType.CLASSIC,
+                onClick = { selected = GameType.CLASSIC },
+                colors = getAppRadioButtonColors()
+            )
             Text(
                 text = GameType.CLASSIC.name,
                 modifier = Modifier.padding(start = 10.dp),
-                fontSize = 18.sp
+                style = AppTheme.typography.body1,
+                color = AppTheme.colors.onSurface
             )
         }
-
-        Spacer(modifier = Modifier.size(15.dp))
         Row(
             Modifier.clickable(
                 interactionSource = remember { MutableInteractionSource() },
-                indication = null
-            ) { selected = GameType.COLLECTIVE }) {
+                indication = null,
+                onClick = { selected = GameType.COLLECTIVE }
+            ),
+            verticalAlignment = Alignment.CenterVertically) {
             RadioButton(
                 selected = selected == GameType.COLLECTIVE,
-                onClick = { selected = GameType.COLLECTIVE })
+                onClick = { selected = GameType.COLLECTIVE },
+                colors = getAppRadioButtonColors()
+            )
             Text(
                 text = GameType.COLLECTIVE.name,
                 modifier = Modifier.padding(start = 10.dp),
-                fontSize = 18.sp
+                style = AppTheme.typography.body1,
+                color = AppTheme.colors.onSurface
             )
         }
         Text(
             text = stringResource(ua.edmko.core.R.string.accept),
-            color = MaterialTheme.colors.onSurface,
-            fontSize = 24.sp,
+            style = AppTheme.typography.h5,
+            color = AppTheme.colors.onSurface,
             modifier = Modifier
                 .padding(top = 18.dp)
                 .align(Alignment.End)
                 .clickable(onClick = { onDismiss(selected) }),
         )
+
     }
 }
 

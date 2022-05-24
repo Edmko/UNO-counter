@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.material.DismissDirection.*
 import androidx.compose.material.DismissValue.*
@@ -27,11 +28,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import ua.edmko.components.ConfirmationDialog
-import ua.edmko.components.EditDialog
-import ua.edmko.components.Toolbar
-import ua.edmko.theme.AppTheme
-import ua.edmko.theme.baseHorizontalPadding
+import ua.edmko.core.ui.components.ConfirmationDialog
+import ua.edmko.core.ui.components.EditDialog
+import ua.edmko.core.ui.components.Toolbar
+import ua.edmko.core.ui.theme.AppTheme
+import ua.edmko.core.ui.theme.baseHorizontalPadding
+import ua.edmko.core.ui.theme.getCheckboxColors
 import ua.edmko.domain.entities.Player
 import ua.edmko.domain.entities.Player.Companion.playersStubList
 
@@ -39,49 +41,63 @@ import ua.edmko.domain.entities.Player.Companion.playersStubList
 @Composable
 fun PlayersScreen(viewModel: PlayersViewModel = hiltViewModel()) {
     val state by viewModel.viewStates().collectAsState()
+    state?.let {
+        PlayersScreen(state = it, event = viewModel::obtainEvent)
+    }
+}
+
+@ExperimentalMaterialApi
+@Composable
+internal fun PlayersScreen(state: PlayersViewState, event: (PlayersEvent) -> Unit) {
     Scaffold(
-        topBar = { Toolbar(title = "Players") { viewModel.obtainEvent(NavigateBack) } },
-        modifier = Modifier
-            .fillMaxSize()
-            .statusBarsPadding()
+        topBar = {
+            Toolbar(title = "Players") {
+                event(
+                    NavigateBack
+                )
+            }
+        },
+        modifier = Modifier.fillMaxSize(),
+        backgroundColor = AppTheme.colors.surface
     ) { paddings ->
         Box(
             Modifier
                 .padding(paddings)
-                .background(Color.Black)
                 .fillMaxSize()
-
         ) {
-            if (state?.editDialogShows == true) EditDialog(
+            if (state.editDialogShows) EditDialog(
                 title = stringResource(R.string.insert_name),
-                onDismiss = { viewModel.obtainEvent(DismissDialog) },
+                onDismiss = { event(DismissDialog) },
                 onClick = { text ->
-                    if (state?.selectedPlayer == null) {
-                        viewModel.obtainEvent(CreatePlayer(text))
+                    if (state.selectedPlayer == null) {
+                        event(CreatePlayer(text))
                     } else {
-                        viewModel.obtainEvent(ChangePlayersName(text))
+                        event(ChangePlayersName(text))
                     }
                 })
-            if (state?.confirmationDialogShows == true) ConfirmationDialog(
+            if (state.confirmationDialogShows) ConfirmationDialog(
                 title = stringResource(R.string.are_delete_player),
-                dismiss = { viewModel.obtainEvent(DismissDialog) },
-                accept = { viewModel.obtainEvent(DeletePlayerEvent) }
+                dismiss = { event(DismissDialog) },
+                accept = { event(DeletePlayerEvent) }
             )
-            state?.players?.let { players -> PLayersList(players, viewModel::obtainEvent) }
+            PLayersList(
+                players = state.players,
+                event = event
+            )
 
             FloatingActionButton(
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
                     .padding(bottom = 50.dp, end = baseHorizontalPadding),
-                backgroundColor = Color.Red,
-                onClick = { viewModel.obtainEvent(AddPlayerButton) }) {
+                backgroundColor = AppTheme.colors.primary,
+                onClick = { event(AddPlayerButton) }) {
                 Icon(
-                    Icons.Filled.Add,
+                    imageVector = Icons.Filled.Add,
                     contentDescription = "Edit",
                     modifier = Modifier
                         .size(30.dp)
                         .align(Alignment.Center),
-                    tint = Color.Black
+                    tint = AppTheme.colors.onPrimary
                 )
 
             }
@@ -91,10 +107,19 @@ fun PlayersScreen(viewModel: PlayersViewModel = hiltViewModel()) {
 
 @ExperimentalMaterialApi
 @Composable
-fun PLayersList(players: List<Player>, event: (PlayersEvent) -> Unit) {
+fun PLayersList(
+    players: List<Player>,
+    event: (PlayersEvent) -> Unit
+) {
     LazyColumn() {
-        items(players) { player ->
+        itemsIndexed(players) { index, player ->
             key(player.playerId) {
+                if (index == 0) Divider(
+                    Modifier
+                        .height(1.dp)
+                        .fillMaxWidth(),
+                    color = AppTheme.colors.onSurface
+                )
                 val dismissState = rememberDismissState { dismissState ->
                     when (dismissState) {
                         DismissedToEnd -> event(OnDeletePlayer(player))
@@ -146,6 +171,17 @@ fun PLayersList(players: List<Player>, event: (PlayersEvent) -> Unit) {
                     dismissContent = { PlayerItem(player, event) }
                 )
             }
+            Divider(
+                Modifier
+                    .height(1.dp)
+                    .fillMaxWidth(),
+                color = AppTheme.colors.onSurface
+            )
+        }
+        item {
+            Spacer(
+                Modifier.windowInsetsBottomHeight(WindowInsets.safeDrawing)
+            )
         }
 
     }
@@ -158,41 +194,32 @@ fun PlayerItem(player: Player, event: (PlayersEvent) -> Unit) {
         if (player.isSelected) {
             AppTheme.colors.secondary
         } else {
-            AppTheme.colors.onBackground
+            AppTheme.colors.onSurface
         }
     )
-
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(AppTheme.colors.background)
+            .background(AppTheme.colors.surface)
             .height(50.dp)
     ) {
-        Checkbox(
-            checked = player.isSelected,
-            onCheckedChange = { isChecked ->
-                event(UpdatePlayersSelection(player.copy(isSelected = isChecked)))
-            },
-            modifier = Modifier
-                .padding(start = 18.dp)
-                .align(Alignment.CenterStart)
-        )
-        Text(
-            text = player.name,
-            color = textColor,
-            fontSize = 24.sp,
-            fontFamily = FontFamily.Serif,
-            modifier = Modifier
-                .align(Alignment.CenterStart)
-                .padding(start = 54.dp)
-        )
-        Divider(
-            Modifier
-                .height(1.dp)
-                .align(Alignment.BottomCenter)
-                .fillMaxWidth(),
-            color = AppTheme.colors.onBackground
-        )
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Checkbox(
+                checked = player.isSelected,
+                onCheckedChange = { isChecked ->
+                    event(UpdatePlayersSelection(player.copy(isSelected = isChecked)))
+                },
+                modifier = Modifier.padding(start = 18.dp),
+                colors = getCheckboxColors()
+            )
+            Text(
+                text = player.name,
+                color = textColor,
+                style = AppTheme.typography.h5,
+                modifier = Modifier
+                    .padding(start = 10.dp)
+            )
+        }
     }
 }
 
@@ -210,7 +237,7 @@ fun PlayerListPreview() {
 
 @Preview
 @Composable
-fun PlayerItemPreview(name: String = "John Simons") {
+fun PlayerItemPreview() {
     AppTheme {
         PlayerItem(player = playersStubList.first()) {}
     }

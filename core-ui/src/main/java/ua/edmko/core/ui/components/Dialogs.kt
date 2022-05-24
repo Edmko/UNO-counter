@@ -1,6 +1,5 @@
-package ua.edmko.components
+package ua.edmko.core.ui.components
 
-import android.widget.Space
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -26,9 +25,9 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import ua.edmko.R
-import ua.edmko.theme.AppTheme
-import ua.edmko.theme.baseHorizontalPadding
+import ua.edmko.core.ui.R
+import ua.edmko.core.ui.theme.AppTheme
+import ua.edmko.core.ui.theme.baseHorizontalPadding
 
 @Composable
 fun DialogApp(
@@ -46,7 +45,7 @@ fun DialogApp(
         ) {
             Text(
                 text = title,
-                color = AppTheme.colors.onBackground,
+                color = AppTheme.colors.onSurface,
                 style = AppTheme.typography.h5
             )
             content()
@@ -79,7 +78,7 @@ fun EditDialog(
 
         Text(
             text = stringResource(R.string.accept),
-            color = AppTheme.colors.onBackground,
+            color = AppTheme.colors.onSurface,
             fontSize = 24.sp,
             modifier = Modifier
                 .padding(top = 18.dp)
@@ -161,6 +160,7 @@ fun GameEditText(
 
     SideEffect {
         coroutine.launch {
+            delay(100L)
             focusRequester.requestFocus()
         }
     }

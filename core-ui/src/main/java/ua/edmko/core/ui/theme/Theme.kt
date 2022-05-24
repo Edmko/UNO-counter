@@ -1,7 +1,6 @@
-package ua.edmko.theme
+package ua.edmko.core.ui.theme
 
-import androidx.compose.material.Shapes
-import androidx.compose.material.Typography
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
@@ -11,22 +10,31 @@ import androidx.compose.ui.graphics.Color
 data class Colors(
     val primary: Color = Color.Red,
     val secondary: Color = Color.White,
-    val background: Color = Color.Black,
-    val onBackground: Color = Color.White,
-    val onPrimary: Color = Color.White
+    val surface: Color = DarkGrey,
+    val onSurface: Color = Color.White,
+    val onPrimary: Color = DarkGrey
 )
 
-private val DarkAppColors = Colors(
-    primary = Color.Red,
-    secondary = Color.Red,
-    background = Color.Black,
-    onBackground = Color.White,
-    onPrimary = Color.White
+
+@Composable
+fun getAppRadioButtonColors() = RadioButtonDefaults.colors(
+    selectedColor = AppTheme.colors.primary,
+    unselectedColor = AppTheme.colors.onSurface.copy(alpha = 0.6f),
+    disabledColor = AppTheme.colors.onSurface.copy(ContentAlpha.disabled)
+)
+
+@Composable
+fun getCheckboxColors() = CheckboxDefaults.colors(
+    checkedColor = AppTheme.colors.primary,
+    uncheckedColor = AppTheme.colors.onSurface.copy(alpha = 0.6f),
+    checkmarkColor = AppTheme.colors.surface,
+    disabledColor = AppTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled),
+    disabledIndeterminateColor = AppTheme.colors.primary.copy(alpha = ContentAlpha.disabled)
 )
 
 @Composable
 fun AppTheme(
-    colors: Colors = DarkAppColors,
+    colors: Colors = Colors(),
     typography: Typography = Typography,
     shapes: Shapes = Shapes,
     content: @Composable () -> Unit
@@ -42,8 +50,7 @@ fun AppTheme(
 
 object AppTheme {
 
-    val
-            colors: Colors
+    val colors: Colors
         @Composable
         @ReadOnlyComposable
         get() = LocalAppColors.current

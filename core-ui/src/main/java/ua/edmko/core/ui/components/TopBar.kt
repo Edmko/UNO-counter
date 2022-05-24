@@ -1,12 +1,8 @@
-package ua.edmko.components
+package ua.edmko.core.ui.components
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -16,15 +12,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ua.edmko.theme.AppTheme
+import ua.edmko.core.ui.theme.AppTheme
 
 @Composable
-fun Toolbar(title: String, back: () -> Unit) {
-    Surface() {
+fun Toolbar(modifier: Modifier = Modifier, title: String, back: () -> Unit) {
+    Surface(
+        modifier = modifier.statusBarsPadding(),
+        color = AppTheme.colors.surface
+    ) {
         Row(
             modifier = Modifier
                 .height(70.dp)
-                .fillMaxWidth()
+                .fillMaxWidth(),
         ) {
             Icon(
                 imageVector = Icons.Filled.ArrowBack,
@@ -32,12 +31,14 @@ fun Toolbar(title: String, back: () -> Unit) {
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
                     .clickable(onClick = back)
-                    .padding(18.dp)
+                    .padding(18.dp),
+                tint = AppTheme.colors.onSurface
             )
             Text(
                 modifier = Modifier.align(Alignment.CenterVertically),
                 text = title,
-                style = MaterialTheme.typography.h5
+                style = AppTheme.typography.h5,
+                color = AppTheme.colors.onSurface
             )
         }
     }
@@ -47,6 +48,6 @@ fun Toolbar(title: String, back: () -> Unit) {
 @Composable
 fun ToolbarPreview() {
     AppTheme {
-        Toolbar("Toolbar title") {}
+        Toolbar(title = "Toolbar title") {}
     }
 }

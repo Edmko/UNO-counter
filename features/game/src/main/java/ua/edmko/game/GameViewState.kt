@@ -10,4 +10,10 @@ data class GameViewState(
     val isDialogShows: Boolean = false,
     val selectedPlayer : Player? = null,
     val currentRound: Round = Round.empty
-): ViewState
+): ViewState {
+    companion object {
+        val Stub = GameViewState(
+            Game.getGameStub()
+        )
+    }
+}

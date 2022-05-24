@@ -19,74 +19,71 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import ua.edmko.components.GameButton
-import ua.edmko.components.PlayerItem
-import ua.edmko.components.Toolbar
+import ua.edmko.core.ui.components.GameButton
+import ua.edmko.core.ui.components.PlayerItem
+import ua.edmko.core.ui.components.Toolbar
 import ua.edmko.core.extension.getColorByIndex
-import ua.edmko.components.EditDialog
-import ua.edmko.theme.baseHorizontalPadding
+import ua.edmko.core.ui.components.EditDialog
+import ua.edmko.core.ui.theme.baseHorizontalPadding
 import ua.edmko.domain.entities.Game
 import ua.edmko.domain.entities.Player
 import ua.edmko.domain.entities.PlayerId
 import ua.edmko.domain.entities.Round
-import ua.edmko.theme.AppTheme
+import ua.edmko.core.ui.theme.AppTheme
+import ua.edmko.core.ui.theme.getAppRadioButtonColors
+
 
 @Composable
 fun GameScreen(viewModel: GameViewModel = hiltViewModel()) {
-
     val state by viewModel.viewStates().collectAsState()
-
-    AppTheme {
-        Scaffold(
-            topBar = { Toolbar(title = "Game") { viewModel.obtainEvent(NavigateBack) } },
-            modifier = Modifier
-                .fillMaxSize()
-                .statusBarsPadding()
-        ) { paddings ->
-            Surface(
-                Modifier
-                    .padding(paddings)
-                    .fillMaxSize()
-            ) {
-                GameScreen(state, viewModel::obtainEvent)
-            }
-
-        }
-    }
+    state?.let { GameScreen(it, viewModel::obtainEvent) }
 }
 
 @Composable
-fun GameScreen(state: GameViewState?, event: (GameEvent) -> Unit) {
-    requireNotNull(state)
-    if (state.isDialogShows && state.selectedPlayer?.name != null) EditDialog(
-        title = stringResource(
-            id = R.string.score_for_player,
-            state.selectedPlayer.name
-        ),
-        textType = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
-        onClick = { score -> event(ConfirmEdition(score.toIntOrNull() ?: 0)) },
-        onDismiss = { event(DismissDialog) })
+internal fun GameScreen(state: GameViewState, event: (GameEvent) -> Unit) {
+    Scaffold(
+        topBar = { Toolbar(title = stringResource(R.string.game)) { event(NavigateBack) } },
+        modifier = Modifier
+            .fillMaxSize(),
+        backgroundColor = AppTheme.colors.surface
+    ) { paddings ->
+        if (state.isDialogShows && state.selectedPlayer?.name != null) EditDialog(
+            title = stringResource(
+                id = R.string.score_for_player,
+                state.selectedPlayer.name
+            ),
+            textType = KeyboardOptions(
+                keyboardType = KeyboardType.Number,
+                imeAction = ImeAction.Done
+            ),
+            onClick = { score -> event(ConfirmEdition(score.toIntOrNull() ?: 0)) },
+            onDismiss = { event(DismissDialog) })
 
-    Box(Modifier.fillMaxSize()) {
-        Column {
-            ItemExplanation()
-            PlayersList(
-                state.game.calculatePlayersTotal(),
-                currentRound = state.currentRound,
-                onClick = { event(EditScore(it)) },
-                winner = state.currentRound.winner,
-                selectWinner = { event(SetWinner(it)) })
+        Box(
+            Modifier
+                .fillMaxSize()
+                .padding(paddings)
+        ) {
+            Column {
+                ItemExplanation()
+                PlayersList(
+                    state.game.calculatePlayersTotal(),
+                    currentRound = state.currentRound,
+                    onClick = { event(EditScore(it)) },
+                    winner = state.currentRound.winner,
+                    selectWinner = { event(SetWinner(it)) })
+            }
+
+
+            GameButton(
+                text = stringResource(R.string.next_round),
+                modifier = Modifier
+                    .padding(baseHorizontalPadding, 0.dp, baseHorizontalPadding, 40.dp)
+                    .fillMaxWidth()
+                    .height(56.dp)
+                    .align(Alignment.BottomCenter),
+                onClick = { event(NextRound) })
         }
-
-
-        GameButton(
-            text = stringResource(R.string.next_round),
-            modifier = Modifier
-                .padding(baseHorizontalPadding, 0.dp, baseHorizontalPadding, 40.dp)
-                .fillMaxWidth()
-                .height(56.dp)
-                .align(Alignment.BottomCenter),
-            onClick = { event(NextRound) })
     }
 }
 
@@ -129,19 +126,21 @@ fun PlayersList(
                     modifier = Modifier
                         .padding(start = 8.dp)
                         .width(60.dp),
-                    text = total.toString()
+                    text = total.toString(),
+                    color = AppTheme.colors.onSurface
                 )
                 Text(
                     modifier = Modifier.width(60.dp),
                     text = currentRound?.result?.getOrDefault(player.playerId, 0)
-                        .toString()
+                        .toString(),
+                    color = AppTheme.colors.onSurface
                 )
                 RadioButton(
                     modifier = Modifier.fillMaxHeight(),
                     selected = player.playerId == winner,
-                    onClick = {
-                        selectWinner(player)
-                    })
+                    onClick = { selectWinner(player) },
+                    colors = getAppRadioButtonColors()
+                )
             }
 
         }
@@ -152,7 +151,7 @@ fun PlayersList(
 @Composable
 fun GameScreenPreview() {
     AppTheme {
-        GameScreen(state = GameViewState()) {}
+        GameScreen(state = GameViewState.Stub) {}
     }
 }
 
@@ -160,8 +159,11 @@ fun GameScreenPreview() {
 @Composable
 fun PlayersListPreview() {
     AppTheme {
-        Surface() {
+        Surface(
+            color = AppTheme.colors.surface
+        ) {
             PlayersList(Game.getGameStub().calculatePlayersTotal(), Round.empty, {}) {}
         }
+
     }
 }

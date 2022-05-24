@@ -1,7 +1,6 @@
-package ua.edmko.components
+package ua.edmko.core.ui.components
 
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -11,7 +10,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ua.edmko.theme.AppTheme
+import ua.edmko.core.ui.theme.AppTheme
 
 @Composable
 fun GameButton(modifier: Modifier = Modifier,
@@ -23,7 +22,7 @@ fun GameButton(modifier: Modifier = Modifier,
     )
     Button(
         onClick = onClick,
-        shape = RoundedCornerShape(10.dp),
+        shape = AppTheme.shapes.medium,
         modifier = modifier,
         colors = colors,
         contentPadding = PaddingValues(0.dp),

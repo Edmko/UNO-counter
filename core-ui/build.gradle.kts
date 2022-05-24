@@ -37,7 +37,7 @@ dependencies {
     api(ua.edmko.buildsrc.ComposeLibraries.iconsCore)
     api(ua.edmko.buildsrc.ComposeLibraries.iconExtended)
     api(ua.edmko.buildsrc.ComposeLibraries.constraint)
-
+    api(ua.edmko.buildsrc.ComposeLibraries.systemUiController)
     implementation(ua.edmko.buildsrc.AndroidLibraries.core)
     implementation(ua.edmko.buildsrc.AndroidLibraries.appCompat)
 

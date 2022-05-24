@@ -8,7 +8,8 @@ object AndroidSdk {
 object Classpath {
     const val gradle = "com.android.tools.build:gradle:7.2.0"
     const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.21"
-    const val hilt = "com.google.dagger:hilt-android-gradle-plugin:${HiltDependencies.Versions.hilt}"
+    const val hilt =
+        "com.google.dagger:hilt-android-gradle-plugin:${HiltDependencies.Versions.hilt}"
     const val ktlint = "org.jlleitschuh.gradle:ktlint-gradle:10.3.0"
 }
 
@@ -47,6 +48,8 @@ object ComposeLibraries {
         const val constraint = "1.0.0"
     }
 
+    const val systemUiController =
+        "com.google.accompanist:accompanist-systemuicontroller:${Versions.accompanist}"
     const val ui = "androidx.compose.ui:ui:${Versions.compose}"
     const val uiTooling = "androidx.compose.ui:ui-tooling:${Versions.compose}"
     const val foundation = "androidx.compose.foundation:foundation:${Versions.compose}"

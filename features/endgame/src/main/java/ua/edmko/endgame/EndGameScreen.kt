@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.example.endgame.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import ua.edmko.theme.AppTheme
+import ua.edmko.core.ui.theme.AppTheme
 
 @Composable
 fun EndGameScreen(name: String, back: () -> Unit) {

@@ -1,11 +1,10 @@
-package ua.edmko.components
+package ua.edmko.core.ui.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -13,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ua.edmko.theme.AppTheme
+import ua.edmko.core.ui.theme.AppTheme
 
 @Composable
 fun TextFieldDivided(
@@ -29,11 +28,11 @@ fun TextFieldDivided(
             .padding(top = 15.dp, start = 18.dp, end = 18.dp)
     ) {
         Text(
-            style = MaterialTheme.typography.h5,
+            style = AppTheme.typography.h5,
             color = Color.White,
             text = "$description: $value",
         )
-        Divider(Modifier.padding(top = 10.dp), color = MaterialTheme.colors.onSurface)
+        Divider(Modifier.padding(top = 10.dp), color = AppTheme.colors.onSurface)
     }
 
 }
@@ -42,7 +41,9 @@ fun TextFieldDivided(
 @Composable
 fun TextFieldWithDividerPreview() {
     AppTheme {
-        Surface() {
+        Surface(
+            color = AppTheme.colors.surface
+        ) {
             TextFieldDivided(value = "500", description = "Goal")
         }
     }
