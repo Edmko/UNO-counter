@@ -1,4 +1,7 @@
 import ua.edmko.buildsrc.*
+import java.io.FileInputStream
+import java.util.Properties
+
 
 plugins {
     id("dagger.hilt.android.plugin")
@@ -7,6 +10,11 @@ plugins {
     kotlin("kapt")
     id("com.google.firebase.crashlytics")
 }
+
+
+val keystoreFile = rootProject.file("keystore.properties")
+val keystoreProperties = Properties()
+keystoreProperties.load(FileInputStream(keystoreFile))
 
 android {
     compileSdk = AndroidSdk.compile
@@ -21,10 +29,10 @@ android {
 
     signingConfigs {
         create("release") {
-            storeFile = file("C:\\Users\\Edmko\\upload_edmko.jks")
-            storePassword = "s42igL3Tk9LXi8A"
-            keyAlias = "key0"
-            keyPassword = "s42igL3Tk9LXi8A"
+            storeFile = file(keystoreProperties["storeFile"]!!)
+            storePassword = keystoreProperties["storePassword"].toString()
+            keyAlias = keystoreProperties["keyAlias"].toString()
+            keyPassword = keystoreProperties["keyPassword"].toString()
         }
     }
 
