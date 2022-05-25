@@ -17,6 +17,7 @@ import ua.edmko.game.GameScreen
 import ua.edmko.navigation.NavigationDirections
 import ua.edmko.navigation.NavigationManager
 import ua.edmko.players.PlayersScreen
+import ua.edmko.privacy.PolicyScreen
 
 const val TAG = "NAVIGATION"
 
@@ -49,7 +50,12 @@ fun NavigationComponent(
         startDestination = NavigationDirections.gameSetting.destination
     ) {
         composable(NavigationDirections.gameSetting.destination) {
-            GameSettingScreen()
+            GameSettingScreen {
+                navController.navigate(
+                    NavigationDirections.policy.destination,
+                    NavigationDirections.policy.builder
+                )
+            }
         }
         composable(NavigationDirections.players.destination) {
             PlayersScreen()
@@ -64,7 +70,17 @@ fun NavigationComponent(
             )
         }
         composable(NavigationDirections.lobby.destination) {
-            GameSettingScreen()
+            GameSettingScreen {
+                navController.navigate(
+                    NavigationDirections.policy.destination,
+                    NavigationDirections.policy.builder
+                )
+            }
+        }
+        composable(NavigationDirections.policy.destination) {
+            PolicyScreen() {
+                navController.navigateUp()
+            }
         }
     }
 }

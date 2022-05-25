@@ -13,9 +13,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ua.edmko.core.ui.theme.AppTheme
+import ua.edmko.core.ui.theme.baseHorizontalPadding
 
 @Composable
-fun Toolbar(modifier: Modifier = Modifier, title: String, back: () -> Unit) {
+fun Toolbar(
+    modifier: Modifier = Modifier,
+    title: String,
+    content: (@Composable RowScope.() -> Unit)? = null,
+    back: (() -> Unit)? = null,
+) {
     Surface(
         modifier = modifier.statusBarsPadding(),
         color = AppTheme.colors.surface
@@ -23,23 +29,29 @@ fun Toolbar(modifier: Modifier = Modifier, title: String, back: () -> Unit) {
         Row(
             modifier = Modifier
                 .height(70.dp)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .padding(start = baseHorizontalPadding),
+            verticalAlignment = Alignment.CenterVertically
+
         ) {
-            Icon(
-                imageVector = Icons.Filled.ArrowBack,
-                contentDescription = "Navigate back",
-                modifier = Modifier
-                    .align(Alignment.CenterVertically)
-                    .clickable(onClick = back)
-                    .padding(18.dp),
-                tint = AppTheme.colors.onSurface
-            )
+            back?.let { back ->
+                Icon(
+                    imageVector = Icons.Filled.ArrowBack,
+                    contentDescription = "Navigate back",
+                    modifier = Modifier
+                        .clickable(onClick = back)
+                        .padding(end = 18.dp),
+                    tint = AppTheme.colors.onSurface
+                )
+            }
             Text(
-                modifier = Modifier.align(Alignment.CenterVertically),
+                modifier = Modifier
+                    .weight(1f),
                 text = title,
                 style = AppTheme.typography.h5,
                 color = AppTheme.colors.onSurface
             )
+            content?.invoke(this)
         }
     }
 }
@@ -48,6 +60,6 @@ fun Toolbar(modifier: Modifier = Modifier, title: String, back: () -> Unit) {
 @Composable
 fun ToolbarPreview() {
     AppTheme {
-        Toolbar(title = "Toolbar title") {}
+        Toolbar(title = "Toolbar title", content = {}, back = {})
     }
 }

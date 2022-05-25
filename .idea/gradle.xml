@@ -20,6 +20,7 @@
             <option value="$PROJECT_DIR$/features/endgame" />
             <option value="$PROJECT_DIR$/features/game" />
             <option value="$PROJECT_DIR$/features/players" />
+            <option value="$PROJECT_DIR$/features/privacy" />
             <option value="$PROJECT_DIR$/features/setup" />
             <option value="$PROJECT_DIR$/navigation" />
           </set>

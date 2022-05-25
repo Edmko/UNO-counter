@@ -9,6 +9,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Policy
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,16 +30,36 @@ import ua.edmko.domain.entities.GameType
 import ua.edmko.domain.entities.Player
 
 @Composable
-fun GameSettingScreen(viewModel: SetupViewModel = hiltViewModel()) {
+fun GameSettingScreen(viewModel: SetupViewModel = hiltViewModel(), toPrivacy: () -> Unit) {
     val state by viewModel.viewStates().collectAsState()
-    state?.let { GameSettingContent(it, viewModel::obtainEvent) }
+    state?.let { GameSettingContent(it, toPrivacy, viewModel::obtainEvent) }
 }
 
 @Composable
-internal fun GameSettingContent(state: SetupViewState, event: (GameSettingEvent) -> Unit) {
-    Surface(
+internal fun GameSettingContent(
+    state: SetupViewState,
+    toPrivacy: () -> Unit,
+    event: (GameSettingEvent) -> Unit
+) {
+    Scaffold(
         modifier = Modifier,
-        color = AppTheme.colors.surface
+        backgroundColor = AppTheme.colors.surface,
+        topBar = {
+            Toolbar(
+                modifier = Modifier.padding(end = baseHorizontalPadding),
+                title = "Setup",
+                content = {
+                    Icon(
+                        modifier = Modifier
+                            .align(Alignment.CenterVertically)
+                            .clickable(onClick = toPrivacy),
+                        imageVector = Icons.Filled.Policy,
+                        contentDescription = "privacy policy",
+                        tint = AppTheme.colors.onSurface
+                    )
+                }
+            )
+        }
     ) {
         //dialog
         when (state.dialog) {
@@ -61,13 +83,14 @@ internal fun GameSettingContent(state: SetupViewState, event: (GameSettingEvent)
             }
             null -> {
                 /** Empty */
+                /** Empty */
             }
         }
         //content
         Box(
             Modifier
+                .padding(it)
                 .fillMaxSize()
-                .statusBarsPadding()
         ) {
             Column(
                 Modifier.fillMaxSize()
@@ -216,7 +239,7 @@ fun OptionsDialog(
 @Composable
 fun GameSettingContentPreview() {
     AppTheme {
-        GameSettingContent(state = SetupViewState.Preview, event = {})
+        GameSettingContent(state = SetupViewState.Preview, event = {}, toPrivacy = {})
     }
 }
 

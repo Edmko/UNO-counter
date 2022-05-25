@@ -18,6 +18,12 @@ object NavigationDirections {
         override val builder: NavOptionsBuilder.() -> Unit = {}
     }
 
+    val policy = object : NavigationCommand {
+        override val argument: List<NamedNavArgument> = emptyList()
+        override val destination: String = "policy"
+        override val builder: NavOptionsBuilder.() -> Unit = {}
+    }
+
     //PopBack
     val back = object : NavigationCommand {
         override val argument = emptyList<NamedNavArgument>()
