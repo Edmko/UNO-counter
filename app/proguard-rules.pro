@@ -19,3 +19,36 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-dontwarn javax.annotation.**
+
+-dontwarn kotlin.Unit
+
+-dontwarn org.conscrypt.ConscryptHostnameVerifier
+-dontwarn org.jetbrains.kotlin.compiler.plugin.ComponentRegistrar
+-dontwarn org.jetbrains.kotlin.compiler.plugin.CommandLineProcessor
+-dontwarn org.jetbrains.kotlin.diagnostics.rendering.DefaultErrorMessages$Extension
+-dontwarn org.bouncycastle.jsse.BCSSLSocket
+-dontwarn org.bouncycastle.jsse.BCSSLParameters
+-dontwarn org.bouncycastle.jsse.provider.BouncyCastleJsseProvider
+-dontwarn org.conscrypt.*
+-dontwarn org.openjsse.javax.net.ssl.SSLParameters
+-dontwarn org.openjsse.javax.net.ssl.SSLSocket
+-dontwarn org.openjsse.net.ssl.OpenJSSE
+-dontwarn javax.naming.**
+-dontwarn com.google.firebase.messaging.**
+
+# Prevent proguard from stripping interface information from TypeAdapterFactory,
+# JsonSerializer, JsonDeserializer instances (so they can be used in @JsonAdapter)
+-keep class * implements com.google.gson.TypeAdapterFactory
+-keep class * implements com.google.gson.JsonSerializer
+-keep class * implements com.google.gson.JsonDeserializer
+
+# For using GSON @Expose annotation
+-keepattributes *Annotation*
+
+# Gson specific classes
+-dontwarn sun.misc.**
+
+-keepattributes Signature
+-keepnames class * extends android.os.Parcelable
+-keepnames class * extends java.io.Serializable

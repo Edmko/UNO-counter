@@ -1,10 +1,10 @@
 import ua.edmko.buildsrc.*
 
 plugins {
+    id("dagger.hilt.android.plugin")
     id("com.android.application")
     kotlin("android")
     kotlin("kapt")
-    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -14,19 +14,31 @@ android {
         applicationId = "ua.edmko.unocounter"
         minSdk = AndroidSdk.min
         targetSdk = AndroidSdk.compile
-        versionCode = 1
+        versionCode = 2
         versionName = "1.0"
+    }
+    
+    signingConfigs {
+        create("release") {
+            storeFile = file("C:\\Users\\Edmko\\upload_edmko.jks")
+            storePassword = "s42igL3Tk9LXi8A"
+            keyAlias = "key0"
+            keyPassword = "s42igL3Tk9LXi8A"
+        }
     }
 
     buildTypes {
-        release {
-            isMinifyEnabled = false
+        getByName("release") {
+            signingConfig = signingConfigs.getByName("release")
+            isShrinkResources = true
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
     }
+
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
     }

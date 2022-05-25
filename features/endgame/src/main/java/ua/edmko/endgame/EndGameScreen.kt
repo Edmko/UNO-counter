@@ -21,10 +21,16 @@ import ua.edmko.core.ui.theme.AppTheme
 @Composable
 fun EndGameScreen(name: String, back: () -> Unit) {
     AppTheme {
-        Surface() {
+        Surface(
+            color = AppTheme.colors.surface
+        ) {
             Box(Modifier.fillMaxSize()) {
                 Column(Modifier.align(Alignment.Center)) {
-                    Text(text = stringResource(R.string.congratulation), style = AppTheme.typography.h4)
+                    Text(
+                        text = stringResource(R.string.congratulation),
+                        style = AppTheme.typography.h4,
+                        color = AppTheme.colors.onSurface
+                    )
                     Text(
                         text = name,
                         modifier = Modifier
@@ -40,7 +46,7 @@ fun EndGameScreen(name: String, back: () -> Unit) {
     val scope = rememberCoroutineScope()
     SideEffect {
         scope.launch {
-        delay(2000)
+            delay(3000)
             back()
         }
     }
