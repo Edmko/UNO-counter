@@ -5,6 +5,7 @@ plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("kapt")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -17,7 +18,7 @@ android {
         versionCode = 2
         versionName = "1.0"
     }
-    
+
     signingConfigs {
         create("release") {
             storeFile = file("C:\\Users\\Edmko\\upload_edmko.jks")
@@ -94,4 +95,7 @@ dependencies {
     implementation(Coroutines.core)
 
     coreLibraryDesugaring(desugarJdk)
+
+    implementation(Analytics.analytics)
+    implementation(Analytics.crashlytics)
 }

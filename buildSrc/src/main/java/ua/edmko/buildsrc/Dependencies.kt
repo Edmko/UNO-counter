@@ -98,4 +98,11 @@ object Database {
     const val extensions = "androidx.room:room-ktx:${Version.room}"
 }
 
+object Analytics {
+    const val googleServices = "com.google.gms:google-services:4.3.10"
+    const val crashlytics = "com.google.firebase:firebase-crashlytics-ktx:18.2.10"
+    const val analytics = "com.google.firebase:firebase-analytics-ktx:21.0.0"
+    const val crashlyticGradle = "com.google.firebase:firebase-crashlytics-gradle:2.8.1"
+}
+
 const val desugarJdk = "com.android.tools:desugar_jdk_libs:1.1.5"

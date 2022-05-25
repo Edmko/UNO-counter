@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "436888696093",
+    "project_id": "uno-counter-98bec",
+    "storage_bucket": "uno-counter-98bec.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:436888696093:android:eef0e63e7ab37403099df4",
+        "android_client_info": {
+          "package_name": "ua.edmko"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "436888696093-g8hg7ih48qb2udsk5u8tcbijju7ndqba.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ua.edmko",
+            "certificate_hash": "e7bc6cf7247e963c777964e4d04b1b374de9e584"
+          }
+        },
+        {
+          "client_id": "436888696093-h3albutfp5k7kk58nbg9ernbkp99segf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBS2x2jyYYtxiFbO6_z-TClWFiDxSb1NbA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "436888696093-h3albutfp5k7kk58nbg9ernbkp99segf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
