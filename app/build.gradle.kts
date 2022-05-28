@@ -23,7 +23,7 @@ android {
         applicationId = "ua.edmko.unocounter"
         minSdk = AndroidSdk.min
         targetSdk = AndroidSdk.compile
-        versionCode = 2
+        versionCode = 3
         versionName = "1.0"
     }
 
