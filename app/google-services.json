@@ -41,6 +41,35 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:436888696093:android:4e553ca65bfab574099df4",
+        "android_client_info": {
+          "package_name": "ua.edmko.unocounter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "436888696093-h3albutfp5k7kk58nbg9ernbkp99segf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBS2x2jyYYtxiFbO6_z-TClWFiDxSb1NbA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "436888696093-h3albutfp5k7kk58nbg9ernbkp99segf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

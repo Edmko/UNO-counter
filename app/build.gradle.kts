@@ -7,6 +7,7 @@ plugins {
     id("dagger.hilt.android.plugin")
     id("com.android.application")
     kotlin("android")
+    id("com.google.gms.google-services")
     kotlin("kapt")
     id("com.google.firebase.crashlytics")
 }
@@ -23,7 +24,7 @@ android {
         applicationId = "ua.edmko.unocounter"
         minSdk = AndroidSdk.min
         targetSdk = AndroidSdk.compile
-        versionCode = 3
+        versionCode = 4
         versionName = "1.0"
     }
 
