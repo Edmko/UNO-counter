@@ -1,7 +1,8 @@
 import ua.edmko.buildsrc.*
 import java.io.FileInputStream
 import java.util.Properties
-
+import java.text.*
+import java.util.*
 
 plugins {
     id("dagger.hilt.android.plugin")
@@ -17,6 +18,11 @@ val keystoreFile = rootProject.file("keystore.properties")
 val keystoreProperties = Properties()
 keystoreProperties.load(FileInputStream(keystoreFile))
 
+fun getBuildTime(): String {
+    val date = SimpleDateFormat("yyyy-MM-dd")
+    return date.format(Date())
+}
+
 android {
     compileSdk = AndroidSdk.compile
 
@@ -25,7 +31,8 @@ android {
         minSdk = AndroidSdk.min
         targetSdk = AndroidSdk.compile
         versionCode = 4
-        versionName = "1.0"
+        versionName = "0.1.0"
+        setProperty("archivesBaseName", "unocounter${getBuildTime()}_${versionName}_$versionCode")
     }
 
     signingConfigs {
@@ -37,11 +44,13 @@ android {
         }
     }
 
+
     buildTypes {
         getByName("release") {
             signingConfig = signingConfigs.getByName("release")
             isShrinkResources = true
             isMinifyEnabled = true
+            versionNameSuffix = "-R"
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
