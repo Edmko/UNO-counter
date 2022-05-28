@@ -1,6 +1,7 @@
 package ua.edmko.core.ui.components
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.material.Button
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -24,10 +25,10 @@ fun GameButton(
     Button(
         onClick = onClick,
         shape = AppTheme.shapes.medium,
-        modifier = modifier,
+        modifier = modifier.imePadding(),
         colors = getButtonColors(),
         contentPadding = PaddingValues(0.dp),
-        enabled = isEnabled
+        enabled = isEnabled,
     ) {
         Text(
             text,

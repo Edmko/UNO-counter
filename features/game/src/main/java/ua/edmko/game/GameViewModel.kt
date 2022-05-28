@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ua.edmko.core.base.BaseViewModel
@@ -69,7 +70,7 @@ class GameViewModel @Inject constructor(
     private fun nextRound() {
         viewModelScope.launch {
             val currentRound = viewState.currentRound
-            addRoundToGame.executeSync(AddRoundToGame.Params(currentRound))
+            addRoundToGame(AddRoundToGame.Params(currentRound)).collect()
             viewState = viewState.copy(
                 currentRound = Round(
                     gameRoundId = viewState.game.gameSettings.id,
