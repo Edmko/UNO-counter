@@ -13,6 +13,14 @@ android {
         minSdk = ua.edmko.buildsrc.AndroidSdk.min
     }
     namespace = "ua.edmko.data"
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_18
+        targetCompatibility = JavaVersion.VERSION_18
+    }
+    kotlinOptions {
+        jvmTarget = "18"
+    }
 }
 
 dependencies {

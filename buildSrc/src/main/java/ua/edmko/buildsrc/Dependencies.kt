@@ -9,7 +9,7 @@ object Classpath {
 
     object Versions {
         const val gradle = "8.0.2"
-        const val kotlin = "1.6.21"
+        const val kotlin = "1.8.21"
     }
 
     const val gradle = "com.android.tools.build:gradle:${Versions.gradle}"
@@ -20,10 +20,10 @@ object Classpath {
 
 object AndroidLibraries {
     object Versions {
-        const val core = "1.6.0"
-        const val appCompat = "1.4.1"
-        const val materialCore = "1.6.0"
-        const val splash = "1.0.0-rc01"
+        const val core = "1.10.1"
+        const val appCompat = "1.6.1"
+        const val materialCore = "1.9.0"
+        const val splash = "1.0.1"
     }
 
     const val splash = "androidx.core:core-splashscreen:${Versions.splash}"
@@ -35,7 +35,7 @@ object AndroidLibraries {
 object HiltDependencies {
 
     object Versions {
-        const val hilt = "2.38.1"
+        const val hilt = "2.46.1"
         const val hiltNavigation = "1.0.0"
     }
 
@@ -48,13 +48,13 @@ const val gson = "com.google.code.gson:gson:2.9.0"
 
 object ComposeLibraries {
     object Versions {
-        const val compose = "1.2.0-beta02"
-        const val accompanist = "0.24.9-beta"
+        const val compose = "1.4.3"
+        const val compiler = "1.4.7"
+        const val accompanist = "0.30.1"
         const val constraint = "1.0.0"
     }
 
-    const val systemUiController =
-        "com.google.accompanist:accompanist-systemuicontroller:${Versions.accompanist}"
+    const val systemUiController = "com.google.accompanist:accompanist-systemuicontroller:${Versions.accompanist}"
     const val ui = "androidx.compose.ui:ui:${Versions.compose}"
     const val uiTooling = "androidx.compose.ui:ui-tooling:${Versions.compose}"
     const val foundation = "androidx.compose.foundation:foundation:${Versions.compose}"
@@ -62,13 +62,12 @@ object ComposeLibraries {
     const val material = "androidx.compose.material:material:${Versions.compose}"
     const val iconsCore = "androidx.compose.material:material-icons-core:${Versions.compose}"
     const val iconExtended = "androidx.compose.material:material-icons-extended:${Versions.compose}"
-    const val constraint =
-        "androidx.constraintlayout:constraintlayout-compose:${Versions.constraint}"
+    const val constraint = "androidx.constraintlayout:constraintlayout-compose:${Versions.constraint}"
 }
 
 object LifecycleLibraries {
     object Versions {
-        const val lifecycle = "2.4.1"
+        const val lifecycle = "2.6.1"
     }
 
     const val vmCompose = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.lifecycle}"
@@ -78,7 +77,7 @@ object LifecycleLibraries {
 
 object Navigation {
     object Versions {
-        const val compose = "2.5.0-rc01"
+        const val compose = "2.5.3"
     }
 
     const val compose = "androidx.navigation:navigation-compose:${Versions.compose}"
@@ -95,7 +94,7 @@ object Coroutines {
 
 object Database {
     object Version {
-        const val room = "2.4.2"
+        const val room = "2.5.1"
     }
 
     const val runtime = "androidx.room:room-runtime:${Version.room}"

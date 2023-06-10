@@ -25,7 +25,7 @@ plugins {
     id("com.google.firebase.crashlytics")
 }
 
-val keystoreFile = rootProject.file("keystore.properties")
+val keystoreFile: File = rootProject.file("keystore.properties")
 val keystoreProperties = Properties()
 keystoreProperties.load(FileInputStream(keystoreFile))
 
@@ -70,14 +70,14 @@ android {
 
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_18
+        targetCompatibility = JavaVersion.VERSION_18
     }
     buildFeatures {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = ComposeLibraries.Versions.compose
+        kotlinCompilerExtensionVersion = ComposeLibraries.Versions.compiler
     }
     namespace = "ua.edmko.unocounter"
 }
@@ -93,7 +93,6 @@ dependencies {
     implementation(project(":features:players"))
     implementation(project(":features:setup"))
     implementation(project(":features:privacy"))
-
     coreDependencies()
     hiltDependencies()
     composeDependencies()
