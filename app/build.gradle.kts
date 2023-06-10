@@ -44,7 +44,6 @@ android {
         }
     }
 
-
     buildTypes {
         getByName("release") {
             signingConfig = signingConfigs.getByName("release")
@@ -60,6 +59,8 @@ android {
 
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     buildFeatures {
         compose = true
@@ -81,39 +82,21 @@ dependencies {
     implementation(project(":features:setup"))
     implementation(project(":features:privacy"))
 
-    implementation(AndroidLibraries.core)
-    implementation(AndroidLibraries.appCompat)
-    implementation(AndroidLibraries.materialCore)
+    coreDependencies()
+    hiltDependencies()
+    composeDependencies()
     implementation(AndroidLibraries.splash)
-
     implementation(LifecycleLibraries.vmKtx)
     implementation(LifecycleLibraries.runtime)
     implementation(LifecycleLibraries.vmCompose)
     implementation(gson)
-    implementation(ComposeLibraries.ui)
-    implementation(ComposeLibraries.uiTooling)
-    implementation(ComposeLibraries.foundation)
-    implementation(ComposeLibraries.foundationLayout)
-    implementation(ComposeLibraries.material)
-    implementation(ComposeLibraries.iconsCore)
-    implementation(ComposeLibraries.iconExtended)
-    implementation(ComposeLibraries.constraint)
-
-    kapt(HiltDependencies.kaptHilt)
-    implementation(HiltDependencies.hilt)
-    implementation(HiltDependencies.hiltNavigation)
-
     kapt(Database.compiler)
     implementation(Database.extensions)
     implementation(Database.runtime)
-
     implementation(Navigation.compose)
-
     implementation(Coroutines.android)
     implementation(Coroutines.core)
-
     coreLibraryDesugaring(desugarJdk)
-
     implementation(Analytics.analytics)
     implementation(Analytics.crashlytics)
 }

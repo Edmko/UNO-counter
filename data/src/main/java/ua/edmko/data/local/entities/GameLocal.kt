@@ -26,5 +26,6 @@ data class GameSettingsLocal(
 @Entity(primaryKeys = ["playerId", "gameSettingsId"])
 data class GameCrossRef(
     val playerId: Long,
+    @ColumnInfo(index = true)
     val gameSettingsId: String
 )

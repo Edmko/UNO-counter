@@ -11,7 +11,6 @@ android {
 
     defaultConfig {
         minSdk = ua.edmko.buildsrc.AndroidSdk.min
-        targetSdk = ua.edmko.buildsrc.AndroidSdk.compile
     }
 }
 

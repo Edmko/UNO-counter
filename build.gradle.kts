@@ -6,7 +6,7 @@ buildscript {
     }
     dependencies {
         classpath(ua.edmko.buildsrc.Classpath.gradle)
-        classpath(ua.edmko.buildsrc.Classpath.kotlin)
+        classpath(kotlin("gradle-plugin", version = ua.edmko.buildsrc.Classpath.Versions.kotlin))
         classpath(ua.edmko.buildsrc.Classpath.hilt)
         classpath(ua.edmko.buildsrc.Classpath.ktlint)
         classpath(ua.edmko.buildsrc.Analytics.googleServices)

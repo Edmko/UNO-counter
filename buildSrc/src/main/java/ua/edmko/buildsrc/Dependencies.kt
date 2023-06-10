@@ -2,14 +2,19 @@ package ua.edmko.buildsrc
 
 object AndroidSdk {
     const val min = 24
-    const val compile = 31
+    const val compile = 33
 }
 
 object Classpath {
-    const val gradle = "com.android.tools.build:gradle:7.2.0"
-    const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.21"
-    const val hilt =
-        "com.google.dagger:hilt-android-gradle-plugin:${HiltDependencies.Versions.hilt}"
+
+    object Versions {
+        const val gradle = "7.2.0"
+        const val kotlin = "1.6.21"
+    }
+
+    const val gradle = "com.android.tools.build:gradle:${Versions.gradle}"
+    const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
+    const val hilt = "com.google.dagger:hilt-android-gradle-plugin:${HiltDependencies.Versions.hilt}"
     const val ktlint = "org.jlleitschuh.gradle:ktlint-gradle:10.3.0"
 }
 
@@ -106,3 +111,4 @@ object Analytics {
 }
 
 const val desugarJdk = "com.android.tools:desugar_jdk_libs:1.1.5"
+const val webkit = "androidx.webkit:webkit:1.7.0"
