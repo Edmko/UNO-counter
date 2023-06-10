@@ -5,12 +5,10 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.edmko.setup.GameSettingScreen
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ua.edmko.endgame.EndGameScreen
 import ua.edmko.game.GameScreen
@@ -25,7 +23,7 @@ const val TAG = "NAVIGATION"
 @Composable
 fun NavigationComponent(
     navController: NavHostController,
-    navigationManager: NavigationManager
+    navigationManager: NavigationManager,
 ) {
     val coroutine = rememberCoroutineScope()
     SideEffect {

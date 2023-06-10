@@ -1,8 +1,20 @@
-import ua.edmko.buildsrc.*
+import ua.edmko.buildsrc.Analytics
+import ua.edmko.buildsrc.AndroidLibraries
+import ua.edmko.buildsrc.AndroidSdk
+import ua.edmko.buildsrc.ComposeLibraries
+import ua.edmko.buildsrc.Coroutines
+import ua.edmko.buildsrc.Database
+import ua.edmko.buildsrc.LifecycleLibraries
+import ua.edmko.buildsrc.Navigation
+import ua.edmko.buildsrc.composeDependencies
+import ua.edmko.buildsrc.coreDependencies
+import ua.edmko.buildsrc.desugarJdk
+import ua.edmko.buildsrc.gson
+import ua.edmko.buildsrc.hiltDependencies
 import java.io.FileInputStream
+import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Properties
-import java.text.*
-import java.util.*
 
 plugins {
     id("dagger.hilt.android.plugin")
@@ -12,7 +24,6 @@ plugins {
     kotlin("kapt")
     id("com.google.firebase.crashlytics")
 }
-
 
 val keystoreFile = rootProject.file("keystore.properties")
 val keystoreProperties = Properties()

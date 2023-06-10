@@ -9,7 +9,7 @@ import ua.edmko.players.PlayersNavigator
 import javax.inject.Inject
 
 class Navigator @Inject constructor(
-    private val navigationManager: NavigationManager
+    private val navigationManager: NavigationManager,
 ) : SetupNavigator, PlayersNavigator, EndGameNavigator, GameNavigator {
 
     companion object {
@@ -17,7 +17,7 @@ class Navigator @Inject constructor(
     }
 
     override fun back() {
-       navigationManager.back()
+        navigationManager.back()
     }
 
     override fun toPlayers() {
