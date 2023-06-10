@@ -7,3 +7,6 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":core-ui"))
 }
+android {
+    namespace = "ua.edmko.players"
+}

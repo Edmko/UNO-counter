@@ -8,7 +8,7 @@ object AndroidSdk {
 object Classpath {
 
     object Versions {
-        const val gradle = "7.2.0"
+        const val gradle = "8.0.2"
         const val kotlin = "1.6.21"
     }
 
@@ -104,7 +104,7 @@ object Database {
 }
 
 object Analytics {
-    const val googleServices = "com.google.gms:google-services:4.3.10"
+    const val googleServices = "com.google.gms:google-services:4.3.15"
     const val crashlytics = "com.google.firebase:firebase-crashlytics-ktx:18.2.10"
     const val analytics = "com.google.firebase:firebase-analytics-ktx:21.0.0"
     const val crashlyticGradle = "com.google.firebase:firebase-crashlytics-gradle:2.8.1"

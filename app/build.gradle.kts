@@ -68,6 +68,7 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = ComposeLibraries.Versions.compose
     }
+    namespace = "ua.edmko.unocounter"
 }
 
 dependencies {

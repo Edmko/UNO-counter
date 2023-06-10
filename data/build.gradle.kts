@@ -12,6 +12,7 @@ android {
     defaultConfig {
         minSdk = ua.edmko.buildsrc.AndroidSdk.min
     }
+    namespace = "ua.edmko.data"
 }
 
 dependencies {
