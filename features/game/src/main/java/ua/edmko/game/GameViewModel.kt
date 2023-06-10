@@ -24,8 +24,7 @@ class GameViewModel @Inject constructor(
 
     init {
         viewState = GameViewState()
-        val gameId: String = savedStateHandle["gameId"]
-            ?: throw IllegalArgumentException("Game id must not be null")
+        val gameId: String = savedStateHandle[GAME_ID_EXTRA] ?: throw IllegalArgumentException("Game id must not be null")
         viewModelScope.launch {
             getGame.createObservable(ObserveGame.Params(gameId)).collect { game ->
                 viewState = viewState.copy(

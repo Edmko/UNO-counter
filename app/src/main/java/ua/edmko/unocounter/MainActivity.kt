@@ -15,9 +15,9 @@ import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
+import ua.edmko.core.base.NavigationManager
 import ua.edmko.core.ui.theme.AppTheme
-import ua.edmko.navigation.NavigationManager
-import ua.edmko.unocounter.navigation.NavigationComponent
+import ua.edmko.navigation.NavigationComponent
 import javax.inject.Inject
 
 @ExperimentalMaterialApi

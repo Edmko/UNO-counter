@@ -1,7 +1,5 @@
-package ua.edmko.unocounter.navigation
+package ua.edmko.navigation
 
-import android.util.Log
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.rememberCoroutineScope
@@ -10,16 +8,19 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.edmko.setup.GameSettingScreen
 import kotlinx.coroutines.launch
+import ua.edmko.core.base.NavigationManager
 import ua.edmko.endgame.EndGameScreen
 import ua.edmko.game.GameScreen
-import ua.edmko.navigation.NavigationDirections
-import ua.edmko.navigation.NavigationManager
+import ua.edmko.navigation.commands.BackCommand
+import ua.edmko.navigation.commands.GameCommand
+import ua.edmko.navigation.commands.GameEndCommand
+import ua.edmko.navigation.commands.GameSettingCommand
+import ua.edmko.navigation.commands.LobbyCommand
+import ua.edmko.navigation.commands.PlayersCommand
+import ua.edmko.navigation.commands.PolicyCommand
 import ua.edmko.players.PlayersScreen
 import ua.edmko.privacy.PolicyScreen
 
-const val TAG = "NAVIGATION"
-
-@ExperimentalMaterialApi
 @Composable
 fun NavigationComponent(
     navController: NavHostController,
@@ -29,8 +30,7 @@ fun NavigationComponent(
     SideEffect {
         coroutine.launch {
             navigationManager.commands().collect { command ->
-                Log.d(TAG, "destination = ${command.destination} isBack = ${command == NavigationDirections.back}")
-                if (command == NavigationDirections.back) {
+                if (command == BackCommand) {
                     navController.navigateUp()
                 } else {
                     navController.navigate(command.destination, command.builder)
@@ -41,37 +41,37 @@ fun NavigationComponent(
 
     NavHost(
         navController = navController,
-        startDestination = NavigationDirections.gameSetting.destination,
+        startDestination = GameSettingCommand.destination,
     ) {
-        composable(NavigationDirections.gameSetting.destination) {
+        composable(GameSettingCommand.destination) {
             GameSettingScreen {
                 navController.navigate(
-                    NavigationDirections.policy.destination,
-                    NavigationDirections.policy.builder,
+                    PolicyCommand.destination,
+                    PolicyCommand.builder,
                 )
             }
         }
-        composable(NavigationDirections.players.destination) {
+        composable(PlayersCommand.destination) {
             PlayersScreen()
         }
-        composable(NavigationDirections.gameDestination) {
+        composable(GameCommand.DESTINATION) {
             GameScreen()
         }
-        composable(NavigationDirections.gameEndDestination) {
+        composable(GameEndCommand.DESTINATION) {
             EndGameScreen(
-                name = it.arguments?.getString(NavigationDirections.WINNER_NAME) ?: "",
+                name = it.arguments?.getString(GameEndCommand.WINNER_NAME_EXTRA).orEmpty(),
                 back = navController::navigateUp,
             )
         }
-        composable(NavigationDirections.lobby.destination) {
+        composable(LobbyCommand.destination) {
             GameSettingScreen {
                 navController.navigate(
-                    NavigationDirections.policy.destination,
-                    NavigationDirections.policy.builder,
+                    PolicyCommand.destination,
+                    PolicyCommand.builder,
                 )
             }
         }
-        composable(NavigationDirections.policy.destination) {
+        composable(PolicyCommand.destination) {
             PolicyScreen() {
                 navController.navigateUp()
             }

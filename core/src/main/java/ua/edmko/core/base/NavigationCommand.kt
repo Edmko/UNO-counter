@@ -1,4 +1,4 @@
-package ua.edmko.navigation
+package ua.edmko.core.base
 
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavOptionsBuilder

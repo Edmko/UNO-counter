@@ -56,7 +56,7 @@ import ua.edmko.core.ui.theme.getCheckboxColors
 import ua.edmko.domain.entities.Player
 import ua.edmko.domain.entities.Player.Companion.playersStubList
 
-@ExperimentalMaterialApi
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun PlayersScreen(viewModel: PlayersViewModel = hiltViewModel()) {
     val state by viewModel.viewStates().collectAsState()
