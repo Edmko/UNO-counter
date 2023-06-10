@@ -1,5 +1,6 @@
 package ua.edmko.data.local
 
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
@@ -11,8 +12,14 @@ import ua.edmko.data.local.entities.RoundsConverter
 
 @Database(
     entities = [PlayerLocal::class, GameSettingsLocal::class, GameCrossRef::class, RoundLocal::class],
-    version = 1,
-    exportSchema = false,
+    version = 2,
+    exportSchema = true,
+    autoMigrations = [
+        AutoMigration(
+            from = 1,
+            to = 2,
+        ),
+    ],
 )
 @TypeConverters(RoundsConverter::class)
 abstract class AppDatabase : RoomDatabase() {

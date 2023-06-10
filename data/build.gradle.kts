@@ -21,6 +21,11 @@ android {
     kotlinOptions {
         jvmTarget = "18"
     }
+    kapt {
+        arguments {
+            arg("room.schemaLocation", "$projectDir/schemas")
+        }
+    }
 }
 
 dependencies {
