@@ -3,17 +3,38 @@ package ua.edmko.players
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.*
-import androidx.compose.material.DismissDirection.*
-import androidx.compose.material.DismissValue.*
+import androidx.compose.material.Checkbox
+import androidx.compose.material.DismissDirection.EndToStart
+import androidx.compose.material.DismissDirection.StartToEnd
+import androidx.compose.material.DismissValue.Default
+import androidx.compose.material.DismissValue.DismissedToEnd
+import androidx.compose.material.DismissValue.DismissedToStart
+import androidx.compose.material.Divider
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Icon
+import androidx.compose.material.Scaffold
+import androidx.compose.material.SwipeToDismiss
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.rememberDismissState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -23,10 +44,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import ua.edmko.core.ui.components.ConfirmationDialog
 import ua.edmko.core.ui.components.EditDialog
@@ -53,36 +72,41 @@ internal fun PlayersScreen(state: PlayersViewState, event: (PlayersEvent) -> Uni
         topBar = {
             Toolbar(title = "Players") {
                 event(
-                    NavigateBack
+                    NavigateBack,
                 )
             }
         },
         modifier = Modifier.fillMaxSize(),
-        backgroundColor = AppTheme.colors.surface
+        backgroundColor = AppTheme.colors.surface,
     ) { paddings ->
         Box(
             Modifier
                 .padding(paddings)
-                .fillMaxSize()
+                .fillMaxSize(),
         ) {
-            if (state.editDialogShows) EditDialog(
-                title = stringResource(R.string.insert_name),
-                onDismiss = { event(DismissDialog) },
-                onClick = { text ->
-                    if (state.selectedPlayer == null) {
-                        event(CreatePlayer(text))
-                    } else {
-                        event(ChangePlayersName(text))
-                    }
-                })
-            if (state.confirmationDialogShows) ConfirmationDialog(
-                title = stringResource(R.string.are_delete_player),
-                dismiss = { event(DismissDialog) },
-                accept = { event(DeletePlayerEvent) }
-            )
+            if (state.editDialogShows) {
+                EditDialog(
+                    title = stringResource(R.string.insert_name),
+                    onDismiss = { event(DismissDialog) },
+                    onClick = { text ->
+                        if (state.selectedPlayer == null) {
+                            event(CreatePlayer(text))
+                        } else {
+                            event(ChangePlayersName(text))
+                        }
+                    },
+                )
+            }
+            if (state.confirmationDialogShows) {
+                ConfirmationDialog(
+                    title = stringResource(R.string.are_delete_player),
+                    dismiss = { event(DismissDialog) },
+                    accept = { event(DeletePlayerEvent) },
+                )
+            }
             PLayersList(
                 players = state.players,
-                event = event
+                event = event,
             )
 
             FloatingActionButton(
@@ -90,16 +114,16 @@ internal fun PlayersScreen(state: PlayersViewState, event: (PlayersEvent) -> Uni
                     .align(Alignment.BottomEnd)
                     .padding(bottom = 50.dp, end = baseHorizontalPadding),
                 backgroundColor = AppTheme.colors.primary,
-                onClick = { event(AddPlayerButton) }) {
+                onClick = { event(AddPlayerButton) },
+            ) {
                 Icon(
                     imageVector = Icons.Filled.Add,
                     contentDescription = "Edit",
                     modifier = Modifier
                         .size(30.dp)
                         .align(Alignment.Center),
-                    tint = AppTheme.colors.onPrimary
+                    tint = AppTheme.colors.onPrimary,
                 )
-
             }
         }
     }
@@ -109,17 +133,19 @@ internal fun PlayersScreen(state: PlayersViewState, event: (PlayersEvent) -> Uni
 @Composable
 fun PLayersList(
     players: List<Player>,
-    event: (PlayersEvent) -> Unit
+    event: (PlayersEvent) -> Unit,
 ) {
     LazyColumn() {
         itemsIndexed(players) { index, player ->
             key(player.playerId) {
-                if (index == 0) Divider(
-                    Modifier
-                        .height(1.dp)
-                        .fillMaxWidth(),
-                    color = AppTheme.colors.onSurface
-                )
+                if (index == 0) {
+                    Divider(
+                        Modifier
+                            .height(1.dp)
+                            .fillMaxWidth(),
+                        color = AppTheme.colors.onSurface,
+                    )
+                }
                 val dismissState = rememberDismissState { dismissState ->
                     when (dismissState) {
                         DismissedToEnd -> event(OnDeletePlayer(player))
@@ -142,10 +168,10 @@ fun PLayersList(
                                 Default -> Color.White
                                 DismissedToEnd -> Color.Red
                                 DismissedToStart -> Color.Gray
-                            }
+                            },
                         )
                         val scale by animateFloatAsState(
-                            if (dismissState.targetValue == Default) 0.75f else 1f
+                            if (dismissState.targetValue == Default) 0.75f else 1f,
                         )
 
                         val alignment = when (direction) {
@@ -156,7 +182,7 @@ fun PLayersList(
                             modifier = Modifier
                                 .fillMaxSize()
                                 .background(color),
-                            contentAlignment = alignment
+                            contentAlignment = alignment,
                         ) {
                             Icon(
                                 icon,
@@ -164,29 +190,27 @@ fun PLayersList(
                                 modifier = Modifier
                                     .scale(scale)
                                     .size(60.dp)
-                                    .padding(10.dp)
+                                    .padding(10.dp),
                             )
                         }
                     },
-                    dismissContent = { PlayerItem(player, event) }
+                    dismissContent = { PlayerItem(player, event) },
                 )
             }
             Divider(
                 Modifier
                     .height(1.dp)
                     .fillMaxWidth(),
-                color = AppTheme.colors.onSurface
+                color = AppTheme.colors.onSurface,
             )
         }
         item {
             Spacer(
-                Modifier.windowInsetsBottomHeight(WindowInsets.safeDrawing)
+                Modifier.windowInsetsBottomHeight(WindowInsets.safeDrawing),
             )
         }
-
     }
 }
-
 
 @Composable
 fun PlayerItem(player: Player, event: (PlayersEvent) -> Unit) {
@@ -195,13 +219,13 @@ fun PlayerItem(player: Player, event: (PlayersEvent) -> Unit) {
             AppTheme.colors.secondary
         } else {
             AppTheme.colors.onSurface
-        }
+        },
     )
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .background(AppTheme.colors.surface)
-            .height(50.dp)
+            .height(50.dp),
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Checkbox(
@@ -210,14 +234,14 @@ fun PlayerItem(player: Player, event: (PlayersEvent) -> Unit) {
                     event(UpdatePlayersSelection(player.copy(isSelected = isChecked)))
                 },
                 modifier = Modifier.padding(start = 18.dp),
-                colors = getCheckboxColors()
+                colors = getCheckboxColors(),
             )
             Text(
                 text = player.name,
                 color = textColor,
                 style = AppTheme.typography.h5,
                 modifier = Modifier
-                    .padding(start = 10.dp)
+                    .padding(start = 10.dp),
             )
         }
     }
@@ -230,7 +254,7 @@ fun PlayerListPreview() {
     AppTheme() {
         PLayersList(
             players = playersStubList,
-            event = {}
+            event = {},
         )
     }
 }
@@ -250,6 +274,7 @@ fun ConfirmationDialogPreview() {
         ConfirmationDialog(
             title = "Title",
             dismiss = { /** Empty */ },
-            accept = { /** Empty */ })
+            accept = { /** Empty */ },
+        )
     }
 }

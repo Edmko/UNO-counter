@@ -17,7 +17,7 @@ class GameRepositoryImpl @Inject constructor(
     private val gameDao: GameDao,
     private val gameMapper: GameMapper,
     private val gameSettingsMapper: GameSettingsMapper,
-    private val roundMapper: RoundMapper
+    private val roundMapper: RoundMapper,
 ) : GameRepository {
 
     override suspend fun createGame(gameSettings: GameSettings) {

@@ -36,13 +36,13 @@ class MainActivity : ComponentActivity() {
                 SideEffect {
                     systemUiController.setStatusBarColor(
                         color = Color.Transparent,
-                        darkIcons = false
+                        darkIcons = false,
                     )
                 }
                 Box(modifier = Modifier.fillMaxSize()) {
                     NavigationComponent(
                         navController = rememberNavController(),
-                        navigationManager = navigationManager
+                        navigationManager = navigationManager,
                     )
                 }
             }

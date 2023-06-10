@@ -18,8 +18,8 @@ data class RoundLocal(
     val roundNum: Int = 1,
     @TypeConverters(RoundsConverter::class)
     val result: MutableMap<PlayerId, Score> = mutableMapOf(),
-    val winner: PlayerId? = null
-): DaoModel()
+    val winner: PlayerId? = null,
+) : DaoModel()
 
 class RoundsConverter {
 

@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -20,13 +19,13 @@ fun TextFieldDivided(
     modifier: Modifier = Modifier,
     description: String,
     value: String,
-    click: (() -> Unit)? = null
+    click: (() -> Unit)? = null,
 ) {
     Column(
         modifier
             .fillMaxWidth()
             .clickable { click?.invoke() }
-            .padding(top = 15.dp, start = 18.dp, end = 18.dp)
+            .padding(top = 15.dp, start = 18.dp, end = 18.dp),
     ) {
         Text(
             style = AppTheme.typography.h5,
@@ -35,7 +34,6 @@ fun TextFieldDivided(
         )
         Divider(Modifier.padding(top = 10.dp), color = AppTheme.colors.onSurface)
     }
-
 }
 
 @Preview
@@ -43,7 +41,7 @@ fun TextFieldDivided(
 fun TextFieldWithDividerPreview() {
     AppTheme {
         Surface(
-            color = AppTheme.colors.surface
+            color = AppTheme.colors.surface,
         ) {
             TextFieldDivided(value = "500", description = "Goal")
         }

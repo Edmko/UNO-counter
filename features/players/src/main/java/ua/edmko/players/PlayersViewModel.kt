@@ -2,7 +2,6 @@ package ua.edmko.players
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ua.edmko.core.base.BaseViewModel
 import ua.edmko.domain.entities.Player
@@ -18,7 +17,7 @@ class PlayersViewModel @Inject constructor(
     private val addPlayer: AddPlayer,
     private val updatePlayer: UpdatePlayer,
     private val deletePlayer: DeletePlayer,
-    private val navigator: PlayersNavigator
+    private val navigator: PlayersNavigator,
 ) : BaseViewModel<PlayersViewState, PlayersEvent>() {
 
     init {
@@ -36,7 +35,7 @@ class PlayersViewModel @Inject constructor(
             is CreatePlayer -> createPlayer(viewEvent.name)
             is UpdatePlayersSelection -> updatePlayer(viewEvent.player)
             is OnDeletePlayer -> onDeletePlayer(viewEvent.player)
-            is NavigateBack ->  navigator.back()
+            is NavigateBack -> navigator.back()
             is DismissDialog -> dismissDialog()
             is EditPlayer -> onUpdatePlayerName(viewEvent.player)
             is ChangePlayersName -> changePlayersName(viewEvent.name)
@@ -48,7 +47,7 @@ class PlayersViewModel @Inject constructor(
         viewState = viewState.copy(
             editDialogShows = false,
             confirmationDialogShows = false,
-            selectedPlayer = null
+            selectedPlayer = null,
         )
     }
 

@@ -4,11 +4,11 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "players")
-data class PlayerLocal (
+data class PlayerLocal(
     @PrimaryKey(autoGenerate = true) val playerId: Long = 0,
     val name: String,
-    val isSelected: Boolean = true
-): DaoModel() {
+    val isSelected: Boolean = true,
+) : DaoModel() {
 
     companion object {
         fun getPlayersStub() = listOf(
@@ -18,7 +18,7 @@ data class PlayerLocal (
             PlayerLocal(54111, "Vasya"),
             PlayerLocal(1614, "John Smith"),
             PlayerLocal(654116, "Tatu dali man", isSelected = false),
-            PlayerLocal(2541154, "KonkistadoroAtilla")
+            PlayerLocal(2541154, "KonkistadoroAtilla"),
         )
     }
 }

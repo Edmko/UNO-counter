@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 class PlayersRepositoryImpl @Inject constructor(
     private val dao: PlayersDao,
-    private val playerMapper: PlayerMapper
+    private val playerMapper: PlayerMapper,
 ) : PlayersRepository {
 
     override suspend fun createPlayer(name: String) {

@@ -11,7 +11,7 @@ class RoundMapper @Inject constructor() : DataMapper<RoundLocal, Round> {
             domain.gameRoundId,
             domain.roundNum,
             domain.result,
-            domain.winner
+            domain.winner,
         )
     }
 
@@ -21,7 +21,7 @@ class RoundMapper @Inject constructor() : DataMapper<RoundLocal, Round> {
             local.gameRoundId,
             local.roundNum,
             local.result,
-            local.winner
+            local.winner,
         )
     }
 }

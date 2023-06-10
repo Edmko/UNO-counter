@@ -7,7 +7,7 @@ import javax.inject.Inject
 class GameMapper @Inject constructor(
     private val gameSettingsMapper: GameSettingsMapper,
     private val playerMapper: PlayerMapper,
-    private val roundMapper: RoundMapper
+    private val roundMapper: RoundMapper,
 ) : DataMapper<GameLocal, Game> {
     override fun map(domain: Game): GameLocal {
         val settings = gameSettingsMapper.map(domain.gameSettings)

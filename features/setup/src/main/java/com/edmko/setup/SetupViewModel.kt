@@ -15,7 +15,7 @@ import javax.inject.Inject
 class SetupViewModel @Inject constructor(
     private val createGame: CreateGame,
     private val observeSelectedPlayers: ObserveSelectedPlayers,
-    private val navigator: SetupNavigator
+    private val navigator: SetupNavigator,
 ) : BaseViewModel<SetupViewState, GameSettingEvent>() {
 
     init {
@@ -29,8 +29,8 @@ class SetupViewModel @Inject constructor(
 
     override fun obtainEvent(viewEvent: GameSettingEvent) {
         when (viewEvent) {
-            is ChangeGoal ->  viewState = viewState.copy(dialog = null, goal = viewEvent.goal)
-            is OnGoalClickEvent ->  viewState = viewState.copy(dialog = DialogType.Edit)
+            is ChangeGoal -> viewState = viewState.copy(dialog = null, goal = viewEvent.goal)
+            is OnGoalClickEvent -> viewState = viewState.copy(dialog = DialogType.Edit)
             is EditPlayers -> navigator.toPlayers()
             is DismissDialog -> viewState = viewState.copy(dialog = null)
             is StartGame -> startGame()

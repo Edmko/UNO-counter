@@ -22,14 +22,14 @@ import ua.edmko.core.ui.theme.AppTheme
 fun EndGameScreen(name: String, back: () -> Unit) {
     AppTheme {
         Surface(
-            color = AppTheme.colors.surface
+            color = AppTheme.colors.surface,
         ) {
             Box(Modifier.fillMaxSize()) {
                 Column(Modifier.align(Alignment.Center)) {
                     Text(
                         text = stringResource(R.string.congratulation),
                         style = AppTheme.typography.h4,
-                        color = AppTheme.colors.onSurface
+                        color = AppTheme.colors.onSurface,
                     )
                     Text(
                         text = name,
@@ -37,7 +37,7 @@ fun EndGameScreen(name: String, back: () -> Unit) {
                             .padding(top = 10.dp)
                             .align(Alignment.CenterHorizontally),
                         style = AppTheme.typography.h4,
-                        color = AppTheme.colors.primary
+                        color = AppTheme.colors.primary,
                     )
                 }
             }
@@ -50,5 +50,4 @@ fun EndGameScreen(name: String, back: () -> Unit) {
             back()
         }
     }
-
 }

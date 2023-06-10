@@ -9,13 +9,13 @@ data class SetupViewState(
     val goal: Int = 500,
     val dialog: DialogType? = null,
     val players: List<Player> = emptyList(),
-    val gameType: GameType = GameType.CLASSIC
-) : ViewState{
+    val gameType: GameType = GameType.CLASSIC,
+) : ViewState {
 
-    enum class DialogType { Type, Edit}
-    companion object{
+    enum class DialogType { Type, Edit }
+    companion object {
         val Preview = SetupViewState(
-            players = playersStubList
+            players = playersStubList,
         )
     }
 }

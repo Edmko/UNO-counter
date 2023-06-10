@@ -1,7 +1,20 @@
 package ua.edmko.core.ui.theme
 
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.CheckboxDefaults
+import androidx.compose.material.ContentAlpha
+import androidx.compose.material.RadioButtonDefaults
+import androidx.compose.material.Shapes
+import androidx.compose.material.Typography
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.runtime.structuralEqualityPolicy
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
 
@@ -12,7 +25,7 @@ class Colors(
     surface: Color = DarkGrey,
     onSurface: Color = Color.White,
     onPrimary: Color = DarkGrey,
-    background: Color = Color.Black
+    background: Color = Color.Black,
 ) {
     var primary by mutableStateOf(primary, structuralEqualityPolicy())
         internal set
@@ -40,27 +53,19 @@ class Colors(
         background,
         surface,
         onPrimary,
-        onSurface
+        onSurface,
     )
 
     override fun toString(): String {
-        return "Colors(" +
-                "primary=$primary, " +
-                "secondary=$secondary, " +
-                "background=$background, " +
-                "surface=$surface, " +
-                "onPrimary=$onPrimary, " +
-                "onSurface=$onSurface, " +
-                ")"
+        return "Colors(primary=$primary, secondary=$secondary, background=$background, surface=$surface, onPrimary=$onPrimary, onSurface=$onSurface)"
     }
 }
-
 
 @Composable
 fun getAppRadioButtonColors() = RadioButtonDefaults.colors(
     selectedColor = AppTheme.colors.primary,
     unselectedColor = AppTheme.colors.onSurface.copy(alpha = 0.6f),
-    disabledColor = AppTheme.colors.onSurface.copy(ContentAlpha.disabled)
+    disabledColor = AppTheme.colors.onSurface.copy(ContentAlpha.disabled),
 )
 
 @Composable
@@ -69,17 +74,15 @@ fun getCheckboxColors() = CheckboxDefaults.colors(
     uncheckedColor = AppTheme.colors.onSurface.copy(alpha = 0.6f),
     checkmarkColor = AppTheme.colors.surface,
     disabledColor = AppTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled),
-    disabledIndeterminateColor = AppTheme.colors.primary.copy(alpha = ContentAlpha.disabled)
+    disabledIndeterminateColor = AppTheme.colors.primary.copy(alpha = ContentAlpha.disabled),
 )
 
 @Composable
 fun getButtonColors() = ButtonDefaults.buttonColors(
     backgroundColor = AppTheme.colors.primary,
     contentColor = AppTheme.colors.onPrimary,
-    disabledBackgroundColor = AppTheme.colors.onSurface.copy(alpha = 0.12f)
-        .compositeOver(AppTheme.colors.surface),
-    disabledContentColor = AppTheme.colors.onSurface
-        .copy(alpha = ContentAlpha.disabled)
+    disabledBackgroundColor = AppTheme.colors.onSurface.copy(alpha = 0.12f).compositeOver(AppTheme.colors.surface),
+    disabledContentColor = AppTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled),
 )
 
 @Composable
@@ -87,12 +90,12 @@ fun AppTheme(
     colors: Colors = Colors(),
     typography: Typography = Typography,
     shapes: Shapes = Shapes,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     CompositionLocalProvider(
         LocalAppColors provides colors,
         LocalTypography provides typography,
-        LocalShapes provides shapes
+        LocalShapes provides shapes,
     ) {
         content()
     }

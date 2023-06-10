@@ -2,13 +2,27 @@ package ua.edmko.core.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -33,20 +47,19 @@ import ua.edmko.core.ui.theme.baseHorizontalPadding
 fun DialogApp(
     title: String,
     onDismiss: () -> Unit,
-    content: @Composable ColumnScope.() -> Unit
+    content: @Composable ColumnScope.() -> Unit,
 ) {
     Dialog(onDismiss) {
-
         Column(
             Modifier
                 .background(color = Color.DarkGray, shape = AppTheme.shapes.large)
                 .padding(15.dp)
-                .fillMaxWidth()
+                .fillMaxWidth(),
         ) {
             Text(
                 text = title,
                 color = AppTheme.colors.onSurface,
-                style = AppTheme.typography.h5
+                style = AppTheme.typography.h5,
             )
             content()
         }
@@ -57,7 +70,7 @@ fun DialogApp(
 fun EditDialog(
     textType: KeyboardOptions = KeyboardOptions(
         keyboardType = KeyboardType.Text,
-        imeAction = ImeAction.Done
+        imeAction = ImeAction.Done,
     ),
     title: String,
     onDismiss: () -> Unit,
@@ -73,7 +86,7 @@ fun EditDialog(
             value = text,
             textType = textType,
             { text = it },
-            { onClick(text) }
+            { onClick(text) },
         )
 
         Text(
@@ -99,7 +112,7 @@ fun ConfirmationDialog(
             modifier = Modifier
                 .padding(baseHorizontalPadding)
                 .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             GameButton(
                 modifier = Modifier
@@ -108,7 +121,7 @@ fun ConfirmationDialog(
                 onClick = accept,
                 isEnabled = true,
                 text = "Accept",
-                fontSize = 24.sp
+                fontSize = 24.sp,
             )
 
             Spacer(Modifier.width(20.dp))
@@ -120,12 +133,11 @@ fun ConfirmationDialog(
                 onClick = dismiss,
                 isEnabled = true,
                 text = "Cancel",
-                fontSize = 24.sp
+                fontSize = 24.sp,
             )
         }
     }
 }
-
 
 @Composable
 fun GameEditText(
@@ -133,7 +145,7 @@ fun GameEditText(
     value: String,
     textType: KeyboardOptions,
     onValueChanged: (String) -> Unit = {},
-    onImeAction: () -> Unit
+    onImeAction: () -> Unit,
 ) {
     val focusRequester = remember { FocusRequester() }
     val coroutine = rememberCoroutineScope()
@@ -152,7 +164,7 @@ fun GameEditText(
                 .background(Color.Black, shape = RoundedCornerShape(15.dp))
                 .padding(start = 10.dp, end = 10.dp)
                 .fillMaxWidth(),
-            contentAlignment = Alignment.CenterStart
+            contentAlignment = Alignment.CenterStart,
         ) {
             innerTextField()
         }
@@ -174,8 +186,13 @@ fun AppDialog() {
             title = "Title",
             onDismiss = { /** Empty */ },
             content = {
-                Box(modifier = Modifier.fillMaxWidth().height(200.dp).background(AppTheme.colors.primary))
-            }
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp)
+                        .background(AppTheme.colors.primary),
+                )
+            },
         )
     }
 }
@@ -187,7 +204,7 @@ fun ConfirmationDialogPreview() {
         ConfirmationDialog(
             title = "Title",
             dismiss = { /** Empty */ },
-            accept = { /** Empty */ }
+            accept = { /** Empty */ },
         )
     }
 }
@@ -198,7 +215,7 @@ fun EditDialogPreview() {
     AppTheme {
         EditDialog(
             title = "Title",
-            onDismiss = { /** Empty */ }
+            onDismiss = { /** Empty */ },
         )
     }
 }

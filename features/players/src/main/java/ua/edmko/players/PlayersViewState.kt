@@ -7,5 +7,5 @@ data class PlayersViewState(
     var editDialogShows: Boolean = false,
     var confirmationDialogShows: Boolean = false,
     var selectedPlayer: Player? = null,
-    var players: List<Player> = emptyList()
-): ViewState
+    var players: List<Player> = emptyList(),
+) : ViewState

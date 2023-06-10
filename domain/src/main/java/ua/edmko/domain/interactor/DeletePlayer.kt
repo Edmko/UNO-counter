@@ -5,8 +5,8 @@ import kotlinx.coroutines.withContext
 import ua.edmko.domain.repository.PlayersRepository
 import javax.inject.Inject
 
-class DeletePlayer @Inject constructor(private val playersRepository: PlayersRepository): Interactor<DeletePlayer.Params>() {
-    override suspend fun doWork(params: Params)  = withContext(Dispatchers.IO) {
+class DeletePlayer @Inject constructor(private val playersRepository: PlayersRepository) : Interactor<DeletePlayer.Params>() {
+    override suspend fun doWork(params: Params) = withContext(Dispatchers.IO) {
         playersRepository.removePlayer(params.id)
     }
 

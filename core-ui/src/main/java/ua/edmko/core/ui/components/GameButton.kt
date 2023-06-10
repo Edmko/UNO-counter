@@ -19,8 +19,9 @@ import ua.edmko.core.ui.theme.getButtonColors
 fun GameButton(
     modifier: Modifier = Modifier,
     isEnabled: Boolean = true,
-    text: String, onClick: () -> Unit,
-    fontSize: TextUnit = 40.sp
+    text: String,
+    onClick: () -> Unit,
+    fontSize: TextUnit = 40.sp,
 ) {
     Button(
         onClick = onClick,

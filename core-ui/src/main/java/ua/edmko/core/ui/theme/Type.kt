@@ -12,8 +12,7 @@ val Cabin = FontFamily(
     Font(R.font.cabin_regular, FontWeight.W400),
     Font(R.font.cabin_medium, FontWeight.W500),
     Font(R.font.cabin_semi_bold, FontWeight.W600),
-    Font(R.font.cabin_bold, FontWeight.W700)
-
+    Font(R.font.cabin_bold, FontWeight.W700),
 )
 
 val Typography = Typography(
@@ -28,6 +27,5 @@ val Typography = Typography(
     body1 = TextStyle(fontFamily = Cabin, fontWeight = FontWeight.W400, fontSize = 16.sp),
     body2 = TextStyle(fontFamily = Cabin, fontWeight = FontWeight.W400, fontSize = 14.sp),
     button = TextStyle(fontFamily = Cabin, fontWeight = FontWeight.W600, fontSize = 14.sp),
-    caption = TextStyle(fontFamily = Cabin, fontWeight = FontWeight.W400, fontSize = 12.sp)
+    caption = TextStyle(fontFamily = Cabin, fontWeight = FontWeight.W400, fontSize = 12.sp),
 )
-

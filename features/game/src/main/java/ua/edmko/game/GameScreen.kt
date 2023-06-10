@@ -2,7 +2,12 @@ package ua.edmko.game
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.text.KeyboardOptions
@@ -10,7 +15,9 @@ import androidx.compose.material.RadioButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,19 +28,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import ua.edmko.core.extension.getColorByIndex
+import ua.edmko.core.ui.components.EditDialog
 import ua.edmko.core.ui.components.GameButton
 import ua.edmko.core.ui.components.PlayerItem
 import ua.edmko.core.ui.components.Toolbar
-import ua.edmko.core.extension.getColorByIndex
-import ua.edmko.core.ui.components.EditDialog
+import ua.edmko.core.ui.theme.AppTheme
 import ua.edmko.core.ui.theme.baseHorizontalPadding
+import ua.edmko.core.ui.theme.getAppRadioButtonColors
 import ua.edmko.domain.entities.Game
 import ua.edmko.domain.entities.Player
 import ua.edmko.domain.entities.PlayerId
 import ua.edmko.domain.entities.Round
-import ua.edmko.core.ui.theme.AppTheme
-import ua.edmko.core.ui.theme.getAppRadioButtonColors
-
 
 @Composable
 fun GameScreen(viewModel: GameViewModel = hiltViewModel()) {
@@ -47,24 +53,27 @@ internal fun GameScreen(state: GameViewState, event: (GameEvent) -> Unit) {
         topBar = { Toolbar(title = stringResource(R.string.game)) { event(NavigateBack) } },
         modifier = Modifier
             .fillMaxSize(),
-        backgroundColor = AppTheme.colors.surface
+        backgroundColor = AppTheme.colors.surface,
     ) { paddings ->
-        if (state.isDialogShows && state.selectedPlayer?.name != null) EditDialog(
-            title = stringResource(
-                id = R.string.score_for_player,
-                state.selectedPlayer.name
-            ),
-            textType = KeyboardOptions(
-                keyboardType = KeyboardType.Number,
-                imeAction = ImeAction.Done
-            ),
-            onClick = { score -> event(ConfirmEdition(score.toIntOrNull() ?: 0)) },
-            onDismiss = { event(DismissDialog) })
+        if (state.isDialogShows && state.selectedPlayer?.name != null) {
+            EditDialog(
+                title = stringResource(
+                    id = R.string.score_for_player,
+                    state.selectedPlayer.name,
+                ),
+                textType = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Done,
+                ),
+                onClick = { score -> event(ConfirmEdition(score.toIntOrNull() ?: 0)) },
+                onDismiss = { event(DismissDialog) },
+            )
+        }
 
         Box(
             Modifier
                 .fillMaxSize()
-                .padding(paddings)
+                .padding(paddings),
         ) {
             Column {
                 PlayersList(
@@ -72,9 +81,9 @@ internal fun GameScreen(state: GameViewState, event: (GameEvent) -> Unit) {
                     currentRound = state.currentRound,
                     onClick = { event(EditScore(it)) },
                     winner = state.currentRound.winner,
-                    selectWinner = { event(SetWinner(it)) })
+                    selectWinner = { event(SetWinner(it)) },
+                )
             }
-
 
             GameButton(
                 text = stringResource(R.string.next_round),
@@ -83,7 +92,8 @@ internal fun GameScreen(state: GameViewState, event: (GameEvent) -> Unit) {
                     .fillMaxWidth()
                     .height(56.dp)
                     .align(Alignment.BottomCenter),
-                onClick = { event(NextRound) })
+                onClick = { event(NextRound) },
+            )
         }
     }
 }
@@ -94,14 +104,14 @@ fun PlayersList(
     currentRound: Round?,
     onClick: (Player) -> Unit,
     winner: PlayerId? = null,
-    selectWinner: (Player) -> Unit
+    selectWinner: (Player) -> Unit,
 ) {
     LazyColumn() {
         item {
             PlayerItem(
                 height = 30.dp,
                 name = "",
-                color = Color.Transparent
+                color = Color.Transparent,
             ) {
                 Text(
                     text = stringResource(R.string.total),
@@ -109,7 +119,7 @@ fun PlayersList(
                     modifier = Modifier
                         .weight(1f),
                     textAlign = TextAlign.Center,
-                    style = AppTheme.typography.body1
+                    style = AppTheme.typography.body1,
                 )
                 Text(
                     text = stringResource(R.string.round),
@@ -117,16 +127,15 @@ fun PlayersList(
                         .weight(1f),
                     color = AppTheme.colors.primary,
                     textAlign = TextAlign.Center,
-                    style = AppTheme.typography.body1
+                    style = AppTheme.typography.body1,
                 )
                 Text(
                     modifier = Modifier.weight(1f),
                     text = stringResource(R.string.winner),
                     color = AppTheme.colors.primary,
                     textAlign = TextAlign.Center,
-                    style = AppTheme.typography.body1
+                    style = AppTheme.typography.body1,
                 )
-
             }
         }
         itemsIndexed(playersTotal.toList()) { index, (player, total) ->
@@ -135,20 +144,20 @@ fun PlayersList(
                     onClick.invoke(player)
                 },
                 name = player.name,
-                color = index.getColorByIndex()
+                color = index.getColorByIndex(),
             ) {
                 Box(
                     Modifier
                         .height(30.dp)
                         .weight(1f)
-                        .padding(vertical = 0.dp, horizontal = 10.dp)
+                        .padding(vertical = 0.dp, horizontal = 10.dp),
                 ) {
                     Text(
                         modifier = Modifier.align(Alignment.Center),
                         text = total.toString(),
                         color = AppTheme.colors.onSurface,
                         textAlign = TextAlign.Center,
-                        style = AppTheme.typography.body1
+                        style = AppTheme.typography.body1,
                     )
                 }
 
@@ -163,15 +172,15 @@ fun PlayersList(
                             } else {
                                 AppTheme.colors.background
                             },
-                            shape = AppTheme.shapes.medium
-                        )
+                            shape = AppTheme.shapes.medium,
+                        ),
                 ) {
                     Text(
                         modifier = Modifier.align(Alignment.Center),
                         text = currentRound?.result?.getOrDefault(player.playerId, 0).toString(),
                         color = AppTheme.colors.onSurface,
                         textAlign = TextAlign.Center,
-                        style = AppTheme.typography.body1
+                        style = AppTheme.typography.body1,
                     )
                 }
                 Box(modifier = Modifier.weight(1f)) {
@@ -179,12 +188,10 @@ fun PlayersList(
                         modifier = Modifier.align(Alignment.Center),
                         selected = player.playerId == winner,
                         onClick = { selectWinner(player) },
-                        colors = getAppRadioButtonColors()
+                        colors = getAppRadioButtonColors(),
                     )
                 }
-
             }
-
         }
     }
 }
@@ -202,7 +209,7 @@ fun GameScreenPreview() {
 fun PlayersListPreview() {
     AppTheme {
         Surface(
-            color = AppTheme.colors.surface
+            color = AppTheme.colors.surface,
         ) {
             PlayersList(Game.getGameStub().calculatePlayersTotal(), Round.empty, {}) {}
         }

@@ -29,11 +29,7 @@ fun NavigationComponent(
     SideEffect {
         coroutine.launch {
             navigationManager.commands().collect { command ->
-                Log.d(
-                    TAG,
-                    "destination = ${command.destination} " +
-                            "isBack = ${command == NavigationDirections.back}"
-                )
+                Log.d(TAG, "destination = ${command.destination} isBack = ${command == NavigationDirections.back}")
                 if (command == NavigationDirections.back) {
                     navController.navigateUp()
                 } else {
@@ -45,13 +41,13 @@ fun NavigationComponent(
 
     NavHost(
         navController = navController,
-        startDestination = NavigationDirections.gameSetting.destination
+        startDestination = NavigationDirections.gameSetting.destination,
     ) {
         composable(NavigationDirections.gameSetting.destination) {
             GameSettingScreen {
                 navController.navigate(
                     NavigationDirections.policy.destination,
-                    NavigationDirections.policy.builder
+                    NavigationDirections.policy.builder,
                 )
             }
         }
@@ -64,14 +60,14 @@ fun NavigationComponent(
         composable(NavigationDirections.gameEndDestination) {
             EndGameScreen(
                 name = it.arguments?.getString(NavigationDirections.WINNER_NAME) ?: "",
-                back = navController::navigateUp
+                back = navController::navigateUp,
             )
         }
         composable(NavigationDirections.lobby.destination) {
             GameSettingScreen {
                 navController.navigate(
                     NavigationDirections.policy.destination,
-                    NavigationDirections.policy.builder
+                    NavigationDirections.policy.builder,
                 )
             }
         }

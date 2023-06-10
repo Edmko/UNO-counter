@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ua.edmko.core.base.BaseViewModel
@@ -19,7 +18,7 @@ class GameViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getGame: ObserveGame,
     private val addRoundToGame: AddRoundToGame,
-    private val gameNavigator: GameNavigator
+    private val gameNavigator: GameNavigator,
 ) :
     BaseViewModel<GameViewState, GameEvent>() {
 
@@ -33,12 +32,11 @@ class GameViewModel @Inject constructor(
                     game = game,
                     currentRound = Round(
                         gameRoundId = game.gameSettings.id,
-                        roundNum = 1
-                    )
+                        roundNum = 1,
+                    ),
                 )
                 checkIsGameEnd()
             }
-
         }
     }
 
@@ -75,7 +73,7 @@ class GameViewModel @Inject constructor(
                 currentRound = Round(
                     gameRoundId = viewState.game.gameSettings.id,
                     roundNum = currentRound.roundNum + 1,
-                )
+                ),
             )
         }
     }
@@ -98,6 +96,4 @@ class GameViewModel @Inject constructor(
             if (score >= game.gameSettings.goal) endGame(leader.name)
         }
     }
-
-
 }

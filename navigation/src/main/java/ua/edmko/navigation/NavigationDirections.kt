@@ -24,7 +24,7 @@ object NavigationDirections {
         override val builder: NavOptionsBuilder.() -> Unit = {}
     }
 
-    //PopBack
+    // PopBack
     val back = object : NavigationCommand {
         override val argument = emptyList<NamedNavArgument>()
         override val destination: String = "back"
@@ -36,7 +36,7 @@ object NavigationDirections {
 
     fun game(gameId: String) = object : NavigationCommand {
         override val argument: List<NamedNavArgument> = listOf(
-            navArgument(GAME_ID) { defaultValue = "" }
+            navArgument(GAME_ID) { defaultValue = "" },
         )
         override val destination: String = "game/$gameId"
         override val builder: NavOptionsBuilder.() -> Unit = {}
@@ -52,7 +52,7 @@ object NavigationDirections {
 
     fun gameEnd(playerName: String) = object : NavigationCommand {
         override val argument: List<NamedNavArgument> = listOf(
-            navArgument(WINNER_NAME) { defaultValue = "" }
+            navArgument(WINNER_NAME) { defaultValue = "" },
         )
         override val destination: String = "gameEnd/$playerName"
         override val builder: NavOptionsBuilder.() -> Unit = {

@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class CreateGame @Inject constructor(
     private val gameRepository: GameRepository,
-    private val playersRepository: PlayersRepository
+    private val playersRepository: PlayersRepository,
 ) : Interactor<CreateGame.Params>() {
 
     data class Params(val settings: GameSettings)

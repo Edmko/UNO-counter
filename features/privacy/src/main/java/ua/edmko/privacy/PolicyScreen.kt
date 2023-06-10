@@ -4,12 +4,12 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
 import android.webkit.WebSettings
 import android.webkit.WebView
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.webkit.WebViewAssetLoader
 import androidx.webkit.WebViewClientCompat
@@ -17,11 +17,13 @@ import ua.edmko.core.ui.components.Toolbar
 
 @Composable
 fun PolicyScreen(back: () -> Unit) {
-    Scaffold(topBar = {
-        Toolbar(title = stringResource(R.string.privacy_policy)) {
-            back()
-        }
-    }) {
+    Scaffold(
+        topBar = {
+            Toolbar(title = stringResource(R.string.privacy_policy)) {
+                back()
+            }
+        },
+    ) {
         AndroidView(
             modifier = Modifier
                 .padding(it)
@@ -34,7 +36,7 @@ fun PolicyScreen(back: () -> Unit) {
                     webView.webViewClient = object : WebViewClientCompat() {
                         override fun shouldInterceptRequest(
                             view: WebView?,
-                            request: WebResourceRequest
+                            request: WebResourceRequest,
                         ): WebResourceResponse? {
                             return assetLoader.shouldInterceptRequest(request.url)
                         }
@@ -44,6 +46,7 @@ fun PolicyScreen(back: () -> Unit) {
                     webViewSettings.allowContentAccess = false
                     webView.loadUrl("https://appassets.androidplatform.net/assets/privacy_policy.html")
                 }
-            })
+            },
+        )
     }
 }

@@ -1,10 +1,10 @@
 package ua.edmko.domain.entities
 
-data class Player (
+data class Player(
     val playerId: Long,
     val name: String,
-    val isSelected: Boolean = true
-): Entity {
+    val isSelected: Boolean = true,
+) : Entity {
 
     companion object {
         val playersStubList = listOf(
@@ -14,7 +14,7 @@ data class Player (
             Player(54111, "Vasya"),
             Player(1614, "John Smith"),
             Player(654116, "Tatu dali man", isSelected = false),
-            Player(2541154, "KonkistadoroAtilla")
+            Player(2541154, "KonkistadoroAtilla"),
         )
     }
 }

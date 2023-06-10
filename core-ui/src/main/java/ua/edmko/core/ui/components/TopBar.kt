@@ -1,7 +1,12 @@
 package ua.edmko.core.ui.components
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.Icon
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -24,15 +29,14 @@ fun Toolbar(
 ) {
     Surface(
         modifier = modifier.statusBarsPadding(),
-        color = AppTheme.colors.surface
+        color = AppTheme.colors.surface,
     ) {
         Row(
             modifier = Modifier
                 .height(70.dp)
                 .fillMaxWidth()
                 .padding(start = baseHorizontalPadding),
-            verticalAlignment = Alignment.CenterVertically
-
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             back?.let { back ->
                 Icon(
@@ -41,7 +45,7 @@ fun Toolbar(
                     modifier = Modifier
                         .clickable(onClick = back)
                         .padding(end = 18.dp),
-                    tint = AppTheme.colors.onSurface
+                    tint = AppTheme.colors.onSurface,
                 )
             }
             Text(
@@ -49,7 +53,7 @@ fun Toolbar(
                     .weight(1f),
                 text = title,
                 style = AppTheme.typography.h5,
-                color = AppTheme.colors.onSurface
+                color = AppTheme.colors.onSurface,
             )
             content?.invoke(this)
         }

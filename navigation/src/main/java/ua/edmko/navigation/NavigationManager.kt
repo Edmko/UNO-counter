@@ -2,7 +2,8 @@ package ua.edmko.navigation
 
 import android.util.Log
 import kotlinx.coroutines.channels.BufferOverflow
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import javax.inject.Inject
 
 interface NavigationManager {
@@ -26,5 +27,4 @@ class NavigationManagerImpl @Inject constructor() : NavigationManager {
         Log.d("NAVIGATION", "back")
         _commands.tryEmit(NavigationDirections.back)
     }
-
 }

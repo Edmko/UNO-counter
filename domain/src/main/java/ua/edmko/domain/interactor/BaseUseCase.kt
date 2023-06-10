@@ -1,6 +1,8 @@
 package ua.edmko.domain.interactor
 
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withTimeout
 import java.util.concurrent.TimeUnit
 
@@ -39,6 +41,7 @@ abstract class Interactor<in P> {
 abstract class SubjectInteractor<P : Any, T> {
     abstract fun createObservable(params: P): Flow<T>
 }
+
 sealed class InvokeStatus
 object InvokeStarted : InvokeStatus()
 object InvokeSuccess : InvokeStatus()
