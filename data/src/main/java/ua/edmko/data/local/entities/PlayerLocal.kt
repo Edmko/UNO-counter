@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "players")
-data class PlayerLocal(
+internal data class PlayerLocal(
     @PrimaryKey(autoGenerate = true) val playerId: Long = 0,
     val name: String,
     val isSelected: Boolean = true,

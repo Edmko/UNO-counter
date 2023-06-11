@@ -13,7 +13,7 @@ import ua.edmko.domain.entities.Round
 import ua.edmko.domain.repository.GameRepository
 import javax.inject.Inject
 
-class GameRepositoryImpl @Inject constructor(
+internal class GameRepositoryImpl @Inject constructor(
     private val gameDao: GameDao,
     private val gameMapper: GameMapper,
     private val gameSettingsMapper: GameSettingsMapper,

@@ -9,7 +9,7 @@ import ua.edmko.domain.entities.Player
 import ua.edmko.domain.repository.PlayersRepository
 import javax.inject.Inject
 
-class PlayersRepositoryImpl @Inject constructor(
+internal class PlayersRepositoryImpl @Inject constructor(
     private val dao: PlayersDao,
     private val playerMapper: PlayerMapper,
 ) : PlayersRepository {

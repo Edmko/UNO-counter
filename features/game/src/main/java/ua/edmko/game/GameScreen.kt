@@ -42,7 +42,8 @@ import ua.edmko.domain.entities.PlayerId
 import ua.edmko.domain.entities.Round
 
 @Composable
-fun GameScreen(viewModel: GameViewModel = hiltViewModel()) {
+fun GameScreen() {
+    val viewModel: GameViewModel = hiltViewModel()
     val state by viewModel.viewStates().collectAsState()
     state?.let { GameScreen(it, viewModel::obtainEvent) }
 }

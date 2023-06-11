@@ -58,7 +58,8 @@ import ua.edmko.domain.entities.Player.Companion.playersStubList
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun PlayersScreen(viewModel: PlayersViewModel = hiltViewModel()) {
+fun PlayersScreen() {
+    val viewModel: PlayersViewModel = hiltViewModel()
     val state by viewModel.viewStates().collectAsState()
     state?.let {
         PlayersScreen(state = it, event = viewModel::obtainEvent)
@@ -131,7 +132,7 @@ internal fun PlayersScreen(state: PlayersViewState, event: (PlayersEvent) -> Uni
 
 @ExperimentalMaterialApi
 @Composable
-fun PLayersList(
+private fun PLayersList(
     players: List<Player>,
     event: (PlayersEvent) -> Unit,
 ) {
@@ -213,7 +214,7 @@ fun PLayersList(
 }
 
 @Composable
-fun PlayerItem(player: Player, event: (PlayersEvent) -> Unit) {
+private fun PlayerItem(player: Player, event: (PlayersEvent) -> Unit) {
     val textColor by animateColorAsState(
         if (player.isSelected) {
             AppTheme.colors.secondary

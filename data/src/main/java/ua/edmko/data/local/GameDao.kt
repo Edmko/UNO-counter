@@ -11,7 +11,7 @@ import ua.edmko.data.local.entities.GameSettingsLocal
 import ua.edmko.data.local.entities.RoundLocal
 
 @Dao
-interface GameDao {
+internal interface GameDao {
 
     @Insert
     suspend fun insertGameSettings(gameSettings: GameSettingsLocal)

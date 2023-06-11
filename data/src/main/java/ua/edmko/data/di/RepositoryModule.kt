@@ -11,7 +11,7 @@ import ua.edmko.domain.repository.PlayersRepository
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class RepositoryModule {
+internal abstract class RepositoryModule {
 
     @Binds
     abstract fun providePlayersRepository(repository: PlayersRepositoryImpl): PlayersRepository

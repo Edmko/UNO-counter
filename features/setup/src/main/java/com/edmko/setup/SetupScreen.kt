@@ -57,7 +57,8 @@ import ua.edmko.domain.entities.GameType
 import ua.edmko.domain.entities.Player
 
 @Composable
-fun GameSettingScreen(viewModel: SetupViewModel = hiltViewModel(), toPrivacy: () -> Unit) {
+fun GameSettingScreen(toPrivacy: () -> Unit) {
+    val viewModel: SetupViewModel = hiltViewModel()
     val state by viewModel.viewStates().collectAsState()
     state?.let { GameSettingContent(it, toPrivacy, viewModel::obtainEvent) }
 }
@@ -181,7 +182,7 @@ internal fun GameSettingContent(
 }
 
 @Composable
-fun PlayersList(modifier: Modifier = Modifier, players: List<Player>) {
+private fun PlayersList(modifier: Modifier = Modifier, players: List<Player>) {
     Box(modifier) {
         LazyColumn(
             modifier = Modifier
@@ -203,7 +204,7 @@ fun PlayersList(modifier: Modifier = Modifier, players: List<Player>) {
 }
 
 @Composable
-fun OptionsDialog(
+private fun OptionsDialog(
     title: String,
     type: GameType,
     onDismiss: (GameType) -> Unit,

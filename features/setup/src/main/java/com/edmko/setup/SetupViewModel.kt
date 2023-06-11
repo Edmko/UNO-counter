@@ -12,7 +12,7 @@ import ua.edmko.domain.interactor.ObserveSelectedPlayers
 import javax.inject.Inject
 
 @HiltViewModel
-class SetupViewModel @Inject constructor(
+internal class SetupViewModel @Inject constructor(
     private val createGame: CreateGame,
     private val observeSelectedPlayers: ObserveSelectedPlayers,
     private val navigator: SetupNavigator,

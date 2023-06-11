@@ -12,7 +12,7 @@ import ua.edmko.domain.interactor.UpdatePlayer
 import javax.inject.Inject
 
 @HiltViewModel
-class PlayersViewModel @Inject constructor(
+internal class PlayersViewModel @Inject constructor(
     private val observePlayers: ObservePlayers,
     private val addPlayer: AddPlayer,
     private val updatePlayer: UpdatePlayer,

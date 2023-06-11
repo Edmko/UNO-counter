@@ -22,7 +22,7 @@ import ua.edmko.data.local.entities.RoundsConverter
     ],
 )
 @TypeConverters(RoundsConverter::class)
-abstract class AppDatabase : RoomDatabase() {
+internal abstract class AppDatabase : RoomDatabase() {
     abstract fun playersDao(): PlayersDao
     abstract fun gameDao(): GameDao
 }

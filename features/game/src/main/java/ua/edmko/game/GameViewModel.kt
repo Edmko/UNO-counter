@@ -14,7 +14,7 @@ import ua.edmko.domain.interactor.ObserveGame
 import javax.inject.Inject
 
 @HiltViewModel
-class GameViewModel @Inject constructor(
+internal class GameViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getGame: ObserveGame,
     private val addRoundToGame: AddRoundToGame,

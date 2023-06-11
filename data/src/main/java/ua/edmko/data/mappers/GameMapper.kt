@@ -4,7 +4,7 @@ import ua.edmko.data.local.entities.GameLocal
 import ua.edmko.domain.entities.Game
 import javax.inject.Inject
 
-class GameMapper @Inject constructor(
+internal class GameMapper @Inject constructor(
     private val gameSettingsMapper: GameSettingsMapper,
     private val playerMapper: PlayerMapper,
     private val roundMapper: RoundMapper,

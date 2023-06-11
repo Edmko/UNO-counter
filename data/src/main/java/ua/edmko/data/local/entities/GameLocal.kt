@@ -9,7 +9,7 @@ import androidx.room.Relation
 import ua.edmko.domain.entities.GameType
 import java.util.UUID
 
-data class GameLocal(
+internal data class GameLocal(
     @Embedded val gameSettings: GameSettingsLocal,
     @Relation(
         parentColumn = "gameSettingsId",
@@ -23,14 +23,14 @@ data class GameLocal(
 ) : DaoModel()
 
 @Entity(tableName = "game_settings")
-data class GameSettingsLocal(
+internal data class GameSettingsLocal(
     val type: GameType,
     val goal: Int,
     @PrimaryKey val gameSettingsId: String = UUID.randomUUID().toString(),
 ) : DaoModel()
 
 @Entity(primaryKeys = ["playerId", "gameSettingsId"])
-data class GameCrossRef(
+internal data class GameCrossRef(
     val playerId: Long,
     @ColumnInfo(index = true)
     val gameSettingsId: String,

@@ -12,7 +12,7 @@ typealias Score = Int
 typealias PlayerId = Long
 
 @Entity
-data class RoundLocal(
+internal data class RoundLocal(
     @PrimaryKey val roundId: String,
     val gameRoundId: String,
     val roundNum: Int = 1,
@@ -21,7 +21,7 @@ data class RoundLocal(
     val winner: PlayerId? = null,
 ) : DaoModel()
 
-class RoundsConverter {
+internal class RoundsConverter {
 
     @TypeConverter
     fun fromRounds(rounds: Map<PlayerId, Score>): String {

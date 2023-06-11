@@ -5,7 +5,7 @@ import ua.edmko.domain.entities.GameType
 import ua.edmko.domain.entities.Player
 import ua.edmko.domain.entities.Player.Companion.playersStubList
 
-data class SetupViewState(
+internal data class SetupViewState(
     val goal: Int = 500,
     val dialog: DialogType? = null,
     val players: List<Player> = emptyList(),

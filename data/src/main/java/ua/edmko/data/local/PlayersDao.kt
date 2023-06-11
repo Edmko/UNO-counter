@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import ua.edmko.data.local.entities.PlayerLocal
 
 @Dao
-interface PlayersDao {
+internal interface PlayersDao {
 
     @Insert
     suspend fun insertPlayer(recipe: PlayerLocal)
