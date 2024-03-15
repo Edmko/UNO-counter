@@ -2,18 +2,18 @@ package ua.edmko.buildsrc
 
 object AndroidSdk {
     const val min = 24
-    const val compile = 33
+    const val compile = 34
 }
 
 object Classpath {
 
     object Versions {
-        const val gradle = "8.0.2"
-        const val kotlin = "1.8.21"
+        const val gradle = "8.5.1"
+        const val kotlin = "2.0.0"
     }
 
     const val gradle = "com.android.tools.build:gradle:${Versions.gradle}"
-    const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
+    const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${ua.edmko.buildsrc.Classpath.Versions.kotlin}"
     const val hilt = "com.google.dagger:hilt-android-gradle-plugin:${HiltDependencies.Versions.hilt}"
     const val ktlint = "org.jlleitschuh.gradle:ktlint-gradle:11.4.0"
 }

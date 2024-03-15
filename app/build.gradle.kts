@@ -41,7 +41,7 @@ android {
         applicationId = "ua.edmko.unocounter"
         minSdk = AndroidSdk.min
         targetSdk = AndroidSdk.compile
-        versionCode = 4
+        versionCode = 5
         versionName = "0.1.0"
         setProperty("archivesBaseName", "unocounter${getBuildTime()}_${versionName}_$versionCode")
     }
@@ -70,8 +70,8 @@ android {
 
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_18
-        targetCompatibility = JavaVersion.VERSION_18
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     buildFeatures {
         compose = true

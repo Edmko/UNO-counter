@@ -1,11 +1,9 @@
 package ua.edmko.buildsrc
 
-import com.android.build.api.variant.AndroidComponentsExtension
 import com.android.build.gradle.BaseExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.DependencyHandlerScope
 import org.gradle.kotlin.dsl.dependencies
 
 class CommonComposePlugin : Plugin<Project> {
@@ -17,7 +15,7 @@ class CommonComposePlugin : Plugin<Project> {
         with(target) {
             applyPlugins()
             androidConfig()
-            dependeciesConfig()
+            dependenciesConfig()
         }
     }
 
@@ -42,8 +40,8 @@ class CommonComposePlugin : Plugin<Project> {
                 }
             }
             compileOptions {
-                sourceCompatibility = JavaVersion.VERSION_18
-                targetCompatibility = JavaVersion.VERSION_18
+                sourceCompatibility = JavaVersion.VERSION_17
+                targetCompatibility = JavaVersion.VERSION_17
             }
             buildFeatures.compose = true
             composeOptions {
@@ -52,7 +50,7 @@ class CommonComposePlugin : Plugin<Project> {
         }
     }
 
-    private fun Project.dependeciesConfig() {
+    private fun Project.dependenciesConfig() {
         dependencies {
             composeDependencies()
             hiltDependencies()
