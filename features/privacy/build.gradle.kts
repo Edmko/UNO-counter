@@ -1,13 +1,11 @@
-import ua.edmko.buildsrc.webkit
-
 plugins {
-    id("compose-config")
+    alias(libs.plugins.plugin.feature.compose)
+}
+
+android {
+    namespace = "ua.edmko.privacy"
 }
 
 dependencies {
-    implementation(project(":core-ui"))
-    implementation(webkit)
-}
-android {
-    namespace = "ua.edmko.privacy"
+    implementation(libs.webkit)
 }

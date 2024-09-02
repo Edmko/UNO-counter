@@ -13,7 +13,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.example.endgame.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ua.edmko.core.ui.theme.AppTheme

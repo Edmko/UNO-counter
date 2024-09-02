@@ -1,28 +1,12 @@
-import ua.edmko.buildsrc.Analytics
-import ua.edmko.buildsrc.AndroidLibraries
-import ua.edmko.buildsrc.AndroidSdk
-import ua.edmko.buildsrc.ComposeLibraries
-import ua.edmko.buildsrc.Coroutines
-import ua.edmko.buildsrc.Database
-import ua.edmko.buildsrc.LifecycleLibraries
-import ua.edmko.buildsrc.Navigation
-import ua.edmko.buildsrc.composeDependencies
-import ua.edmko.buildsrc.coreDependencies
-import ua.edmko.buildsrc.desugarJdk
-import ua.edmko.buildsrc.gson
-import ua.edmko.buildsrc.hiltDependencies
 import java.io.FileInputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Properties
 
 plugins {
-    id("dagger.hilt.android.plugin")
-    id("com.android.application")
-    kotlin("android")
-    id("com.google.gms.google-services")
-    kotlin("kapt")
-    id("com.google.firebase.crashlytics")
+    alias(libs.plugins.plugin.application)
+    alias(libs.plugins.plugin.compose)
+    alias(libs.plugins.plugin.hilt)
 }
 
 val keystoreFile: File = rootProject.file("keystore.properties")
@@ -35,12 +19,9 @@ fun getBuildTime(): String {
 }
 
 android {
-    compileSdk = AndroidSdk.compile
-
+    namespace = "ua.edmko.unocounter"
     defaultConfig {
         applicationId = "ua.edmko.unocounter"
-        minSdk = AndroidSdk.min
-        targetSdk = AndroidSdk.compile
         versionCode = 6
         versionName = "0.1.1"
         setProperty("archivesBaseName", "unocounter${getBuildTime()}_${versionName}_$versionCode")
@@ -68,18 +49,6 @@ android {
         }
     }
 
-    compileOptions {
-        isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = ComposeLibraries.Versions.compiler
-    }
-    namespace = "ua.edmko.unocounter"
 }
 
 dependencies {
@@ -93,21 +62,12 @@ dependencies {
     implementation(project(":features:players"))
     implementation(project(":features:setup"))
     implementation(project(":features:privacy"))
-    coreDependencies()
-    hiltDependencies()
-    composeDependencies()
-    implementation(AndroidLibraries.splash)
-    implementation(LifecycleLibraries.vmKtx)
-    implementation(LifecycleLibraries.runtime)
-    implementation(LifecycleLibraries.vmCompose)
-    implementation(gson)
-    kapt(Database.compiler)
-    implementation(Database.extensions)
-    implementation(Database.runtime)
-    implementation(Navigation.compose)
-    implementation(Coroutines.android)
-    implementation(Coroutines.core)
-    coreLibraryDesugaring(desugarJdk)
-    implementation(Analytics.analytics)
-    implementation(Analytics.crashlytics)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.material)
+    ksp(libs.hilt.android.compiler)
+    kspTest(libs.hilt.android.compiler)
+    implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation.compose)
+    implementation(libs.splash)
+    implementation(libs.gson)
 }

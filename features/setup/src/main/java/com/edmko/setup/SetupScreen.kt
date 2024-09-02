@@ -81,7 +81,7 @@ internal fun GameSettingContent(
                         modifier = Modifier
                             .align(Alignment.CenterVertically)
                             .clickable(onClick = toPrivacy),
-                        imageVector = Icons.Filled.Policy,
+                        imageVector = Icons.Default.Policy,
                         contentDescription = "privacy policy",
                         tint = AppTheme.colors.onSurface,
                     )
@@ -110,7 +110,6 @@ internal fun GameSettingContent(
                 ) { text -> event(ChangeGoal(text.toIntOrNull() ?: 0)) }
             }
             null -> {
-                /** Empty */
                 /** Empty */
             }
         }

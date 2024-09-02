@@ -1,9 +1,9 @@
 plugins {
-    id("kotlin")
+    alias(libs.plugins.jetbrainsKotlinJvm)
 }
 
 dependencies {
-    implementation(ua.edmko.buildsrc.Coroutines.core)
-    implementation("javax.annotation:jsr250-api:1.0")
-    implementation("javax.inject:javax.inject:1")
+    implementation(libs.jsr250.api)
+    implementation(libs.javax.inject)
+    implementation(libs.kotlinx.coroutines.core)
 }

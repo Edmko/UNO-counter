@@ -11,7 +11,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,7 +40,7 @@ fun Toolbar(
         ) {
             back?.let { back ->
                 Icon(
-                    imageVector = Icons.Filled.ArrowBack,
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "Navigate back",
                     modifier = Modifier
                         .clickable(onClick = back)

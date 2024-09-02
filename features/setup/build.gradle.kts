@@ -1,12 +1,8 @@
 plugins {
-    id("compose-config")
+    alias(libs.plugins.plugin.feature.compose)
 }
 
-dependencies {
-    implementation(project(":core"))
-    implementation(project(":domain"))
-    implementation(project(":core-ui"))
-}
+
 android {
     namespace = "com.edmko.myapplication"
 }

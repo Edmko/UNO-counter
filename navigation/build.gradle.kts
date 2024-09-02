@@ -1,5 +1,7 @@
 plugins {
-    id("compose-config")
+    alias(libs.plugins.plugin.android.library)
+    alias(libs.plugins.plugin.hilt)
+    alias(libs.plugins.plugin.compose)
 }
 
 android {
@@ -7,10 +9,10 @@ android {
 }
 
 dependencies {
-    implementation(ua.edmko.buildsrc.Navigation.compose)
-    implementation("javax.annotation:jsr250-api:1.0")
-    implementation("javax.inject:javax.inject:1")
-    implementation(ua.edmko.buildsrc.Coroutines.core)
+    implementation(libs.jsr250.api)
+    implementation(libs.javax.inject)
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.navigation.compose)
     implementation(project(":core"))
     implementation(project(":features:endgame"))
     implementation(project(":features:game"))
