@@ -10,7 +10,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class ApplicationModule {
-
     @Singleton
     @Provides
     fun provideGson() = Gson()

@@ -19,12 +19,12 @@ internal class GameViewModel @Inject constructor(
     private val getGame: ObserveGame,
     private val addRoundToGame: AddRoundToGame,
     private val gameNavigator: GameNavigator,
-) :
-    BaseViewModel<GameViewState, GameEvent>() {
+) : BaseViewModel<GameViewState, GameEvent>() {
 
     init {
         viewState = GameViewState()
-        val gameId: String = savedStateHandle[GAME_ID_EXTRA] ?: throw IllegalArgumentException("Game id must not be null")
+        val gameId: String = savedStateHandle[GAME_ID_EXTRA]
+            ?: throw IllegalArgumentException("Game id must not be null")
         viewModelScope.launch {
             getGame.createObservable(ObserveGame.Params(gameId)).collect { game ->
                 viewState = viewState.copy(

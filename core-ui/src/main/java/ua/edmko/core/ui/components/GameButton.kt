@@ -44,7 +44,7 @@ fun GameButton(
 @Composable
 fun GameButtonPreview() {
     AppTheme {
-        Surface() {
+        Surface {
             GameButton(text = "Start game", onClick = {})
         }
     }

@@ -17,7 +17,6 @@ internal data class GameLocal(
         associateBy = Junction(GameCrossRef::class),
     )
     val players: List<PlayerLocal>,
-
     @Relation(parentColumn = "gameSettingsId", entityColumn = "gameRoundId")
     val rounds: List<RoundLocal> = emptyList(),
 ) : DaoModel()

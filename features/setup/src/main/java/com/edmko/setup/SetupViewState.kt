@@ -13,6 +13,7 @@ internal data class SetupViewState(
 ) : ViewState {
 
     enum class DialogType { Type, Edit }
+
     companion object {
         val Preview = SetupViewState(
             players = playersStubList,

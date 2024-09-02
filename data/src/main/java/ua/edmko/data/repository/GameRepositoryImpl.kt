@@ -24,7 +24,10 @@ internal class GameRepositoryImpl @Inject constructor(
         gameDao.insertGameSettings(gameSettingsMapper.map(gameSettings))
     }
 
-    override suspend fun addPlayerToGame(playerId: Long, gameId: String) {
+    override suspend fun addPlayerToGame(
+        playerId: Long,
+        gameId: String,
+    ) {
         val crossRef = GameCrossRef(playerId, gameId)
         gameDao.addPlayerToGame(crossRef)
     }

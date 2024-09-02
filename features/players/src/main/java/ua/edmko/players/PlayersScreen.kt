@@ -136,7 +136,7 @@ private fun PLayersList(
     players: List<Player>,
     event: (PlayersEvent) -> Unit,
 ) {
-    LazyColumn() {
+    LazyColumn {
         itemsIndexed(players) { index, player ->
             key(player.playerId) {
                 if (index == 0) {
@@ -252,7 +252,7 @@ private fun PlayerItem(player: Player, event: (PlayersEvent) -> Unit) {
 @Preview
 @Composable
 fun PlayerListPreview() {
-    AppTheme() {
+    AppTheme {
         PLayersList(
             players = playersStubList,
             event = {},

@@ -47,43 +47,54 @@ class Colors(
         surface: Color = this.surface,
         onPrimary: Color = this.onPrimary,
         onSurface: Color = this.onSurface,
-    ): Colors = Colors(
-        primary,
-        secondary,
-        background,
-        surface,
-        onPrimary,
-        onSurface,
-    )
+    ): Colors =
+        Colors(
+            primary,
+            secondary,
+            background,
+            surface,
+            onPrimary,
+            onSurface,
+        )
 
     override fun toString(): String {
-        return "Colors(primary=$primary, secondary=$secondary, background=$background, surface=$surface, onPrimary=$onPrimary, onSurface=$onSurface)"
+        return "Colors(" +
+            "primary=$primary, " +
+            "secondary=$secondary," +
+            " background=$background, " +
+            "surface=$surface, " +
+            "onPrimary=$onPrimary, " +
+            "onSurface=$onSurface)"
     }
 }
 
 @Composable
-fun getAppRadioButtonColors() = RadioButtonDefaults.colors(
-    selectedColor = AppTheme.colors.primary,
-    unselectedColor = AppTheme.colors.onSurface.copy(alpha = 0.6f),
-    disabledColor = AppTheme.colors.onSurface.copy(ContentAlpha.disabled),
-)
+fun getAppRadioButtonColors() =
+    RadioButtonDefaults.colors(
+        selectedColor = AppTheme.colors.primary,
+        unselectedColor = AppTheme.colors.onSurface.copy(alpha = 0.6f),
+        disabledColor = AppTheme.colors.onSurface.copy(ContentAlpha.disabled),
+    )
 
 @Composable
-fun getCheckboxColors() = CheckboxDefaults.colors(
-    checkedColor = AppTheme.colors.primary,
-    uncheckedColor = AppTheme.colors.onSurface.copy(alpha = 0.6f),
-    checkmarkColor = AppTheme.colors.surface,
-    disabledColor = AppTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled),
-    disabledIndeterminateColor = AppTheme.colors.primary.copy(alpha = ContentAlpha.disabled),
-)
+fun getCheckboxColors() =
+    CheckboxDefaults.colors(
+        checkedColor = AppTheme.colors.primary,
+        uncheckedColor = AppTheme.colors.onSurface.copy(alpha = 0.6f),
+        checkmarkColor = AppTheme.colors.surface,
+        disabledColor = AppTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled),
+        disabledIndeterminateColor = AppTheme.colors.primary.copy(alpha = ContentAlpha.disabled),
+    )
 
 @Composable
-fun getButtonColors() = ButtonDefaults.buttonColors(
-    backgroundColor = AppTheme.colors.primary,
-    contentColor = AppTheme.colors.onPrimary,
-    disabledBackgroundColor = AppTheme.colors.onSurface.copy(alpha = 0.12f).compositeOver(AppTheme.colors.surface),
-    disabledContentColor = AppTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled),
-)
+fun getButtonColors() =
+    ButtonDefaults.buttonColors(
+        backgroundColor = AppTheme.colors.primary,
+        contentColor = AppTheme.colors.onPrimary,
+        disabledBackgroundColor = AppTheme.colors.onSurface.copy(alpha = 0.12f)
+            .compositeOver(AppTheme.colors.surface),
+        disabledContentColor = AppTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled),
+    )
 
 @Composable
 fun AppTheme(

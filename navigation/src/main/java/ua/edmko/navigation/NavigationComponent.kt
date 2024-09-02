@@ -72,7 +72,7 @@ fun NavigationComponent(
             }
         }
         composable(PolicyCommand.destination) {
-            PolicyScreen() {
+            PolicyScreen {
                 navController.navigateUp()
             }
         }

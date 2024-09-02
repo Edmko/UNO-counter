@@ -9,6 +9,7 @@ internal class GameMapper @Inject constructor(
     private val playerMapper: PlayerMapper,
     private val roundMapper: RoundMapper,
 ) : DataMapper<GameLocal, Game> {
+
     override fun map(domain: Game): GameLocal {
         val settings = gameSettingsMapper.map(domain.gameSettings)
         val players = domain.players.map(playerMapper::map)

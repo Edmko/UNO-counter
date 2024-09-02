@@ -9,8 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-abstract class BaseViewModel<S : ViewState, E : Event>() :
-    ViewModel() {
+abstract class BaseViewModel<S : ViewState, E : Event>() : ViewModel() {
 
     private val errorHandler = CoroutineExceptionHandler { _, throwable ->
         handleError(throwable)
@@ -25,6 +24,7 @@ abstract class BaseViewModel<S : ViewState, E : Event>() :
     }
 
     private val _viewStates: MutableStateFlow<S?> = MutableStateFlow(null)
+
     fun viewStates(): StateFlow<S?> = _viewStates
 
     protected var viewState: S

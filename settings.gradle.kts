@@ -13,8 +13,9 @@ dependencyResolutionManagement {
         mavenCentral()
         maven { setUrl("https://jitpack.io") }
     }
-
 }
+
+gradle.startParameter.excludedTaskNames.addAll(listOf(":build-logic:testClasses"))
 rootProject.name = "UnoCounter"
 include(":app")
 include(":domain")

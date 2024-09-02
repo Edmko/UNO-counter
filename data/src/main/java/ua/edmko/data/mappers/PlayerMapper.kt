@@ -5,6 +5,7 @@ import ua.edmko.domain.entities.Player
 import javax.inject.Inject
 
 internal class PlayerMapper @Inject constructor() : DataMapper<PlayerLocal, Player> {
+
     override fun map(domain: Player): PlayerLocal {
         return PlayerLocal(domain.playerId, domain.name, domain.isSelected)
     }

@@ -11,14 +11,15 @@ internal data class PlayerLocal(
 ) : DaoModel() {
 
     companion object {
-        fun getPlayersStub() = listOf(
-            PlayerLocal(2665421421, "John Smith"),
-            PlayerLocal(254153, "Dali Bali"),
-            PlayerLocal(2754141, "Man Quite", isSelected = false),
-            PlayerLocal(54111, "Vasya"),
-            PlayerLocal(1614, "John Smith"),
-            PlayerLocal(654116, "Tatu dali man", isSelected = false),
-            PlayerLocal(2541154, "KonkistadoroAtilla"),
-        )
+        fun getPlayersStub() =
+            listOf(
+                PlayerLocal(2665421421, "John Smith"),
+                PlayerLocal(254153, "Dali Bali"),
+                PlayerLocal(2754141, "Man Quite", isSelected = false),
+                PlayerLocal(54111, "Vasya"),
+                PlayerLocal(1614, "John Smith"),
+                PlayerLocal(654116, "Tatu dali man", isSelected = false),
+                PlayerLocal(2541154, "KonkistadoroAtilla"),
+            )
     }
 }

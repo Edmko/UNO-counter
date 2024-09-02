@@ -51,6 +51,7 @@ data class Game(
 
     companion object {
         val noPlayersFoundException = Exception("No players found")
+
         fun getGameStub() = Game(
             gameSettings = getGameSettingsStub(),
             players = playersStubList,

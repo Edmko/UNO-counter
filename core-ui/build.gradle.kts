@@ -6,7 +6,7 @@ android {
     namespace = "ua.edmko.core.ui"
 }
 
-dependencies{
+dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     testImplementation(libs.junit)

@@ -62,7 +62,7 @@ fun PlayerItem(
 @Composable
 fun PlayerItemPreview() {
     AppTheme {
-        Surface() {
+        Surface {
             PlayerItem(modifier = Modifier, "John Smith", color = Color.Red)
         }
     }

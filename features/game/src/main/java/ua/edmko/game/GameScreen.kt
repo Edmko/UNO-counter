@@ -107,7 +107,7 @@ fun PlayersList(
     winner: PlayerId? = null,
     selectWinner: (Player) -> Unit,
 ) {
-    LazyColumn() {
+    LazyColumn {
         item {
             PlayerItem(
                 height = 30.dp,

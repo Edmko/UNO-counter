@@ -5,6 +5,7 @@ import ua.edmko.domain.entities.GameSettings
 import javax.inject.Inject
 
 internal class GameSettingsMapper @Inject constructor() : DataMapper<GameSettingsLocal, GameSettings> {
+
     override fun map(domain: GameSettings): GameSettingsLocal {
         return GameSettingsLocal(domain.type, domain.goal, domain.id)
     }

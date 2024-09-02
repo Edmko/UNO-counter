@@ -6,8 +6,9 @@ import androidx.navigation.navArgument
 import ua.edmko.core.base.NavigationCommand
 import ua.edmko.game.GAME_ID_EXTRA
 
-
-class GameCommand(gameId: String) : NavigationCommand {
+class GameCommand(
+    gameId: String,
+) : NavigationCommand {
 
     internal companion object {
 

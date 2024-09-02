@@ -99,6 +99,7 @@ internal fun GameSettingContent(
                     event(SetGameType(it))
                 }
             }
+
             SetupViewState.DialogType.Edit -> {
                 EditDialog(
                     textType = KeyboardOptions(
@@ -109,6 +110,7 @@ internal fun GameSettingContent(
                     onDismiss = { event(DismissDialog) },
                 ) { text -> event(ChangeGoal(text.toIntOrNull() ?: 0)) }
             }
+
             null -> {
                 /** Empty */
             }
@@ -181,7 +183,10 @@ internal fun GameSettingContent(
 }
 
 @Composable
-private fun PlayersList(modifier: Modifier = Modifier, players: List<Player>) {
+private fun PlayersList(
+    modifier: Modifier = Modifier,
+    players: List<Player>,
+) {
     Box(modifier) {
         LazyColumn(
             modifier = Modifier
