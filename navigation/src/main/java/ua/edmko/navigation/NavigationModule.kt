@@ -9,6 +9,7 @@ import ua.edmko.core.base.NavigationManager
 import ua.edmko.endgame.EndGameNavigator
 import ua.edmko.game.GameNavigator
 import ua.edmko.players.PlayersNavigator
+import ua.edmko.settings.SettingsNavigator
 import javax.inject.Singleton
 
 @Module
@@ -30,4 +31,7 @@ internal interface NavigationModule {
 
     @Binds
     fun bindEndGameNavigator(navigator: Navigator): EndGameNavigator
+
+    @Binds
+    fun bindSettingsNavigator(navigator: Navigator): SettingsNavigator
 }

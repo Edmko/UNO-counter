@@ -1,7 +1,7 @@
 package ua.edmko.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -18,8 +18,10 @@ import ua.edmko.navigation.commands.GameSettingCommand
 import ua.edmko.navigation.commands.LobbyCommand
 import ua.edmko.navigation.commands.PlayersCommand
 import ua.edmko.navigation.commands.PolicyCommand
+import ua.edmko.navigation.commands.SettingsCommand
 import ua.edmko.players.PlayersScreen
 import ua.edmko.privacy.PolicyScreen
+import ua.edmko.settings.SettingsScreen
 
 @Composable
 fun NavigationComponent(
@@ -27,7 +29,7 @@ fun NavigationComponent(
     navigationManager: NavigationManager,
 ) {
     val coroutine = rememberCoroutineScope()
-    SideEffect {
+    LaunchedEffect(Unit) {
         coroutine.launch {
             navigationManager.commands().collect { command ->
                 if (command == BackCommand) {
@@ -45,10 +47,7 @@ fun NavigationComponent(
     ) {
         composable(GameSettingCommand.destination) {
             GameSettingScreen {
-                navController.navigate(
-                    PolicyCommand.destination,
-                    PolicyCommand.builder,
-                )
+                navController.navigate(SettingsCommand.destination)
             }
         }
         composable(PlayersCommand.destination) {
@@ -75,6 +74,9 @@ fun NavigationComponent(
             PolicyScreen {
                 navController.navigateUp()
             }
+        }
+        composable(SettingsCommand.destination) {
+            SettingsScreen(back = navController::navigateUp)
         }
     }
 }

@@ -19,4 +19,5 @@ dependencies {
     implementation(project(":features:players"))
     implementation(project(":features:setup"))
     implementation(project(":features:privacy"))
+    implementation(project(":features:settings"))
 }

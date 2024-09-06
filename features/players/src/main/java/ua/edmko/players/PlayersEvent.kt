@@ -5,7 +5,7 @@ import ua.edmko.domain.entities.Player
 
 internal sealed class PlayersEvent : Event
 
-internal object AddPlayerButton : PlayersEvent()
+internal data object AddPlayerButton : PlayersEvent()
 
 internal class CreatePlayer(val name: String) : PlayersEvent()
 

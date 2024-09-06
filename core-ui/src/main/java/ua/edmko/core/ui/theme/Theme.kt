@@ -17,15 +17,17 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.runtime.structuralEqualityPolicy
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
+import ua.edmko.domain.entities.Theme
 
 @Stable
 class Colors(
+    private val theme: Theme = Theme.LIGHT,
     primary: Color = Color.Red,
     secondary: Color = Color.Red,
-    surface: Color = DarkGrey,
-    onSurface: Color = Color.White,
-    onPrimary: Color = DarkGrey,
-    background: Color = Color.Black,
+    surface: Color = if (theme == Theme.DARK) DarkGrey else Color.White,
+    onSurface: Color = if (theme == Theme.DARK) Color.White else Color.Black,
+    onPrimary: Color = if (theme == Theme.DARK) DarkGrey else Color.White,
+    background: Color = if (theme == Theme.DARK) Color.Black else Color.White,
 ) {
     var primary by mutableStateOf(primary, structuralEqualityPolicy())
         internal set
@@ -41,6 +43,7 @@ class Colors(
         internal set
 
     fun copy(
+        theme: Theme = this.theme,
         primary: Color = this.primary,
         secondary: Color = this.secondary,
         background: Color = this.background,
@@ -49,6 +52,7 @@ class Colors(
         onSurface: Color = this.onSurface,
     ): Colors =
         Colors(
+            theme,
             primary,
             secondary,
             background,
@@ -91,14 +95,16 @@ fun getButtonColors() =
     ButtonDefaults.buttonColors(
         backgroundColor = AppTheme.colors.primary,
         contentColor = AppTheme.colors.onPrimary,
-        disabledBackgroundColor = AppTheme.colors.onSurface.copy(alpha = 0.12f)
+        disabledBackgroundColor = AppTheme.colors.onSurface
+            .copy(alpha = 0.12f)
             .compositeOver(AppTheme.colors.surface),
         disabledContentColor = AppTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled),
     )
 
 @Composable
 fun AppTheme(
-    colors: Colors = Colors(),
+    theme: Theme = Theme.DARK,
+    colors: Colors = Colors(theme),
     typography: Typography = Typography,
     shapes: Shapes = Shapes,
     content: @Composable () -> Unit,

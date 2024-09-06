@@ -4,8 +4,8 @@ import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavOptionsBuilder
 import ua.edmko.core.base.NavigationCommand
 
-val BackCommand = object : NavigationCommand {
-    override val argument = emptyList<NamedNavArgument>()
-    override val destination: String = "back"
+internal val SettingsCommand = object : NavigationCommand {
+    override val argument: List<NamedNavArgument> = emptyList()
+    override val destination: String = "settings"
     override val builder: NavOptionsBuilder.() -> Unit = {}
 }

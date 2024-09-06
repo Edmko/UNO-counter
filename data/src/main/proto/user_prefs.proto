@@ -1,0 +1,17 @@
+syntax = "proto3";
+option java_package = "ua.edmko.data";
+option java_multiple_files = true;
+
+enum ThemeProto {
+  DARK = 0;
+  LIGHT = 1;
+}
+
+message UserPreferences {
+
+  optional ThemeProto theme = 1;
+}
+
+
+
+

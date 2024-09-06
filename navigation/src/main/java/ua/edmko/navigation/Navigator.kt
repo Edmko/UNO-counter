@@ -7,12 +7,14 @@ import ua.edmko.game.GameNavigator
 import ua.edmko.navigation.commands.GameCommand
 import ua.edmko.navigation.commands.GameEndCommand
 import ua.edmko.navigation.commands.PlayersCommand
+import ua.edmko.navigation.commands.PolicyCommand
 import ua.edmko.players.PlayersNavigator
+import ua.edmko.settings.SettingsNavigator
 import javax.inject.Inject
 
 internal class Navigator @Inject constructor(
     private val navigationManager: NavigationManager,
-) : SetupNavigator, PlayersNavigator, EndGameNavigator, GameNavigator {
+) : SetupNavigator, PlayersNavigator, EndGameNavigator, GameNavigator, SettingsNavigator {
 
     override fun back() {
         navigationManager.back()
@@ -28,5 +30,9 @@ internal class Navigator @Inject constructor(
 
     override fun toEnd(winner: String) {
         navigationManager.navigate(GameEndCommand(winner))
+    }
+
+    override fun toPolicy() {
+        navigationManager.navigate(PolicyCommand)
     }
 }

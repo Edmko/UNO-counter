@@ -1,4 +1,5 @@
 [versions]
+datastore = "1.1.1"
 minSdk = "24"
 compileSdk = "34"
 kotlinxCoroutinesCore = "1.8.1"
@@ -15,6 +16,7 @@ junitVersion = "4.13.2"
 androidxJunit = "1.2.1"
 espressoCore = "3.6.1"
 appcompat = "1.7.0"
+protobufJavalite = "3.18.0"
 room = "2.6.1"
 ksp = "1.9.25-1.0.20"
 material = "1.12.0"
@@ -26,6 +28,8 @@ googleServices = "4.4.2"
 
 #Core
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
+protobuf-javalite = { module = "com.google.protobuf:protobuf-javalite", version.ref = "protobufJavalite" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 gradle = { group = "com.android.tools.build", name = "gradle", version.ref = "gradle" }
 kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }

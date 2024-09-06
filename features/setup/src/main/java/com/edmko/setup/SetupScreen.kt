@@ -27,7 +27,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Policy
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -57,16 +57,16 @@ import ua.edmko.domain.entities.GameType
 import ua.edmko.domain.entities.Player
 
 @Composable
-fun GameSettingScreen(toPrivacy: () -> Unit) {
+fun GameSettingScreen(toSettings: () -> Unit) {
     val viewModel: SetupViewModel = hiltViewModel()
     val state by viewModel.viewStates().collectAsState()
-    state?.let { GameSettingContent(it, toPrivacy, viewModel::obtainEvent) }
+    state?.let { GameSettingContent(it, toSettings, viewModel::obtainEvent) }
 }
 
 @Composable
 internal fun GameSettingContent(
     state: SetupViewState,
-    toPrivacy: () -> Unit,
+    toSettings: () -> Unit,
     event: (GameSettingEvent) -> Unit,
 ) {
     Scaffold(
@@ -75,13 +75,13 @@ internal fun GameSettingContent(
         topBar = {
             Toolbar(
                 modifier = Modifier.padding(end = baseHorizontalPadding),
-                title = "Setup",
+                title = stringResource(R.string.setup),
                 content = {
                     Icon(
                         modifier = Modifier
                             .align(Alignment.CenterVertically)
-                            .clickable(onClick = toPrivacy),
-                        imageVector = Icons.Default.Policy,
+                            .clickable(onClick = toSettings),
+                        imageVector = Icons.Default.Settings,
                         contentDescription = "privacy policy",
                         tint = AppTheme.colors.onSurface,
                     )
@@ -272,6 +272,6 @@ private fun OptionsDialog(
 @Composable
 fun GameSettingContentPreview() {
     AppTheme {
-        GameSettingContent(state = SetupViewState.Preview, event = {}, toPrivacy = {})
+        GameSettingContent(state = SetupViewState.Preview, event = {}, toSettings = {})
     }
 }
