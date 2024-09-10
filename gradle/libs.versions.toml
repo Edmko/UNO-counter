@@ -1,29 +1,28 @@
 [versions]
 datastore = "1.1.1"
-kotlinxCoroutinesTest = "1.8.1"
+kotlinxCoroutines = "1.8.1"
 minSdk = "24"
 compileSdk = "34"
-kotlinxCoroutinesCore = "1.8.1"
 kotlinCompilerExtension = "1.5.15"
-gradle = "8.3.2"
-kotlin = "1.9.25"
+gradle = "8.5.2"
+kotlin = "2.0.20"
 ktlint = "12.1.1"
-hilt = "2.51"
+hilt = "2.51.1"
 hiltNavigation = "1.2.0"
-composeBom = "2024.08.00"
+composeBom = "2024.09.01"
 coreKtx = "1.13.1"
-lifecycle = "2.8.4"
+lifecycle = "2.8.5"
 junitVersion = "4.13.2"
 androidxJunit = "1.2.1"
 espressoCore = "3.6.1"
 appcompat = "1.7.0"
 mockitoCore = "5.11.0"
-protobufJavalite = "3.18.0"
+protobufJavalite = "3.19.4"
 room = "2.6.1"
-ksp = "1.9.25-1.0.20"
+ksp = "2.0.20-1.0.24"
 material = "1.12.0"
-materialCompose = "1.6.8"
-navigation = "2.7.7"
+materialCompose = "1.7.1"
+navigation = "2.8.0"
 googleServices = "4.4.2"
 
 [libraries]
@@ -31,7 +30,7 @@ googleServices = "4.4.2"
 #Core
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
-kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version = "5.4.0" }
 roboelectric = { module = "org.robolectric:robolectric", version = "4.11.1" }
@@ -47,8 +46,8 @@ androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", versi
 androidx-compose-material = { group = "androidx.compose.material", name = "material", version.ref = "materialCompose" }
 androidx_compose_material_icons_extended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "materialCompose" }
 androidx-compose-ui_tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
-androidx_compose_ui_test_junit = { group = "androidx.compose.ui", name = "ui-test-junit4", version = "1.7.0" }
-androidx_compose_ui_test_manifest = { group = "androidx.compose.ui", name = "ui-test-manifest", version = "1.7.0" }
+androidx_compose_ui_test_junit = { group = "androidx.compose.ui", name = "ui-test-junit4", version = "1.7.1" }
+androidx_compose_ui_test_manifest = { group = "androidx.compose.ui", name = "ui-test-manifest", version = "1.7.1" }
 
 #Room
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
@@ -86,13 +85,13 @@ firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashly
 firebase-crashlytics-gradle = { group = "com.google.firebase", name = "firebase-crashlytics-gradle", version = "3.0.2" }
 
 #Other
-desugar = { group = "com.android.tools", name = "desugar_jdk_libs", version = "2.1.1" }
+desugar = { group = "com.android.tools", name = "desugar_jdk_libs", version = "2.1.2" }
 webkit = { group = "androidx.webkit", name = "webkit", version = "1.11.0" }
 gson = { group = "com.google.code.gson", name = "gson", version = "2.10.1" }
 splash = { group = "androidx.core", name = "core-splashscreen", version = "1.0.1" }
 javax-inject = { module = "javax.inject:javax.inject", version = "1" }
 jsr250-api = { module = "javax.annotation:jsr250-api", version = "1.0" }
-kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "gradle" }
@@ -102,6 +101,7 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 room = { id = "androidx.room", version.ref = "room" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 jetbrainsKotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
 #Convention plugins
 plugin-compose = { id = "plugin.compose.config", version = "unspecified" }
@@ -109,3 +109,5 @@ plugin-application = { id = "plugin.application.config", version = "unspecified"
 plugin-hilt = { id = "plugin.hilt.config", version = "unspecified" }
 plugin-android-library = { id = "plugin.android.library.config", version = "unspecified" }
 plugin-feature-compose = { id = "plugin.feature.compose.config", version = "unspecified" }
+
+

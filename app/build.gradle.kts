@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.plugin.application)
     alias(libs.plugins.plugin.compose)
     alias(libs.plugins.plugin.hilt)
+    alias(libs.plugins.compose.compiler)
 }
 
 val keystoreFile: File = rootProject.file("keystore.properties")

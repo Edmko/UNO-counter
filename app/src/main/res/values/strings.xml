@@ -1,17 +1,3 @@
 <resources>
     <string name="app_name">Uno Counter</string>
-    <string name="goal_title">Goal</string>
-    <string name="game_type_title">Type</string>
-    <string name="players_block_title">Players</string>
-    <string name="start_game_button_title">Start game</string>
-    <string name="next_round">Next round</string>
-    <string name="setup_goal_dialog_title">Insert goal</string>
-    <string name="accept">Accept</string>
-    <string name="insert_name">Insert name</string>
-    <string name="score_for_player">Insert score for player: %s</string>
-    <string name="are_delete_player">Are your sure you want to delete player?</string>
-    <string name="total">Total</string>
-    <string name="round">Round</string>
-    <string name="set_game_type_dialog_title">Choose type of game</string>
-    <string name="winner">Winner</string>
 </resources>

@@ -1,5 +1,3 @@
-@file:Suppress("ktlint:standard:no-wildcard-imports")
-
 package ua.edmko.settings
 
 import androidx.activity.compose.BackHandler
@@ -39,7 +37,6 @@ import ua.edmko.core.ui.theme.AppTheme
 import ua.edmko.core.ui.theme.getAppRadioButtonColors
 import ua.edmko.core.ui.theme.horizontalPadding
 import ua.edmko.domain.entities.Theme
-import ua.edmko.settings.Dialog.*
 
 @Composable
 fun SettingsScreen() {
@@ -70,16 +67,16 @@ internal fun SettingsScreen(
                 event(NavigateBack)
             }
         },
-    ) {
+    ) { paddings ->
         when (state.dialog) {
-            Theme -> ThemeDialog(
+            Dialog.Theme -> ThemeDialog(
                 theme = state.theme,
             ) { event(SetThemeEvent(it)) }
 
             else -> Unit
         }
 
-        Column(modifier = Modifier.padding(it)) {
+        Column(modifier = Modifier.padding(paddings)) {
             Item(
                 title = stringResource(R.string.item_privacy_policy_title),
                 icon = Icons.Default.Policy,
