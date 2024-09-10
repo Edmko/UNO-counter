@@ -1,5 +1,6 @@
 package ua.edmko.players
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
@@ -36,6 +37,7 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.rememberDismissState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
@@ -51,15 +53,19 @@ import ua.edmko.core.ui.components.ConfirmationDialog
 import ua.edmko.core.ui.components.EditDialog
 import ua.edmko.core.ui.components.Toolbar
 import ua.edmko.core.ui.theme.AppTheme
-import ua.edmko.core.ui.theme.baseHorizontalPadding
 import ua.edmko.core.ui.theme.getCheckboxColors
+import ua.edmko.core.ui.theme.horizontalPadding
 import ua.edmko.domain.entities.Player
-import ua.edmko.domain.entities.Player.Companion.playersStubList
+import ua.edmko.domain.entities.Player.Companion.STUB
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun PlayersScreen() {
     val viewModel: PlayersViewModel = hiltViewModel()
+    LaunchedEffect(Unit) {
+        viewModel.initialize()
+    }
+    BackHandler { viewModel.obtainEvent(NavigateBack) }
     val state by viewModel.viewStates().collectAsState()
     state?.let {
         PlayersScreen(state = it, event = viewModel::obtainEvent)
@@ -72,9 +78,7 @@ internal fun PlayersScreen(state: PlayersViewState, event: (PlayersEvent) -> Uni
     Scaffold(
         topBar = {
             Toolbar(title = "Players") {
-                event(
-                    NavigateBack,
-                )
+                event(NavigateBack)
             }
         },
         modifier = Modifier.fillMaxSize(),
@@ -85,25 +89,26 @@ internal fun PlayersScreen(state: PlayersViewState, event: (PlayersEvent) -> Uni
                 .padding(paddings)
                 .fillMaxSize(),
         ) {
-            if (state.editDialogShows) {
-                EditDialog(
+            when (state.dialog) {
+                AddPlayer, is EditPlayersName -> EditDialog(
                     title = stringResource(R.string.insert_name),
                     onDismiss = { event(DismissDialog) },
                     onClick = { text ->
-                        if (state.selectedPlayer == null) {
-                            event(CreatePlayer(text))
-                        } else {
-                            event(ChangePlayersName(text))
+                        when (state.dialog) {
+                            AddPlayer -> event(CreatePlayer(text))
+                            is EditPlayersName -> event(ChangePlayersName(state.dialog.player, text))
+                            else -> Unit
                         }
                     },
                 )
-            }
-            if (state.confirmationDialogShows) {
-                ConfirmationDialog(
+
+                is DeletePlayer -> ConfirmationDialog(
                     title = stringResource(R.string.are_delete_player),
                     dismiss = { event(DismissDialog) },
-                    accept = { event(DeletePlayerEvent) },
+                    accept = { event(DeletePlayerEvent(state.dialog.player)) },
                 )
+
+                null -> Unit
             }
             PLayersList(
                 players = state.players,
@@ -113,7 +118,7 @@ internal fun PlayersScreen(state: PlayersViewState, event: (PlayersEvent) -> Uni
             FloatingActionButton(
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
-                    .padding(bottom = 50.dp, end = baseHorizontalPadding),
+                    .padding(bottom = 50.dp, end = horizontalPadding),
                 backgroundColor = AppTheme.colors.primary,
                 onClick = { event(AddPlayerButton) },
             ) {
@@ -165,14 +170,16 @@ private fun PLayersList(
                             EndToStart -> Icons.Default.Edit
                         }
                         val color by animateColorAsState(
-                            when (dismissState.targetValue) {
+                            targetValue = when (dismissState.targetValue) {
                                 Default -> Color.White
                                 DismissedToEnd -> Color.Red
                                 DismissedToStart -> Color.Gray
                             },
+                            label = "",
                         )
                         val scale by animateFloatAsState(
-                            if (dismissState.targetValue == Default) 0.75f else 1f,
+                            targetValue = if (dismissState.targetValue == Default) 0.75f else 1f,
+                            label = "",
                         )
 
                         val alignment = when (direction) {
@@ -216,11 +223,12 @@ private fun PLayersList(
 @Composable
 private fun PlayerItem(player: Player, event: (PlayersEvent) -> Unit) {
     val textColor by animateColorAsState(
-        if (player.isSelected) {
+        targetValue = if (player.isSelected) {
             AppTheme.colors.secondary
         } else {
             AppTheme.colors.onSurface
         },
+        label = "",
     )
     Column(
         modifier = Modifier
@@ -254,7 +262,7 @@ private fun PlayerItem(player: Player, event: (PlayersEvent) -> Unit) {
 fun PlayerListPreview() {
     AppTheme {
         PLayersList(
-            players = playersStubList,
+            players = STUB,
             event = {},
         )
     }
@@ -264,7 +272,7 @@ fun PlayerListPreview() {
 @Composable
 fun PlayerItemPreview() {
     AppTheme {
-        PlayerItem(player = playersStubList.first()) {}
+        PlayerItem(player = STUB.first()) {}
     }
 }
 

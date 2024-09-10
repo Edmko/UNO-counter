@@ -20,7 +20,8 @@ internal class PlayersViewModel @Inject constructor(
     private val navigator: PlayersNavigator,
 ) : BaseViewModel<PlayersViewState, PlayersEvent>() {
 
-    init {
+    override fun initialize() {
+        super.initialize()
         viewState = PlayersViewState()
         viewModelScope.launch {
             observePlayers.createObservable(Unit).collect { players ->
@@ -31,59 +32,46 @@ internal class PlayersViewModel @Inject constructor(
 
     override fun obtainEvent(viewEvent: PlayersEvent) {
         when (viewEvent) {
-            is AddPlayerButton -> viewState = viewState.copy(editDialogShows = true)
+            is AddPlayerButton -> viewState = viewState.copy(dialog = AddPlayer)
             is CreatePlayer -> createPlayer(viewEvent.name)
             is UpdatePlayersSelection -> updatePlayer(viewEvent.player)
             is OnDeletePlayer -> onDeletePlayer(viewEvent.player)
             is NavigateBack -> navigator.back()
             is DismissDialog -> dismissDialog()
             is EditPlayer -> onUpdatePlayerName(viewEvent.player)
-            is ChangePlayersName -> changePlayersName(viewEvent.name)
-            is DeletePlayerEvent -> deletePlayer()
+            is ChangePlayersName -> changePlayersName(viewEvent.player, viewEvent.name)
+            is DeletePlayerEvent -> deletePlayer(viewEvent.player)
         }
     }
 
     private fun dismissDialog() {
-        viewState = viewState.copy(
-            editDialogShows = false,
-            confirmationDialogShows = false,
-            selectedPlayer = null,
-        )
+        viewState = viewState.copy(dialog = null)
     }
 
-    private fun changePlayersName(name: String) {
-        val player = viewState.selectedPlayer?.copy(name = name)
-            ?: throw Exception("player must not be null")
-        updatePlayer(player)
-        viewState = viewState.copy(selectedPlayer = null, editDialogShows = false)
+    private fun changePlayersName(player: Player, name: String) {
+        updatePlayer(player.copy(name = name))
+        dismissDialog()
     }
 
     private fun onUpdatePlayerName(player: Player) {
-        viewState = viewState.copy(editDialogShows = true, selectedPlayer = player)
+        viewState = viewState.copy(dialog = EditPlayersName(player))
     }
 
-    private fun createPlayer(name: String) {
-        viewModelScope.launch {
-            addPlayer.executeSync(AddPlayer.Params(name))
-            viewState = viewState.copy(editDialogShows = false)
-        }
+    private fun createPlayer(name: String) = viewModelScope.launch {
+        addPlayer.executeSync(AddPlayer.Params(name))
+        dismissDialog()
     }
 
     private fun onDeletePlayer(player: Player) {
-        viewState = viewState.copy(selectedPlayer = player, confirmationDialogShows = true)
+        viewState = viewState.copy(dialog = DeletePlayer(player))
     }
 
-    private fun deletePlayer() {
-        viewModelScope.launch {
-            val player = viewState.selectedPlayer?.playerId ?: throw Exception("Player must not be null")
-            deletePlayer.executeSync(DeletePlayer.Params(player))
-            viewState = viewState.copy(confirmationDialogShows = false, selectedPlayer = null)
-        }
+    private fun deletePlayer(player: Player) = viewModelScope.launch {
+        deletePlayer.executeSync(DeletePlayer.Params(player.playerId))
+        dismissDialog()
     }
 
-    private fun updatePlayer(player: Player) {
-        viewModelScope.launch {
-            updatePlayer.executeSync(UpdatePlayer.Params(player))
-        }
+    private fun updatePlayer(player: Player) = viewModelScope.launch {
+        updatePlayer.executeSync(UpdatePlayer.Params(player))
     }
 }

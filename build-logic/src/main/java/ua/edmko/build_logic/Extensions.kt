@@ -15,9 +15,17 @@ internal fun Project.setupAndroid(
     commonExtension: CommonExtension<*, *, *, *, *, *>,
 ) {
     commonExtension.apply {
-        compileSdk = libs.findVersion("compileSdk").get().toString().toInt()
+        compileSdk = libs
+            .findVersion("compileSdk")
+            .get()
+            .toString()
+            .toInt()
         defaultConfig {
-            minSdk = libs.findVersion("minSdk").get().toString().toInt()
+            minSdk = libs
+                .findVersion("minSdk")
+                .get()
+                .toString()
+                .toInt()
             testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         }
         compileOptions {
@@ -27,6 +35,12 @@ internal fun Project.setupAndroid(
         tasks.withType<KotlinCompile>().configureEach {
             kotlinOptions {
                 jvmTarget = JavaVersion.VERSION_17.toString()
+            }
+        }
+        testOptions {
+            unitTests {
+                isReturnDefaultValues = true
+                isIncludeAndroidResources = true
             }
         }
     }

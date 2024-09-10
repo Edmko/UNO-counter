@@ -29,6 +29,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -36,6 +37,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -51,95 +53,60 @@ import ua.edmko.core.ui.components.PlayerItem
 import ua.edmko.core.ui.components.TextFieldDivided
 import ua.edmko.core.ui.components.Toolbar
 import ua.edmko.core.ui.theme.AppTheme
-import ua.edmko.core.ui.theme.baseHorizontalPadding
 import ua.edmko.core.ui.theme.getAppRadioButtonColors
+import ua.edmko.core.ui.theme.horizontalPadding
 import ua.edmko.domain.entities.GameType
 import ua.edmko.domain.entities.Player
 
 @Composable
-fun GameSettingScreen(toSettings: () -> Unit) {
+fun SetupScreen() {
     val viewModel: SetupViewModel = hiltViewModel()
+    LaunchedEffect(Unit) {
+        viewModel.initialize()
+    }
     val state by viewModel.viewStates().collectAsState()
-    state?.let { GameSettingContent(it, toSettings, viewModel::obtainEvent) }
+    state?.let { SetupContent(it, viewModel::obtainEvent) }
 }
 
 @Composable
-internal fun GameSettingContent(
+internal fun SetupContent(
     state: SetupViewState,
-    toSettings: () -> Unit,
     event: (GameSettingEvent) -> Unit,
 ) {
+    Dialogs(state, event)
     Scaffold(
         modifier = Modifier,
         backgroundColor = AppTheme.colors.surface,
-        topBar = {
-            Toolbar(
-                modifier = Modifier.padding(end = baseHorizontalPadding),
-                title = stringResource(R.string.setup),
-                content = {
-                    Icon(
-                        modifier = Modifier
-                            .align(Alignment.CenterVertically)
-                            .clickable(onClick = toSettings),
-                        imageVector = Icons.Default.Settings,
-                        contentDescription = "privacy policy",
-                        tint = AppTheme.colors.onSurface,
-                    )
-                },
-            )
-        },
-    ) {
-        // dialog
-        when (state.dialog) {
-            SetupViewState.DialogType.Type -> {
-                OptionsDialog(
-                    title = stringResource(R.string.choose_type),
-                    type = state.gameType,
-                ) {
-                    event(SetGameType(it))
-                }
-            }
+        topBar = { SetupToolbar(event) },
+    ) { paddings ->
 
-            SetupViewState.DialogType.Edit -> {
-                EditDialog(
-                    textType = KeyboardOptions(
-                        keyboardType = KeyboardType.Number,
-                        imeAction = ImeAction.Done,
-                    ),
-                    title = stringResource(id = R.string.insert_goal),
-                    onDismiss = { event(DismissDialog) },
-                ) { text -> event(ChangeGoal(text.toIntOrNull() ?: 0)) }
-            }
-
-            null -> {
-                /** Empty */
-            }
-        }
-        // content
         Box(
-            Modifier
-                .padding(it)
+            modifier = Modifier
+                .padding(paddings)
                 .fillMaxSize(),
         ) {
             Column(
-                Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxSize(),
             ) {
+                // Settings block
                 val goal = state.goal.toString()
                 TextFieldDivided(
-                    modifier = Modifier,
-                    stringResource(id = R.string.goal),
-                    goal,
+                    description = stringResource(R.string.goal_title),
+                    value = goal,
+                    textTag = GOAL_FIELD_TAG,
                 ) { event(OnGoalClickEvent) }
                 TextFieldDivided(
-                    modifier = Modifier,
-                    stringResource(R.string.type),
-                    state.gameType.name,
+                    description = stringResource(R.string.game_type_title),
+                    value = state.gameType.name,
+                    textTag = TYPE_FIELD_TAG,
                 ) { event(OnTypeClickEvent) }
+
+                // Players block
                 Text(
                     style = AppTheme.typography.h5,
                     color = AppTheme.colors.onSurface,
-                    text = stringResource(R.string.players),
-                    modifier = Modifier.padding(18.dp, 32.dp, 18.dp, 18.dp),
+                    text = stringResource(R.string.players_block_title),
+                    modifier = Modifier.padding(horizontalPadding, 32.dp, horizontalPadding, 18.dp),
                 )
                 Divider(color = AppTheme.colors.onSurface)
                 PlayersList(
@@ -153,13 +120,13 @@ internal fun GameSettingContent(
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
                     .navigationBarsPadding()
-                    .padding(bottom = 110.dp, end = baseHorizontalPadding),
+                    .padding(bottom = 110.dp, end = horizontalPadding),
                 backgroundColor = AppTheme.colors.primary,
                 onClick = { event(EditPlayers) },
             ) {
                 Icon(
                     imageVector = Icons.Filled.Edit,
-                    contentDescription = "Edit players",
+                    contentDescription = stringResource(R.string.edit_players_content_description),
                     modifier = Modifier
                         .size(30.dp)
                         .align(Alignment.Center),
@@ -168,10 +135,10 @@ internal fun GameSettingContent(
             }
 
             GameButton(
-                text = stringResource(R.string.start_game),
+                text = stringResource(R.string.start_game_button_title),
                 modifier = Modifier
                     .navigationBarsPadding()
-                    .padding(18.dp, 0.dp, 18.dp, 40.dp)
+                    .padding(horizontalPadding, 0.dp, horizontalPadding, 40.dp)
                     .fillMaxWidth()
                     .height(56.dp)
                     .align(Alignment.BottomCenter),
@@ -183,38 +150,93 @@ internal fun GameSettingContent(
 }
 
 @Composable
+private fun SetupToolbar(event: (GameSettingEvent) -> Unit) {
+    Toolbar(
+        modifier = Modifier.padding(end = horizontalPadding),
+        title = stringResource(R.string.setup_screen_title),
+        content = {
+            Icon(
+                modifier = Modifier
+                    .align(Alignment.CenterVertically)
+                    .clickable(onClick = { event(OnSettingsClick) })
+                    .testTag(SETTINGS_ICON_TAG),
+                imageVector = Icons.Default.Settings,
+                contentDescription = stringResource(R.string.settings_icon_content_description),
+                tint = AppTheme.colors.onSurface,
+            )
+        },
+    )
+}
+
+@Composable
+private fun Dialogs(state: SetupViewState, event: (GameSettingEvent) -> Unit) {
+    when (state.dialog) {
+        SetupViewState.DialogType.GameType -> {
+            SelectGameTypeDialog(
+                title = stringResource(R.string.set_game_type_dialog_title),
+                type = state.gameType,
+                onDismiss = { event(SetGameType(it)) },
+            )
+        }
+
+        SetupViewState.DialogType.EditGoal -> {
+            EditDialog(
+                testTag = EDIT_GOAL_DIALOG_TAG,
+                textType = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Done,
+                ),
+                title = stringResource(id = R.string.setup_goal_dialog_title),
+                onDismiss = { event(DismissDialog) },
+            ) { text -> event(ChangeGoal(text.toIntOrNull() ?: 0)) }
+        }
+
+        null -> {
+            /** Empty */
+        }
+    }
+}
+
+@Composable
 private fun PlayersList(
     modifier: Modifier = Modifier,
     players: List<Player>,
 ) {
     Box(modifier) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(18.dp, 0.dp, 18.dp, 0.dp),
-            contentPadding = PaddingValues(bottom = 110.dp),
-        ) {
-            itemsIndexed(players) { index, player ->
-                val color = index.getColorByIndex()
-                PlayerItem(name = player.name, color = color)
-            }
-            item {
-                Spacer(
-                    Modifier.windowInsetsBottomHeight(WindowInsets.safeDrawing),
-                )
+        if (players.isNotEmpty()) {
+            LazyColumn(
+                modifier = Modifier
+                    .testTag(PLAYERS_LIST_TAG)
+                    .fillMaxSize()
+                    .padding(horizontalPadding, 0.dp, horizontalPadding, 0.dp),
+                contentPadding = PaddingValues(bottom = 110.dp),
+            ) {
+                itemsIndexed(players) { index, player ->
+                    val color = index.getColorByIndex()
+                    PlayerItem(name = player.name, color = color)
+                }
+                item {
+                    Spacer(
+                        modifier = Modifier.windowInsetsBottomHeight(WindowInsets.safeDrawing),
+                    )
+                }
             }
         }
     }
 }
 
 @Composable
-private fun OptionsDialog(
+private fun SelectGameTypeDialog(
     title: String,
     type: GameType,
     onDismiss: (GameType) -> Unit,
 ) {
     var selected by remember { mutableStateOf(type) }
-    DialogApp(title = title, onDismiss = { onDismiss(selected) }) {
+    DialogApp(
+        title = title,
+        testTag = SELECT_GAME_TYPE_DIALOG_TAG,
+        onDismiss = { onDismiss(selected) },
+    ) {
         Spacer(modifier = Modifier.size(15.dp))
         Row(
             modifier = Modifier.clickable(
@@ -272,6 +294,6 @@ private fun OptionsDialog(
 @Composable
 fun GameSettingContentPreview() {
     AppTheme {
-        GameSettingContent(state = SetupViewState.Preview, event = {}, toSettings = {})
+        SetupContent(state = SetupViewState.Preview, event = {})
     }
 }

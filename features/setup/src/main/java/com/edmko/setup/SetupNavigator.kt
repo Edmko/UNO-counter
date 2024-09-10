@@ -7,4 +7,6 @@ interface SetupNavigator : BaseNavigator {
     fun toPlayers()
 
     fun toGame(gameId: String)
+
+    fun toSettings()
 }

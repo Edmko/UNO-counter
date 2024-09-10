@@ -8,8 +8,17 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.util.concurrent.atomic.AtomicBoolean
 
 abstract class BaseViewModel<S : ViewState, E : Event>() : ViewModel() {
+
+    private var initialized = AtomicBoolean(false)
+
+    open fun initialize() {
+        if (!initialized.compareAndSet(false, true)) {
+            return
+        }
+    }
 
     private val errorHandler = CoroutineExceptionHandler { _, throwable ->
         handleError(throwable)

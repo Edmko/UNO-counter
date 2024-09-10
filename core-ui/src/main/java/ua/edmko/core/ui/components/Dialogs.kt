@@ -29,6 +29,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
@@ -41,11 +42,12 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ua.edmko.core.ui.R
 import ua.edmko.core.ui.theme.AppTheme
-import ua.edmko.core.ui.theme.baseHorizontalPadding
+import ua.edmko.core.ui.theme.horizontalPadding
 
 @Composable
 fun DialogApp(
     title: String,
+    testTag: String = "DialogApp",
     onDismiss: () -> Unit,
     content: @Composable ColumnScope.() -> Unit,
 ) {
@@ -54,7 +56,8 @@ fun DialogApp(
             Modifier
                 .background(color = Color.DarkGray, shape = AppTheme.shapes.large)
                 .padding(15.dp)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .testTag(testTag),
         ) {
             Text(
                 text = title,
@@ -73,11 +76,12 @@ fun EditDialog(
         imeAction = ImeAction.Done,
     ),
     title: String,
+    testTag: String = "EditDialog",
     onDismiss: () -> Unit,
     onClick: (String) -> Unit = {},
 ) {
     var text by remember { mutableStateOf("") }
-    DialogApp(title = title, onDismiss = onDismiss) {
+    DialogApp(title = title, testTag = testTag, onDismiss = onDismiss) {
         GameEditText(
             modifier = Modifier
                 .padding(top = 32.dp)
@@ -110,7 +114,7 @@ fun ConfirmationDialog(
     DialogApp(title = title, onDismiss = dismiss) {
         Row(
             modifier = Modifier
-                .padding(baseHorizontalPadding)
+                .padding(horizontalPadding)
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
         ) {

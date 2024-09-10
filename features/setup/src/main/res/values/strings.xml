@@ -1,10 +1,11 @@
 <resources>
-    <string name="app_name">Setup</string>
-    <string name="insert_goal">Insert goal</string>
-    <string name="choose_type">Choose type</string>
-    <string name="goal">Goal</string>
-    <string name="type">Type</string>
-    <string name="players">Players</string>
-    <string name="start_game">Start game</string>
-    <string name="setup">Setup</string>
+    <string name="setup_goal_dialog_title">Insert goal</string>
+    <string name="set_game_type_dialog_title">Choose type</string>
+    <string name="goal_title">Goal</string>
+    <string name="game_type_title">Type</string>
+    <string name="players_block_title">Players</string>
+    <string name="start_game_button_title">Start game</string>
+    <string name="setup_screen_title">Setup</string>
+    <string name="edit_players_content_description">Edit players</string>
+    <string name="settings_icon_content_description">Settings</string>
 </resources>

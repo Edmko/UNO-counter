@@ -9,6 +9,7 @@ import ua.edmko.data.mappers.GameSettingsMapper
 import ua.edmko.data.mappers.RoundMapper
 import ua.edmko.domain.entities.Game
 import ua.edmko.domain.entities.GameSettings
+import ua.edmko.domain.entities.Player
 import ua.edmko.domain.entities.Round
 import ua.edmko.domain.repository.GameRepository
 import javax.inject.Inject
@@ -24,12 +25,9 @@ internal class GameRepositoryImpl @Inject constructor(
         gameDao.insertGameSettings(gameSettingsMapper.map(gameSettings))
     }
 
-    override suspend fun addPlayerToGame(
-        playerId: Long,
-        gameId: String,
-    ) {
-        val crossRef = GameCrossRef(playerId, gameId)
-        gameDao.addPlayerToGame(crossRef)
+    override suspend fun addPlayersToGame(players: List<Player>, gameId: String) {
+        val crossRefs = players.map { GameCrossRef(it.playerId, gameId) }
+        gameDao.addPlayersToGame(crossRefs)
     }
 
     override fun observeGameById(gameId: String): Flow<Game> {

@@ -9,6 +9,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ua.edmko.core.ui.theme.AppTheme
@@ -18,6 +19,7 @@ fun TextFieldDivided(
     modifier: Modifier = Modifier,
     description: String,
     value: String,
+    textTag: String = "Text",
     click: (() -> Unit)? = null,
 ) {
     Column(
@@ -27,6 +29,7 @@ fun TextFieldDivided(
             .padding(top = 15.dp, start = 18.dp, end = 18.dp),
     ) {
         Text(
+            modifier = Modifier.testTag(textTag),
             style = AppTheme.typography.h5,
             color = AppTheme.colors.onSurface,
             text = "$description: $value",

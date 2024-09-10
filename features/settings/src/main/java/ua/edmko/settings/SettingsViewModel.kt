@@ -7,16 +7,18 @@ import kotlinx.coroutines.launch
 import ua.edmko.core.base.BaseViewModel
 import ua.edmko.domain.entities.Theme
 import ua.edmko.domain.interactor.ObserveTheme
+import ua.edmko.domain.interactor.SetTheme
 import javax.inject.Inject
 
 @HiltViewModel
 internal class SettingsViewModel @Inject constructor(
     private val navigator: SettingsNavigator,
-    private val setTheme: ua.edmko.domain.interactor.SetTheme,
+    private val setTheme: SetTheme,
     private val observeTheme: ObserveTheme,
 ) : BaseViewModel<SettingsViewState, SettingsEvent>() {
 
-    init {
+    override fun initialize() {
+        super.initialize()
         viewState = SettingsViewState()
         viewModelScope.launch {
             observeTheme.createObservable(Unit).collect {
@@ -28,8 +30,9 @@ internal class SettingsViewModel @Inject constructor(
     override fun obtainEvent(viewEvent: SettingsEvent) {
         when (viewEvent) {
             PrivacyClick -> navigator.toPolicy()
-            is SetTheme -> updateTheme(viewEvent.theme)
+            is SetThemeEvent -> updateTheme(viewEvent.theme)
             ThemeClick -> viewState = viewState.copy(dialog = Dialog.Theme)
+            NavigateBack -> navigator.back()
         }
     }
 

@@ -7,6 +7,8 @@ internal sealed interface SettingsEvent : Event
 
 data object ThemeClick : SettingsEvent
 
-data class SetTheme(val theme: Theme) : SettingsEvent
+data class SetThemeEvent(val theme: Theme) : SettingsEvent
 
 data object PrivacyClick : SettingsEvent
+
+data object NavigateBack : SettingsEvent

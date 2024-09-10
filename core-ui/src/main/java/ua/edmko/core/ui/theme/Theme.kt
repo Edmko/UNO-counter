@@ -104,19 +104,34 @@ fun getButtonColors() =
 @Composable
 fun AppTheme(
     theme: Theme = Theme.DARK,
-    colors: Colors = Colors(theme),
-    typography: Typography = Typography,
-    shapes: Shapes = Shapes,
     content: @Composable () -> Unit,
 ) {
     CompositionLocalProvider(
-        LocalAppColors provides colors,
-        LocalTypography provides typography,
-        LocalShapes provides shapes,
+        LocalAppColors provides if (theme == Theme.DARK) darkThemeColorScheme() else lightThemeColorScheme(),
+        LocalTypography provides Typography,
+        LocalShapes provides Shapes,
     ) {
         content()
     }
 }
+
+private fun lightThemeColorScheme() = Colors(
+    primary = Color.Red,
+    secondary = Color.Red,
+    surface = Color.White,
+    onSurface = Color.Black,
+    onPrimary = Color.White,
+    background = Color.White,
+)
+
+private fun darkThemeColorScheme() = Colors(
+    primary = Color.Red,
+    secondary = Color.Red,
+    surface = DarkGrey,
+    onSurface = Color.White,
+    onPrimary = DarkGrey,
+    background = Color.Black,
+)
 
 object AppTheme {
 

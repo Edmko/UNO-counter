@@ -12,7 +12,9 @@ data class Round(
     val result: MutableMap<PlayerId, Score> = mutableMapOf(),
     val winner: PlayerId? = null,
 ) : Entity {
+
     companion object {
-        val empty = Round("", "", 1)
+
+        val EMPTY = Round("", "", 1)
     }
 }

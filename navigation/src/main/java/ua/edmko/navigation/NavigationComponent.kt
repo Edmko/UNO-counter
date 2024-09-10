@@ -6,7 +6,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.edmko.setup.GameSettingScreen
+import com.edmko.setup.SetupScreen
 import kotlinx.coroutines.launch
 import ua.edmko.core.base.NavigationManager
 import ua.edmko.endgame.EndGameScreen
@@ -46,9 +46,7 @@ fun NavigationComponent(
         startDestination = GameSettingCommand.destination,
     ) {
         composable(GameSettingCommand.destination) {
-            GameSettingScreen {
-                navController.navigate(SettingsCommand.destination)
-            }
+            SetupScreen()
         }
         composable(PlayersCommand.destination) {
             PlayersScreen()
@@ -63,12 +61,7 @@ fun NavigationComponent(
             )
         }
         composable(LobbyCommand.destination) {
-            GameSettingScreen {
-                navController.navigate(
-                    PolicyCommand.destination,
-                    PolicyCommand.builder,
-                )
-            }
+            SetupScreen()
         }
         composable(PolicyCommand.destination) {
             PolicyScreen {
@@ -76,7 +69,7 @@ fun NavigationComponent(
             }
         }
         composable(SettingsCommand.destination) {
-            SettingsScreen(back = navController::navigateUp)
+            SettingsScreen()
         }
     }
 }

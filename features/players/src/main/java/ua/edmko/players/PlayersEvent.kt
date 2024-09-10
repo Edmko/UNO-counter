@@ -13,7 +13,7 @@ internal class UpdatePlayersSelection(val player: Player) : PlayersEvent()
 
 internal class OnDeletePlayer(val player: Player) : PlayersEvent()
 
-internal data object DeletePlayerEvent : PlayersEvent()
+internal data class DeletePlayerEvent(val player: Player) : PlayersEvent()
 
 internal data object NavigateBack : PlayersEvent()
 
@@ -21,4 +21,4 @@ internal data object DismissDialog : PlayersEvent()
 
 internal class EditPlayer(val player: Player) : PlayersEvent()
 
-internal class ChangePlayersName(val name: String) : PlayersEvent()
+internal class ChangePlayersName(val player: Player, val name: String) : PlayersEvent()

@@ -4,8 +4,14 @@ import ua.edmko.core.base.ViewState
 import ua.edmko.domain.entities.Player
 
 internal data class PlayersViewState(
-    var editDialogShows: Boolean = false,
-    var confirmationDialogShows: Boolean = false,
-    var selectedPlayer: Player? = null,
-    var players: List<Player> = emptyList(),
+    val dialog: Dialog? = null,
+    val players: List<Player> = emptyList(),
 ) : ViewState
+
+internal sealed interface Dialog
+
+internal class EditPlayersName(val player: Player) : Dialog
+
+internal class DeletePlayer(val player: Player) : Dialog
+
+internal data object AddPlayer : Dialog

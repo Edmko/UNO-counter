@@ -1,6 +1,5 @@
 package ua.edmko.game
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,34 +14,36 @@ import javax.inject.Inject
 
 @HiltViewModel
 internal class GameViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
+    private val savedStateHandle: SavedStateHandle,
     private val getGame: ObserveGame,
     private val addRoundToGame: AddRoundToGame,
     private val gameNavigator: GameNavigator,
 ) : BaseViewModel<GameViewState, GameEvent>() {
 
-    init {
+    override fun initialize() {
+        super.initialize()
         viewState = GameViewState()
-        val gameId: String = savedStateHandle[GAME_ID_EXTRA]
-            ?: throw IllegalArgumentException("Game id must not be null")
         viewModelScope.launch {
-            getGame.createObservable(ObserveGame.Params(gameId)).collect { game ->
-                viewState = viewState.copy(
-                    game = game,
-                    currentRound = Round(
-                        gameRoundId = game.gameSettings.id,
-                        roundNum = 1,
-                    ),
-                )
-                checkIsGameEnd()
-            }
+            val gameId: String = requireNotNull(savedStateHandle[GAME_ID_EXTRA])
+            getGame
+                .createObservable(ObserveGame.Params(gameId))
+                .collect { game ->
+                    viewState = viewState.copy(
+                        game = game,
+                        currentRound = Round(
+                            gameRoundId = game.gameSettings.id,
+                            roundNum = 1,
+                        ),
+                    )
+                    checkIsGameEnd()
+                }
         }
     }
 
     override fun obtainEvent(viewEvent: GameEvent) {
         when (viewEvent) {
             is ConfirmEdition -> confirmEdition(viewEvent.score)
-            is DismissDialog -> viewState = viewState.copy(isDialogShows = false)
+            is DismissDialog -> viewState = viewState.copy(editPlayerState = null)
             is EditScore -> editScore(viewEvent.player)
             is NavigateBack -> viewModelScope.launch { gameNavigator.back() }
             is NextRound -> nextRound()
@@ -60,7 +61,6 @@ internal class GameViewModel @Inject constructor(
     }
 
     private fun endGame(playerName: String) {
-        Log.d("end game", playerName)
         gameNavigator.toEnd(playerName)
     }
 
@@ -78,20 +78,20 @@ internal class GameViewModel @Inject constructor(
     }
 
     private fun editScore(player: Player) {
-        viewState = viewState.copy(isDialogShows = true, selectedPlayer = player)
+        viewState = viewState.copy(editPlayerState = EditPlayerState(player))
     }
 
-    private fun confirmEdition(score: Int) {
+    private fun confirmEdition(score: String) {
+        val scoreNum = score.toIntOrNull() ?: 0
         val currentRound = viewState.currentRound.apply {
-            result[viewState.selectedPlayer?.playerId ?: 0] = score
+            result[viewState.editPlayerState?.player?.playerId ?: 0] = scoreNum
         }
-        viewState = viewState.copy(isDialogShows = false, currentRound = currentRound)
+        viewState = viewState.copy(editPlayerState = null, currentRound = currentRound)
     }
 
     private fun checkIsGameEnd() {
         viewState.game.let { game ->
             val (leader, score) = game.getLeader()
-            Log.d("end game", "leader = ${leader.name}, score = $score")
             if (score >= game.gameSettings.goal) endGame(leader.name)
         }
     }

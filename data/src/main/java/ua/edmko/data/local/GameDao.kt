@@ -2,6 +2,7 @@ package ua.edmko.data.local
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import kotlinx.coroutines.flow.Flow
@@ -16,8 +17,8 @@ internal interface GameDao {
     @Insert
     suspend fun insertGameSettings(gameSettings: GameSettingsLocal)
 
-    @Insert
-    suspend fun addPlayerToGame(gameCrossRef: GameCrossRef)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addPlayersToGame(gameCrossRefs: List<GameCrossRef>)
 
     @Transaction
     @Query("SELECT * FROM game_settings WHERE gameSettingsId = :id")

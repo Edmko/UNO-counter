@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ua.edmko.core.ui.theme.AppTheme
-import ua.edmko.core.ui.theme.baseHorizontalPadding
+import ua.edmko.core.ui.theme.horizontalPadding
 
 @Composable
 fun Toolbar(
@@ -35,7 +35,7 @@ fun Toolbar(
             modifier = Modifier
                 .height(70.dp)
                 .fillMaxWidth()
-                .padding(start = baseHorizontalPadding),
+                .padding(start = horizontalPadding),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             back?.let { back ->

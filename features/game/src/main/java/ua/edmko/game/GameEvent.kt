@@ -7,7 +7,7 @@ internal sealed class GameEvent : Event
 
 internal class EditScore(val player: Player) : GameEvent()
 
-internal class ConfirmEdition(val score: Int) : GameEvent()
+internal class ConfirmEdition(val score: String) : GameEvent()
 
 internal data object DismissDialog : GameEvent()
 

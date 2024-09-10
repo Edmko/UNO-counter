@@ -1,8 +1,6 @@
 package ua.edmko.domain.entities
 
-import ua.edmko.domain.entities.GameSettings.Companion.getGameSettingsStub
-import ua.edmko.domain.entities.Player.Companion.playersStubList
-import java.util.UUID
+import ua.edmko.domain.orZero
 
 data class Game(
     val gameSettings: GameSettings,
@@ -10,12 +8,31 @@ data class Game(
     val rounds: List<Round>,
 ) : Entity {
 
+    companion object {
+
+        val STUB = Game(
+            gameSettings = GameSettings.EMPTY,
+            players = Player.STUB,
+            rounds = emptyList(),
+        )
+
+        val EMPTY = Game(
+            gameSettings = GameSettings.EMPTY,
+            players = emptyList(),
+            rounds = emptyList(),
+        )
+    }
+
+    fun getLeader(): Pair<Player, Int> {
+        return calculatePlayersTotal().maxByOrNull { it.value }?.toPair()
+            ?: throw IllegalStateException("No players found")
+    }
+
     fun calculatePlayersTotal(): Map<Player, Int> {
-        val total = when (gameSettings.type) {
+        return when (gameSettings.type) {
             GameType.CLASSIC -> calculateClassicTotal()
             GameType.COLLECTIVE -> calculateCollectiveTotal()
         }
-        return total.toMap()
     }
 
     private fun calculateCollectiveTotal(): Map<Player, Int> {
@@ -35,46 +52,11 @@ data class Game(
     private fun calculateClassicTotal(): Map<Player, Int> {
         val total: MutableMap<Player, Int> = mutableMapOf()
         players.forEach { player ->
-            var playersTotal = 0
-            rounds.forEach { round ->
-                playersTotal += round.result[player.playerId] ?: 0
+            val playersTotal = rounds.fold(0) { acc, round ->
+                acc + round.result[player.playerId].orZero()
             }
             total[player] = playersTotal
         }
         return total
     }
-
-    fun getLeader(): Pair<Player, Int> {
-        return calculatePlayersTotal().maxByOrNull { it.value }?.toPair()
-            ?: throw noPlayersFoundException
-    }
-
-    companion object {
-        val noPlayersFoundException = Exception("No players found")
-
-        fun getGameStub() = Game(
-            gameSettings = getGameSettingsStub(),
-            players = playersStubList,
-            emptyList(),
-        )
-
-        fun getEmptyGame() = Game(
-            getGameSettingsStub(),
-            emptyList(),
-            emptyList(),
-        )
-    }
 }
-
-data class GameSettings(
-    val type: GameType,
-    val goal: Int,
-    val id: String = UUID.randomUUID().toString(),
-) : Entity {
-    companion object {
-        fun getGameSettingsStub() =
-            GameSettings(id = "", type = GameType.CLASSIC, goal = 500)
-    }
-}
-
-enum class GameType { CLASSIC, COLLECTIVE }

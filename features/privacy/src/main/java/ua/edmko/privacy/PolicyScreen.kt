@@ -19,7 +19,7 @@ import ua.edmko.core.ui.components.Toolbar
 fun PolicyScreen(back: () -> Unit) {
     Scaffold(
         topBar = {
-            Toolbar(title = stringResource(R.string.privacy_policy)) {
+            Toolbar(title = stringResource(R.string.privacy_policy_screen_title)) {
                 back()
             }
         },
@@ -30,7 +30,8 @@ fun PolicyScreen(back: () -> Unit) {
                 .fillMaxSize(),
             factory = { context ->
                 WebView(context).also { webView ->
-                    val assetLoader = WebViewAssetLoader.Builder()
+                    val assetLoader = WebViewAssetLoader
+                        .Builder()
                         .addPathHandler("/assets/", WebViewAssetLoader.AssetsPathHandler(context))
                         .build()
                     webView.webViewClient = object : WebViewClientCompat() {
@@ -44,7 +45,7 @@ fun PolicyScreen(back: () -> Unit) {
                     val webViewSettings: WebSettings = webView.settings
                     webViewSettings.allowFileAccess = false
                     webViewSettings.allowContentAccess = false
-                    webView.loadUrl("https://appassets.androidplatform.net/assets/privacy_policy.html")
+                    webView.loadUrl(context.getString(R.string.privacy_policy_url))
                 }
             },
         )

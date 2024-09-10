@@ -1,5 +1,6 @@
 package ua.edmko.game
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -16,6 +17,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -34,8 +36,8 @@ import ua.edmko.core.ui.components.GameButton
 import ua.edmko.core.ui.components.PlayerItem
 import ua.edmko.core.ui.components.Toolbar
 import ua.edmko.core.ui.theme.AppTheme
-import ua.edmko.core.ui.theme.baseHorizontalPadding
 import ua.edmko.core.ui.theme.getAppRadioButtonColors
+import ua.edmko.core.ui.theme.horizontalPadding
 import ua.edmko.domain.entities.Game
 import ua.edmko.domain.entities.Player
 import ua.edmko.domain.entities.PlayerId
@@ -44,6 +46,12 @@ import ua.edmko.domain.entities.Round
 @Composable
 fun GameScreen() {
     val viewModel: GameViewModel = hiltViewModel()
+    LaunchedEffect(Unit) {
+        viewModel.initialize()
+    }
+    BackHandler {
+        viewModel.obtainEvent(NavigateBack)
+    }
     val state by viewModel.viewStates().collectAsState()
     state?.let { GameScreen(it, viewModel::obtainEvent) }
 }
@@ -56,17 +64,17 @@ internal fun GameScreen(state: GameViewState, event: (GameEvent) -> Unit) {
             .fillMaxSize(),
         backgroundColor = AppTheme.colors.surface,
     ) { paddings ->
-        if (state.isDialogShows && state.selectedPlayer?.name != null) {
+        if (state.editPlayerState != null) {
             EditDialog(
                 title = stringResource(
                     id = R.string.score_for_player,
-                    state.selectedPlayer.name,
+                    state.editPlayerState.player.name,
                 ),
                 textType = KeyboardOptions(
                     keyboardType = KeyboardType.Number,
                     imeAction = ImeAction.Done,
                 ),
-                onClick = { score -> event(ConfirmEdition(score.toIntOrNull() ?: 0)) },
+                onClick = { score -> event(ConfirmEdition(score)) },
                 onDismiss = { event(DismissDialog) },
             )
         }
@@ -89,7 +97,7 @@ internal fun GameScreen(state: GameViewState, event: (GameEvent) -> Unit) {
             GameButton(
                 text = stringResource(R.string.next_round),
                 modifier = Modifier
-                    .padding(baseHorizontalPadding, 0.dp, baseHorizontalPadding, 40.dp)
+                    .padding(horizontalPadding, 0.dp, horizontalPadding, 40.dp)
                     .fillMaxWidth()
                     .height(56.dp)
                     .align(Alignment.BottomCenter),
@@ -201,7 +209,7 @@ fun PlayersList(
 @Composable
 fun GameScreenPreview() {
     AppTheme {
-        GameScreen(state = GameViewState.Stub) {}
+        GameScreen(state = GameViewState.STUB) {}
     }
 }
 
@@ -212,7 +220,7 @@ fun PlayersListPreview() {
         Surface(
             color = AppTheme.colors.surface,
         ) {
-            PlayersList(Game.getGameStub().calculatePlayersTotal(), Round.empty, {}) {}
+            PlayersList(Game.STUB.calculatePlayersTotal(), Round.EMPTY, {}) {}
         }
     }
 }

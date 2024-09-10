@@ -8,6 +8,7 @@ import ua.edmko.navigation.commands.GameCommand
 import ua.edmko.navigation.commands.GameEndCommand
 import ua.edmko.navigation.commands.PlayersCommand
 import ua.edmko.navigation.commands.PolicyCommand
+import ua.edmko.navigation.commands.SettingsCommand
 import ua.edmko.players.PlayersNavigator
 import ua.edmko.settings.SettingsNavigator
 import javax.inject.Inject
@@ -34,5 +35,9 @@ internal class Navigator @Inject constructor(
 
     override fun toPolicy() {
         navigationManager.navigate(PolicyCommand)
+    }
+
+    override fun toSettings() {
+        navigationManager.navigate(SettingsCommand)
     }
 }
