@@ -58,10 +58,9 @@ internal fun SettingsScreen(
 ) {
     Scaffold(
         modifier = Modifier,
-        backgroundColor = AppTheme.colors.surface,
+        backgroundColor = AppTheme.colors.background,
         topBar = {
             Toolbar(
-                modifier = Modifier.padding(end = horizontalPadding),
                 title = stringResource(R.string.settings_screen_title),
             ) {
                 event(NavigateBack)

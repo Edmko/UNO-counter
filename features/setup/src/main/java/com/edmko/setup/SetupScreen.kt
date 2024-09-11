@@ -76,7 +76,7 @@ internal fun SetupContent(
     Dialogs(state, event)
     Scaffold(
         modifier = Modifier,
-        backgroundColor = AppTheme.colors.surface,
+        backgroundColor = AppTheme.colors.background,
         topBar = { SetupToolbar(event) },
     ) { paddings ->
 
@@ -130,7 +130,7 @@ internal fun SetupContent(
                     modifier = Modifier
                         .size(30.dp)
                         .align(Alignment.Center),
-                    tint = AppTheme.colors.surface,
+                    tint = AppTheme.colors.background,
                 )
             }
 
@@ -152,7 +152,6 @@ internal fun SetupContent(
 @Composable
 private fun SetupToolbar(event: (GameSettingEvent) -> Unit) {
     Toolbar(
-        modifier = Modifier.padding(end = horizontalPadding),
         title = stringResource(R.string.setup_screen_title),
         content = {
             Icon(

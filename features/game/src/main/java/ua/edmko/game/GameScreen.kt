@@ -62,7 +62,7 @@ internal fun GameScreen(state: GameViewState, event: (GameEvent) -> Unit) {
         topBar = { Toolbar(title = stringResource(R.string.game)) { event(NavigateBack) } },
         modifier = Modifier
             .fillMaxSize(),
-        backgroundColor = AppTheme.colors.surface,
+        backgroundColor = AppTheme.colors.background,
     ) { paddings ->
         if (state.editPlayerState != null) {
             EditDialog(
@@ -177,9 +177,9 @@ fun PlayersList(
                         .padding(vertical = 0.dp, horizontal = 10.dp)
                         .background(
                             color = if (player.playerId == winner) {
-                                AppTheme.colors.surface
-                            } else {
                                 AppTheme.colors.background
+                            } else {
+                                AppTheme.colors.surface
                             },
                             shape = AppTheme.shapes.medium,
                         ),

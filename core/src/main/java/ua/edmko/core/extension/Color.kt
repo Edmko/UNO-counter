@@ -7,9 +7,11 @@ import androidx.compose.ui.graphics.Color
  */
 fun Int.getColorByIndex(): Color {
     return when (this % 4) {
-        0 -> Color.Yellow
+        0 -> Orange
         1 -> Color.Red
         2 -> Color.Blue
         else -> Color.Green
     }
 }
+
+val Orange = Color(0xFFFFA500)

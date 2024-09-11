@@ -54,7 +54,7 @@ fun DialogApp(
     Dialog(onDismiss) {
         Column(
             Modifier
-                .background(color = Color.DarkGray, shape = AppTheme.shapes.large)
+                .background(color = AppTheme.colors.surface, shape = AppTheme.shapes.large)
                 .padding(15.dp)
                 .fillMaxWidth()
                 .testTag(testTag),

@@ -82,7 +82,7 @@ internal fun PlayersScreen(state: PlayersViewState, event: (PlayersEvent) -> Uni
             }
         },
         modifier = Modifier.fillMaxSize(),
-        backgroundColor = AppTheme.colors.surface,
+        backgroundColor = AppTheme.colors.background,
     ) { paddings ->
         Box(
             Modifier
@@ -163,8 +163,7 @@ private fun PLayersList(
                 SwipeToDismiss(
                     state = dismissState,
                     background = {
-                        val direction =
-                            dismissState.dismissDirection ?: return@SwipeToDismiss
+                        val direction = dismissState.dismissDirection ?: return@SwipeToDismiss
                         val icon = when (direction) {
                             StartToEnd -> Icons.Default.Delete
                             EndToStart -> Icons.Default.Edit
@@ -233,7 +232,7 @@ private fun PlayerItem(player: Player, event: (PlayersEvent) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(AppTheme.colors.surface)
+            .background(AppTheme.colors.background)
             .height(50.dp),
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {

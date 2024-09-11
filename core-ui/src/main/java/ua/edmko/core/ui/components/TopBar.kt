@@ -22,20 +22,21 @@ import ua.edmko.core.ui.theme.horizontalPadding
 
 @Composable
 fun Toolbar(
-    modifier: Modifier = Modifier,
     title: String,
     content: (@Composable RowScope.() -> Unit)? = null,
     back: (() -> Unit)? = null,
 ) {
     Surface(
-        modifier = modifier.statusBarsPadding(),
-        color = AppTheme.colors.surface,
+        modifier = Modifier
+            .fillMaxWidth()
+            .statusBarsPadding(),
+        color = AppTheme.colors.background,
     ) {
         Row(
             modifier = Modifier
                 .height(70.dp)
                 .fillMaxWidth()
-                .padding(start = horizontalPadding),
+                .padding(horizontal = horizontalPadding),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             back?.let { back ->

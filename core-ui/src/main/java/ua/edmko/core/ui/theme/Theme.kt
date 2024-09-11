@@ -118,7 +118,7 @@ fun AppTheme(
 private fun lightThemeColorScheme() = Colors(
     primary = Color.Red,
     secondary = Color.Red,
-    surface = Color.White,
+    surface = LightLightGrey,
     onSurface = Color.Black,
     onPrimary = Color.White,
     background = Color.White,
@@ -127,7 +127,7 @@ private fun lightThemeColorScheme() = Colors(
 private fun darkThemeColorScheme() = Colors(
     primary = Color.Red,
     secondary = Color.Red,
-    surface = DarkGrey,
+    surface = LightGrey,
     onSurface = Color.White,
     onPrimary = DarkGrey,
     background = Color.Black,
