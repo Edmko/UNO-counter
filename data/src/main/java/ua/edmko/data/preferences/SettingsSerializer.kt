@@ -1,10 +1,7 @@
 package ua.edmko.data.preferences
 
-import android.content.Context
 import androidx.datastore.core.CorruptionException
-import androidx.datastore.core.DataStore
 import androidx.datastore.core.Serializer
-import androidx.datastore.dataStore
 import com.google.protobuf.InvalidProtocolBufferException
 import ua.edmko.data.UserPreferences
 import java.io.InputStream
@@ -27,8 +24,3 @@ internal object SettingsSerializer : Serializer<UserPreferences> {
         output: OutputStream,
     ) = t.writeTo(output)
 }
-
-val Context.settingsDataStore: DataStore<UserPreferences> by dataStore(
-    fileName = "settings.pb",
-    serializer = SettingsSerializer,
-)

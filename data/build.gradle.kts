@@ -23,6 +23,8 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.androidx.datastore)
     implementation(libs.protobuf.javalite)
+    androidTestImplementation(libs.androidx.compose.ui.test.junit)
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
 }
 
 protobuf {

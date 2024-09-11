@@ -9,8 +9,8 @@ import ua.edmko.domain.entities.Theme
 import ua.edmko.domain.repository.Preferences
 import java.io.IOException
 
-private const val DATA_STORE_NAME = "user_settings"
-private val Context.dataStore by dataStore(DATA_STORE_NAME, SettingsSerializer)
+const val DATA_STORE_NAME = "user_settings"
+val Context.dataStore by dataStore(DATA_STORE_NAME, SettingsSerializer)
 
 internal class DataStoreManager(private val context: Context) : Preferences {
 
