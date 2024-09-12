@@ -8,6 +8,10 @@ plugins {
 
 android {
     namespace = "ua.edmko.data"
+    sourceSets {
+        // Adds exported schema location as test app assets.
+        getByName("androidTest").assets.srcDir("$projectDir/schemas")
+    }
 }
 
 ksp {
@@ -18,6 +22,7 @@ dependencies {
     implementation(project(":domain"))
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.testing)
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
     implementation(libs.gson)
