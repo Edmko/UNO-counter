@@ -6,21 +6,22 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
+import com.edmko.setup.SetupRoute
 import com.edmko.setup.SetupScreen
 import kotlinx.coroutines.launch
 import ua.edmko.core.base.NavigationManager
+import ua.edmko.endgame.EndGameRoute
 import ua.edmko.endgame.EndGameScreen
 import ua.edmko.game.GameScreen
+import ua.edmko.game.GameScreenRoute
 import ua.edmko.navigation.commands.BackCommand
-import ua.edmko.navigation.commands.GameCommand
-import ua.edmko.navigation.commands.GameEndCommand
 import ua.edmko.navigation.commands.GameSettingCommand
-import ua.edmko.navigation.commands.LobbyCommand
-import ua.edmko.navigation.commands.PlayersCommand
-import ua.edmko.navigation.commands.PolicyCommand
-import ua.edmko.navigation.commands.SettingsCommand
+import ua.edmko.players.PlayersRoute
 import ua.edmko.players.PlayersScreen
+import ua.edmko.privacy.PolicyRoute
 import ua.edmko.privacy.PolicyScreen
+import ua.edmko.settings.SettingsRoute
 import ua.edmko.settings.SettingsScreen
 
 @Composable
@@ -35,7 +36,7 @@ fun NavigationComponent(
                 if (command == BackCommand) {
                     navController.navigateUp()
                 } else {
-                    navController.navigate(command.destination, command.builder)
+                    navController.navigate(command.route, command.builder)
                 }
             }
         }
@@ -43,33 +44,21 @@ fun NavigationComponent(
 
     NavHost(
         navController = navController,
-        startDestination = GameSettingCommand.destination,
+        startDestination = GameSettingCommand.route,
     ) {
-        composable(GameSettingCommand.destination) {
-            SetupScreen()
-        }
-        composable(PlayersCommand.destination) {
-            PlayersScreen()
-        }
-        composable(GameCommand.DESTINATION) {
-            GameScreen()
-        }
-        composable(GameEndCommand.DESTINATION) {
+        composable<SettingsRoute> { SetupScreen() }
+        composable<PlayersRoute> { PlayersScreen() }
+        composable<GameScreenRoute> { GameScreen() }
+        composable<SettingsRoute> { SettingsScreen() }
+        composable<SetupRoute> { SetupScreen() }
+        composable<EndGameRoute> { backStackEntry ->
             EndGameScreen(
-                name = it.arguments?.getString(GameEndCommand.WINNER_NAME_EXTRA).orEmpty(),
+                name = backStackEntry.toRoute<EndGameRoute>().name,
                 back = navController::navigateUp,
             )
         }
-        composable(LobbyCommand.destination) {
-            SetupScreen()
-        }
-        composable(PolicyCommand.destination) {
-            PolicyScreen {
-                navController.navigateUp()
-            }
-        }
-        composable(SettingsCommand.destination) {
-            SettingsScreen()
+        composable<PolicyRoute> {
+            PolicyScreen(back = navController::navigateUp)
         }
     }
 }

@@ -11,6 +11,7 @@ buildscript {
         classpath(libs.hilt.android.gradle.plugin)
         classpath(libs.google.services)
         classpath(libs.firebase.crashlytics.gradle)
+        classpath(libs.kotlin.serialization.classpath)
     }
 }
 
@@ -25,4 +26,5 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid) apply false
     alias(libs.plugins.jetbrainsKotlinJvm) apply false
     alias(libs.plugins.compose.compiler) apply false
+    alias(libs.plugins.kotlin.serialization) apply false
 }

@@ -1,6 +1,7 @@
-package ua.edmko.core.extension
+package ua.edmko.core.ui.extension
 
 import androidx.compose.ui.graphics.Color
+import ua.edmko.core.ui.theme.Orange
 
 /**
  * Color selection by place in list
@@ -13,5 +14,3 @@ fun Int.getColorByIndex(): Color {
         else -> Color.Green
     }
 }
-
-val Orange = Color(0xFFFFA500)

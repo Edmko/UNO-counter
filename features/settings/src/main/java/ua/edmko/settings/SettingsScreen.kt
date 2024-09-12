@@ -2,16 +2,12 @@ package ua.edmko.settings
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.Icon
-import androidx.compose.material.RadioButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -21,9 +17,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -31,10 +24,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import ua.edmko.core.ui.components.DialogApp
+import ua.edmko.core.ui.components.SelectDialog
+import ua.edmko.core.ui.components.SelectDialogItem
 import ua.edmko.core.ui.components.Toolbar
 import ua.edmko.core.ui.theme.AppTheme
-import ua.edmko.core.ui.theme.getAppRadioButtonColors
 import ua.edmko.core.ui.theme.horizontalPadding
 import ua.edmko.domain.entities.Theme
 
@@ -56,35 +49,41 @@ internal fun SettingsScreen(
     state: SettingsViewState,
     event: (SettingsEvent) -> Unit,
 ) {
+    Dialogs(state, event)
     Scaffold(
         modifier = Modifier,
         backgroundColor = AppTheme.colors.background,
         topBar = {
             Toolbar(
                 title = stringResource(R.string.settings_screen_title),
-            ) {
-                event(NavigateBack)
-            }
+                back = { event(NavigateBack) },
+            )
         },
     ) { paddings ->
-        when (state.dialog) {
-            Dialog.Theme -> ThemeDialog(
-                theme = state.theme,
-            ) { event(SetThemeEvent(it)) }
-
-            else -> Unit
-        }
-
         Column(modifier = Modifier.padding(paddings)) {
             Item(
                 title = stringResource(R.string.item_privacy_policy_title),
                 icon = Icons.Default.Policy,
-            ) { event(PrivacyClick) }
+                onClick = { event(PrivacyClick) },
+            )
             Item(
                 title = stringResource(R.string.item_theme_title, state.theme.name),
                 icon = Icons.Default.Contrast,
-            ) { event(ThemeClick) }
+                onClick = { event(ThemeClick) },
+            )
         }
+    }
+}
+
+@Composable
+private fun Dialogs(state: SettingsViewState, event: (SettingsEvent) -> Unit) {
+    when (state.dialog) {
+        Dialog.Theme -> ThemeDialog(
+            theme = state.theme,
+            onDismiss = { event(SetThemeEvent(it)) },
+        )
+
+        null -> Unit
     }
 }
 
@@ -118,59 +117,18 @@ private fun ThemeDialog(
     theme: Theme,
     onDismiss: (Theme) -> Unit,
 ) {
-    var selected by remember { mutableStateOf(theme) }
-    DialogApp(title = stringResource(R.string.change_theme_dialog_title), onDismiss = { onDismiss(theme) }) {
-        Spacer(modifier = Modifier.size(15.dp))
-        Row(
-            modifier = Modifier.clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = null,
-                onClick = { selected = Theme.DARK },
-            ),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            RadioButton(
-                selected = selected == Theme.LIGHT,
-                onClick = { selected = Theme.LIGHT },
-                colors = getAppRadioButtonColors(),
+    SelectDialog(
+        title = R.string.change_theme_dialog_title,
+        items = Theme.entries.map {
+            SelectDialogItem(
+                name = it.name,
+                onClick = { onDismiss(it) },
+                isSelected = theme == it,
+                value = it,
             )
-            Text(
-                text = Theme.LIGHT.name,
-                modifier = Modifier.padding(start = 10.dp),
-                style = AppTheme.typography.body1,
-                color = AppTheme.colors.onSurface,
-            )
-        }
-        Row(
-            Modifier.clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = null,
-                onClick = { selected = Theme.DARK },
-            ),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            RadioButton(
-                selected = selected == Theme.DARK,
-                onClick = { selected = Theme.DARK },
-                colors = getAppRadioButtonColors(),
-            )
-            Text(
-                text = Theme.DARK.name,
-                modifier = Modifier.padding(start = 10.dp),
-                style = AppTheme.typography.body1,
-                color = AppTheme.colors.onSurface,
-            )
-        }
-        Text(
-            text = stringResource(ua.edmko.core.R.string.accept),
-            style = AppTheme.typography.h5,
-            color = AppTheme.colors.onSurface,
-            modifier = Modifier
-                .padding(top = 18.dp)
-                .align(Alignment.End)
-                .clickable(onClick = { onDismiss(selected) }),
-        )
-    }
+        },
+        onDismiss = { onDismiss(it.value as Theme) },
+    )
 }
 
 @Preview

@@ -2,6 +2,7 @@ package ua.edmko.game
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -24,7 +25,7 @@ internal class GameViewModel @Inject constructor(
         super.initialize()
         viewState = GameViewState()
         viewModelScope.launch {
-            val gameId: String = requireNotNull(savedStateHandle[GAME_ID_EXTRA])
+            val gameId: String = savedStateHandle.toRoute<GameScreenRoute>().gameId
             getGame
                 .createObservable(ObserveGame.Params(gameId))
                 .collect { game ->

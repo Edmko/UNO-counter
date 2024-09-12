@@ -21,13 +21,12 @@ import ua.edmko.domain.entities.Theme
 
 @Stable
 class Colors(
-    private val theme: Theme = Theme.LIGHT,
-    primary: Color = Color.Red,
-    secondary: Color = Color.Red,
-    surface: Color = if (theme == Theme.DARK) DarkGrey else Color.White,
-    onSurface: Color = if (theme == Theme.DARK) Color.White else Color.Black,
-    onPrimary: Color = if (theme == Theme.DARK) DarkGrey else Color.White,
-    background: Color = if (theme == Theme.DARK) Color.Black else Color.White,
+    primary: Color,
+    secondary: Color,
+    surface: Color,
+    onSurface: Color,
+    onPrimary: Color,
+    background: Color,
 ) {
     var primary by mutableStateOf(primary, structuralEqualityPolicy())
         internal set
@@ -43,7 +42,6 @@ class Colors(
         internal set
 
     fun copy(
-        theme: Theme = this.theme,
         primary: Color = this.primary,
         secondary: Color = this.secondary,
         background: Color = this.background,
@@ -52,7 +50,6 @@ class Colors(
         onSurface: Color = this.onSurface,
     ): Colors =
         Colors(
-            theme,
             primary,
             secondary,
             background,
@@ -155,4 +152,4 @@ internal val LocalTypography = staticCompositionLocalOf { Typography }
 
 internal val LocalShapes = staticCompositionLocalOf { Shapes() }
 
-internal val LocalAppColors = staticCompositionLocalOf { Colors() }
+internal val LocalAppColors = staticCompositionLocalOf { darkThemeColorScheme() }

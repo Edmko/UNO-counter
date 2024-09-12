@@ -16,4 +16,5 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     api(libs.androidx.compose.material)
     implementation(libs.navigation.compose)
+    api(libs.kotlinx.serialization.json)
 }

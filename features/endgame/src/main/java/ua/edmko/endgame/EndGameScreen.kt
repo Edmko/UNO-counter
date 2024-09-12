@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Surface
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
@@ -19,26 +19,29 @@ import ua.edmko.core.ui.theme.AppTheme
 
 @Composable
 fun EndGameScreen(name: String, back: () -> Unit) {
-    AppTheme {
-        Surface(
-            color = AppTheme.colors.surface,
+    Scaffold(
+        backgroundColor = AppTheme.colors.background,
+    ) { paddings ->
+
+        Box(
+            modifier = Modifier
+                .padding(paddings)
+                .fillMaxSize(),
         ) {
-            Box(Modifier.fillMaxSize()) {
-                Column(Modifier.align(Alignment.Center)) {
-                    Text(
-                        text = stringResource(R.string.congratulation),
-                        style = AppTheme.typography.h4,
-                        color = AppTheme.colors.onSurface,
-                    )
-                    Text(
-                        text = name,
-                        modifier = Modifier
-                            .padding(top = 10.dp)
-                            .align(Alignment.CenterHorizontally),
-                        style = AppTheme.typography.h4,
-                        color = AppTheme.colors.primary,
-                    )
-                }
+            Column(Modifier.align(Alignment.Center)) {
+                Text(
+                    text = stringResource(R.string.congratulation),
+                    style = AppTheme.typography.h4,
+                    color = AppTheme.colors.onSurface,
+                )
+                Text(
+                    text = name,
+                    modifier = Modifier
+                        .padding(top = 10.dp)
+                        .align(Alignment.CenterHorizontally),
+                    style = AppTheme.typography.h4,
+                    color = AppTheme.colors.primary,
+                )
             }
         }
     }

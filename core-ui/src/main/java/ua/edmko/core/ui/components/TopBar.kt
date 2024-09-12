@@ -15,8 +15,10 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import ua.edmko.core.ui.R
 import ua.edmko.core.ui.theme.AppTheme
 import ua.edmko.core.ui.theme.horizontalPadding
 
@@ -42,7 +44,7 @@ fun Toolbar(
             back?.let { back ->
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Navigate back",
+                    contentDescription = stringResource(R.string.navigate_back_content_description),
                     modifier = Modifier
                         .clickable(onClick = back)
                         .padding(end = 18.dp),

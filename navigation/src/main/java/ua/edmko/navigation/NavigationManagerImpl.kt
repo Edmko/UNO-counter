@@ -10,12 +10,12 @@ import javax.inject.Inject
 
 internal class NavigationManagerImpl @Inject constructor() : NavigationManager {
 
-    private val _commands: MutableSharedFlow<NavigationCommand> =
+    private val _commands: MutableSharedFlow<NavigationCommand<*>> =
         MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
 
-    override fun commands(): Flow<NavigationCommand> = _commands
+    override fun commands(): Flow<NavigationCommand<*>> = _commands
 
-    override fun navigate(directions: NavigationCommand) {
+    override fun navigate(directions: NavigationCommand<*>) {
         _commands.tryEmit(directions)
     }
 

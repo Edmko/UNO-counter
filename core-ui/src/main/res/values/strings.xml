@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="accept">Accept</string>
+    <string name="cancel_button_title">Cancel</string>
+    <string name="navigate_back_content_description">Navigate back</string>
 </resources>

@@ -14,19 +14,18 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.webkit.WebViewAssetLoader
 import androidx.webkit.WebViewClientCompat
 import ua.edmko.core.ui.components.Toolbar
+import ua.edmko.core.ui.theme.AppTheme
 
 @Composable
 fun PolicyScreen(back: () -> Unit) {
     Scaffold(
-        topBar = {
-            Toolbar(title = stringResource(R.string.privacy_policy_screen_title)) {
-                back()
-            }
-        },
-    ) {
+        backgroundColor = AppTheme.colors.background,
+        topBar = { Toolbar(title = stringResource(R.string.privacy_policy_screen_title)) { back() } },
+    ) { paddings ->
+
         AndroidView(
             modifier = Modifier
-                .padding(it)
+                .padding(paddings)
                 .fillMaxSize(),
             factory = { context ->
                 WebView(context).also { webView ->

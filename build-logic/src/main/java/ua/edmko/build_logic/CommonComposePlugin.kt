@@ -4,7 +4,6 @@ import com.android.build.gradle.BaseExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.PluginManager
-import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
 
 class CommonComposePlugin : Plugin<Project> {
@@ -13,7 +12,6 @@ class CommonComposePlugin : Plugin<Project> {
         with(target) {
             applyPlugins(target.pluginManager)
             androidConfig()
-            dependenciesConfig()
         }
     }
 
@@ -29,14 +27,6 @@ class CommonComposePlugin : Plugin<Project> {
             composeOptions {
                 kotlinCompilerExtensionVersion = libs.findVersion("kotlinCompilerExtension").get().toString()
             }
-        }
-    }
-
-    private fun Project.dependenciesConfig() {
-        dependencies {
-            val bom = libs.findLibrary("androidx-compose-bom").get()
-            add("implementation", platform(bom))
-            add("androidTestImplementation", platform(bom))
         }
     }
 }

@@ -124,7 +124,7 @@ fun ConfirmationDialog(
                     .height(50.dp),
                 onClick = accept,
                 isEnabled = true,
-                text = "Accept",
+                text = stringResource(R.string.accept),
                 fontSize = 24.sp,
             )
 
@@ -136,7 +136,7 @@ fun ConfirmationDialog(
                     .height(50.dp),
                 onClick = dismiss,
                 isEnabled = true,
-                text = "Cancel",
+                text = stringResource(R.string.cancel_button_title),
                 fontSize = 24.sp,
             )
         }

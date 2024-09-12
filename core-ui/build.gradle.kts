@@ -14,6 +14,7 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     api(libs.androidx.compose.material)
+    api(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui.tooling)
     api(libs.androidx.compose.material.icons.extended)
 }
