@@ -22,4 +22,8 @@ inline fun <reified T> Interactor<T>.returnError(error: Exception) =
 inline fun <reified T, reified P : Any> SubjectInteractor<P, T>.returnValue(value: T) =
     whenever(this.createObservable(any())).thenReturn(flowOf(value))!!
 
-inline fun <reified T> Interactor<T>.verifyCall(calls: Int = 1) = verify(this, times(calls)).invoke(any(), anyLong())
+inline fun <reified T> Interactor<T>.verifyCall(value: T, calls: Int = 1) =
+    verify(this, times(calls)).invoke(value)
+
+inline fun <reified T> Interactor<T>.verifyCall(calls: Int = 1) =
+    verify(this, times(calls)).invoke(any(), anyLong())

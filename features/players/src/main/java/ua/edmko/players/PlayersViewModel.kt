@@ -2,6 +2,7 @@ package ua.edmko.players
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ua.edmko.core.base.BaseViewModel
 import ua.edmko.domain.entities.Player
@@ -58,7 +59,7 @@ internal class PlayersViewModel @Inject constructor(
     }
 
     private fun createPlayer(name: String) = viewModelScope.launch {
-        addPlayer.executeSync(AddPlayer.Params(name))
+        addPlayer(AddPlayer.Params(name)).collect()
         dismissDialog()
     }
 
@@ -67,11 +68,11 @@ internal class PlayersViewModel @Inject constructor(
     }
 
     private fun deletePlayer(player: Player) = viewModelScope.launch {
-        deletePlayer.executeSync(DeletePlayer.Params(player.playerId))
+        deletePlayer(DeletePlayer.Params(player.playerId)).collect()
         dismissDialog()
     }
 
     private fun updatePlayer(player: Player) = viewModelScope.launch {
-        updatePlayer.executeSync(UpdatePlayer.Params(player))
+        updatePlayer(UpdatePlayer.Params(player)).collect()
     }
 }

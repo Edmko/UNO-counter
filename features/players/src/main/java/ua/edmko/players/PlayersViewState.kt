@@ -10,7 +10,7 @@ internal data class PlayersViewState(
 
 internal sealed interface Dialog
 
-internal class EditPlayersName(val player: Player) : Dialog
+internal data class EditPlayersName(val player: Player) : Dialog
 
 internal class DeletePlayer(val player: Player) : Dialog
 
