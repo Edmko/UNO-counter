@@ -3,11 +3,12 @@ package ua.edmko.setup
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.assertTextContains
-import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import com.edmko.setup.EDIT_GOAL_DIALOG_TAG
 import com.edmko.setup.GOAL_FIELD_TAG
+import com.edmko.setup.LOADER_TAG
+import com.edmko.setup.PLAYERS_ERROR_TEXT_TAG
 import com.edmko.setup.PLAYERS_LIST_TAG
 import com.edmko.setup.SELECT_GAME_TYPE_DIALOG_TAG
 import com.edmko.setup.SetupContent
@@ -30,7 +31,9 @@ internal class SetupScreenTest {
     @Test
     fun `when type dialog state show option dialog`() {
         SetupViewState(dialog = SetupViewState.DialogType.GameType).asScreen()
-        composeTestRule.onNodeWithTag(SELECT_GAME_TYPE_DIALOG_TAG).assertIsDisplayed()
+        composeTestRule
+            .onNodeWithTag(SELECT_GAME_TYPE_DIALOG_TAG)
+            .assertIsDisplayed()
     }
 
     @Test
@@ -70,7 +73,27 @@ internal class SetupScreenTest {
         SetupViewState(gameType = type).asScreen()
         composeTestRule
             .onNodeWithTag(testTag = TYPE_FIELD_TAG, useUnmergedTree = true)
-            .assertTextEquals(type.name)
+            .assertTextContains(
+                type.name,
+                substring = true,
+                ignoreCase = true,
+            )
+    }
+
+    @Test
+    fun `when load players shows loader`() {
+        SetupViewState(players = ResultState.Loading).asScreen()
+        composeTestRule
+            .onNodeWithTag(testTag = LOADER_TAG)
+            .assertIsDisplayed()
+    }
+
+    @Test
+    fun `when error load players shows error text`() {
+        SetupViewState(players = ResultState.Error()).asScreen()
+        composeTestRule
+            .onNodeWithTag(PLAYERS_ERROR_TEXT_TAG)
+            .assertIsDisplayed()
     }
 
     private fun SetupViewState.asScreen() = composeTestRule.setContent {

@@ -117,14 +117,16 @@ internal fun SetupContent(
                 is ResultState.Error -> Text(
                     modifier = Modifier
                         .padding(top = 16.dp)
-                        .align(Alignment.CenterHorizontally),
+                        .align(Alignment.CenterHorizontally)
+                        .testTag(PLAYERS_ERROR_TEXT_TAG),
                     text = stringResource(R.string.players_list_error_text),
                 )
 
                 ResultState.Loading -> CircularProgressIndicator(
                     modifier = Modifier
                         .padding(top = 16.dp)
-                        .align(Alignment.CenterHorizontally),
+                        .align(Alignment.CenterHorizontally)
+                        .testTag(LOADER_TAG),
                     color = AppTheme.colors.primary,
                 )
 
@@ -169,6 +171,7 @@ private fun Dialogs(state: SetupViewState, event: (GameSettingEvent) -> Unit) {
                         onClick = { SetGameType(it) },
                     )
                 },
+                testTag = SELECT_GAME_TYPE_DIALOG_TAG,
                 onDismiss = {
                     event(SetGameType(it.value as GameType))
                 },

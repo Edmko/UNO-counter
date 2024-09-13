@@ -33,11 +33,16 @@ data class SelectDialogItem(
 fun SelectDialog(
     @StringRes title: Int,
     @StringRes acceptButtonTitle: Int = R.string.accept,
+    testTag: String = "Select dialog",
     items: List<SelectDialogItem>,
     onDismiss: (SelectDialogItem) -> Unit,
 ) {
     var currentSelection by remember { mutableStateOf(items.firstOrNull { it.isSelected }) }
-    DialogApp(title = stringResource(title), onDismiss = { currentSelection?.let(onDismiss) }) {
+    DialogApp(
+        title = stringResource(title),
+        testTag = testTag,
+        onDismiss = { currentSelection?.let(onDismiss) },
+    ) {
         Spacer(modifier = Modifier.size(15.dp))
         items.forEach { item ->
             Row(
