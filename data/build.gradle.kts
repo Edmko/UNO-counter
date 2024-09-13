@@ -3,7 +3,7 @@ import com.google.protobuf.gradle.id
 plugins {
     alias(libs.plugins.plugin.android.library)
     alias(libs.plugins.plugin.hilt)
-    id("com.google.protobuf") version "0.9.1"
+    alias(libs.plugins.protobuf)
 }
 
 android {

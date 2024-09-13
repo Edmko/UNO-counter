@@ -18,25 +18,20 @@ androidxJunit = "1.2.1"
 espressoCore = "3.6.1"
 appcompat = "1.7.0"
 mockitoCore = "5.11.0"
-protobufJavalite = "3.19.4"
+protobufJavalite = "4.26.1"
 room = "2.6.1"
 ksp = "2.0.20-1.0.24"
 material = "1.12.0"
 materialCompose = "1.7.1"
 navigation = "2.8.0"
 googleServices = "4.4.2"
-composeMaterial3 = "1.0.0-alpha24"
 
 [libraries]
-
 #Core
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
-mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }
-mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version = "5.4.0" }
-roboelectric = { module = "org.robolectric:robolectric", version = "4.11.1" }
 protobuf-javalite = { module = "com.google.protobuf:protobuf-javalite", version.ref = "protobufJavalite" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 gradle = { group = "com.android.tools.build", name = "gradle", version.ref = "gradle" }
@@ -44,6 +39,8 @@ kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-p
 ktlint-gradle = { group = "org.jlleitschuh.gradle", name = "ktlint-gradle", version.ref = "ktlint" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 kotlin-serialization-classpath = { group = "org.jetbrains.kotlin", name = "kotlin-serialization", version.ref = "kotlin" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 
 #Compose
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
@@ -76,7 +73,9 @@ lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtim
 junit = { group = "junit", name = "junit", version.ref = "junitVersion" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidxJunit" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
-androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }
+mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version = "5.4.0" }
+roboelectric = { module = "org.robolectric:robolectric", version = "4.12.2" }
 
 #Navigation
 androidx-navigation-common-ktx = { group = "androidx.navigation", name = "navigation-common-ktx", version.ref = "navigation" }
@@ -86,7 +85,7 @@ navigation-compose = { group = "androidx.navigation", name = "navigation-compose
 #Google Services
 google-services = { group = "com.google.gms", name = "google-services", version.ref = "googleServices" }
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx", version = "22.1.0" }
-firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx", version = "19.0.3" }
+firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx", version = "19.1.0" }
 firebase-crashlytics-gradle = { group = "com.google.firebase", name = "firebase-crashlytics-gradle", version = "3.0.2" }
 
 #Other
@@ -96,8 +95,6 @@ gson = { group = "com.google.code.gson", name = "gson", version = "2.10.1" }
 splash = { group = "androidx.core", name = "core-splashscreen", version = "1.0.1" }
 javax-inject = { module = "javax.inject:javax.inject", version = "1" }
 jsr250-api = { module = "javax.annotation:jsr250-api", version = "1.0" }
-kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
-androidx-compose-material3 = { group = "androidx.wear.compose", name = "compose-material3", version.ref = "composeMaterial3" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "gradle" }
@@ -109,6 +106,7 @@ jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "k
 jetbrainsKotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+protobuf = { id = "com.google.protobuf", version = "0.9.4" }
 
 #Convention plugins
 plugin-compose = { id = "plugin.compose.config", version = "unspecified" }

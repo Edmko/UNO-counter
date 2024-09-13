@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
@@ -45,6 +46,7 @@ import ua.edmko.core.ui.theme.AppTheme
 import ua.edmko.core.ui.theme.horizontalPadding
 import ua.edmko.domain.entities.GameType
 import ua.edmko.domain.entities.Player
+import ua.edmko.domain.entities.ResultState
 
 @Composable
 fun SetupScreen() {
@@ -80,7 +82,7 @@ internal fun SetupContent(
                     .padding(start = horizontalPadding, end = horizontalPadding, bottom = 16.dp)
                     .fillMaxWidth()
                     .height(56.dp),
-                isEnabled = state.players.isNotEmpty(),
+                isEnabled = state.players is ResultState.Success && state.players.data.isNotEmpty(),
                 onClick = { event(StartGame) },
             )
         },
@@ -111,10 +113,23 @@ internal fun SetupContent(
 
             Divider(color = AppTheme.colors.onSurface)
 
-            PlayersList(
-                modifier = Modifier.weight(1f),
-                players = state.players,
-            )
+            when (state.players) {
+                is ResultState.Error -> Text(
+                    modifier = Modifier
+                        .padding(top = 16.dp)
+                        .align(Alignment.CenterHorizontally),
+                    text = stringResource(R.string.players_list_error_text),
+                )
+
+                ResultState.Loading -> CircularProgressIndicator(
+                    modifier = Modifier
+                        .padding(top = 16.dp)
+                        .align(Alignment.CenterHorizontally),
+                    color = AppTheme.colors.primary,
+                )
+
+                is ResultState.Success -> PlayersList(modifier = Modifier.weight(1f), players = state.players.data)
+            }
         }
     }
 }

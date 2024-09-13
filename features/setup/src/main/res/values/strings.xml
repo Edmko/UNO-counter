@@ -8,4 +8,6 @@
     <string name="setup_screen_title">Setup</string>
     <string name="edit_players_content_description">Edit players</string>
     <string name="settings_icon_content_description">Settings</string>
+    <string name="retry_button_title">Retry</string>
+    <string name="players_list_error_text">Can`t load players</string>
 </resources>

@@ -3,7 +3,6 @@ package com.edmko.setup
 import androidx.lifecycle.viewModelScope
 import com.edmko.setup.SetupViewState.DialogType
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import ua.edmko.core.base.BaseViewModel
 import ua.edmko.domain.entities.GameSettings
@@ -26,7 +25,6 @@ internal class SetupViewModel @Inject constructor(
         viewModelScope.smartLaunch {
             observeSelectedPlayers
                 .createObservable(Unit)
-                .catch { emit(emptyList()) }
                 .collect { players -> viewState = viewState.copy(players = players) }
         }
     }
