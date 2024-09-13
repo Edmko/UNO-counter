@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ua.edmko.core.ui.theme.AppTheme
@@ -22,6 +23,7 @@ import ua.edmko.core.ui.theme.AppTheme
 private const val PLAYER_ITEM_ICON_FRACTION = 0.1F
 private const val PLAYER_ITEM_NAME_FRACTION = 0.4F
 const val PLAYER_ITEM_MAIN_FRACTION = PLAYER_ITEM_ICON_FRACTION + PLAYER_ITEM_NAME_FRACTION
+const val PLAYER_ITEM_TEST_TAG = "PLAYER_ITEM_TEST_TAG"
 
 /**
  * @param statistics get second half of row space
@@ -31,13 +33,15 @@ fun PlayerItem(
     modifier: Modifier = Modifier,
     name: String,
     color: Color,
+    testTag: String = PLAYER_ITEM_TEST_TAG,
     statistics: @Composable RowScope.() -> Unit = {},
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .fillMaxWidth()
-            .height(60.dp),
+            .height(60.dp)
+            .testTag(testTag),
     ) {
         Icon(
             imageVector = Icons.Rounded.Person,

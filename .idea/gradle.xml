@@ -34,6 +34,7 @@
             <option value="$PROJECT_DIR$/features/settings" />
             <option value="$PROJECT_DIR$/features/setup" />
             <option value="$PROJECT_DIR$/navigation" />
+            <option value="$PROJECT_DIR$/testing" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

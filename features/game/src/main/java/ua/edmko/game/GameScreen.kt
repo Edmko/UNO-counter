@@ -101,6 +101,7 @@ private fun GameDialogs(state: GameViewState, event: (GameEvent) -> Unit) {
                 keyboardType = KeyboardType.Number,
                 imeAction = ImeAction.Done,
             ),
+            testTag = EDIT_SCORE_DIALOG_TAG,
             onClick = { score -> event(ConfirmEdition(score)) },
             onDismiss = { event(DismissDialog) },
         )

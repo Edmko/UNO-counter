@@ -4,12 +4,12 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ua.edmko.core.base.BaseViewModel
 import ua.edmko.domain.entities.Player
 import ua.edmko.domain.entities.Round
 import ua.edmko.domain.interactor.AddRoundToGame
+import ua.edmko.domain.interactor.InvokeSuccess
 import ua.edmko.domain.interactor.ObserveGame
 import javax.inject.Inject
 
@@ -68,13 +68,16 @@ internal class GameViewModel @Inject constructor(
     private fun nextRound() {
         viewModelScope.launch {
             val currentRound = viewState.currentRound
-            addRoundToGame(AddRoundToGame.Params(currentRound)).collect()
-            viewState = viewState.copy(
-                currentRound = Round(
-                    gameRoundId = viewState.game.gameSettings.id,
-                    roundNum = currentRound.roundNum + 1,
-                ),
-            )
+            addRoundToGame(AddRoundToGame.Params(currentRound)).collect {
+                if (it == InvokeSuccess) {
+                    viewState = viewState.copy(
+                        currentRound = Round(
+                            gameRoundId = viewState.game.gameSettings.id,
+                            roundNum = currentRound.roundNum + 1,
+                        ),
+                    )
+                }
+            }
         }
     }
 

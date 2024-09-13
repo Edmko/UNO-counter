@@ -13,8 +13,8 @@ import ua.edmko.domain.entities.Theme
 
 internal class DataStoreTest {
 
-    private val repository = DataStoreManager(ApplicationProvider.getApplicationContext())
     private val testContext: Context = ApplicationProvider.getApplicationContext()
+    private val repository = DataStoreManager(testContext)
 
     @After
     fun cleanup() {

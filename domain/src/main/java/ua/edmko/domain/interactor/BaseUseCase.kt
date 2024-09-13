@@ -29,6 +29,8 @@ abstract class Interactor<in P> {
         }
     }
 
+    fun doTest(params: P, timeoutMs: Long = defaultTimeoutMs) = invoke(params, timeoutMs)
+
     suspend fun executeSync(params: P) = doWork(params)
 
     protected abstract suspend fun doWork(params: P)

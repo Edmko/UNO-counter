@@ -19,6 +19,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import ua.edmko.domain.entities.GameType
 import ua.edmko.domain.entities.Player
+import ua.edmko.domain.entities.ResultState
 
 @RunWith(RobolectricTestRunner::class)
 internal class SetupScreenTest {
@@ -40,13 +41,13 @@ internal class SetupScreenTest {
 
     @Test
     fun `when state has players display list`() {
-        SetupViewState(players = Player.STUB).asScreen()
+        SetupViewState(players = ResultState.Success(Player.STUB)).asScreen()
         composeTestRule.onNodeWithTag(PLAYERS_LIST_TAG).assertIsDisplayed()
     }
 
     @Test
     fun `when state has not players not display list`() {
-        SetupViewState(players = emptyList()).asScreen()
+        SetupViewState(players = ResultState.Success(emptyList())).asScreen()
         composeTestRule.onNodeWithTag(PLAYERS_LIST_TAG).assertIsNotDisplayed()
     }
 

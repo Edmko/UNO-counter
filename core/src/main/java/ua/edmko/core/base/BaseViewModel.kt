@@ -32,6 +32,7 @@ abstract class BaseViewModel<S : ViewState, E : Event>() : ViewModel() {
         Log.e(throwable.cause.toString(), throwable.message ?: "")
     }
 
+    @org.jetbrains.annotations.VisibleForTesting
     private val _viewStates: MutableStateFlow<S?> = MutableStateFlow(null)
 
     fun viewStates(): StateFlow<S?> = _viewStates

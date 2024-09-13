@@ -25,18 +25,19 @@ class ComposeFeaturePlugin : Plugin<Project> {
             add("implementation", project(":domain"))
             add("implementation", project(":core-ui"))
             add("implementation", project(":core"))
+            add("testImplementation", project(":testing"))
             add("implementation", libs.findLibrary("navigation.compose").get())
             add("implementation", libs.findLibrary("lifecycle.viewmodel.compose").get())
             add("implementation", libs.findLibrary("androidx.navigation.runtime.ktx").get())
             add("implementation", libs.findLibrary("hilt-navigation-compose").get())
             add("implementation", libs.findLibrary("androidx-compose-ui_tooling").get())
             add("testImplementation", libs.findLibrary("kotlinx-coroutines-test").get())
-            add("testImplementation", libs.findLibrary("mockito-core").get())
             add("testImplementation", libs.findLibrary("junit").get())
             add("testImplementation", libs.findLibrary("mockito-kotlin").get())
             add("testImplementation", libs.findLibrary("roboelectric").get())
             add("testImplementation", libs.findLibrary("androidx_compose_ui_test_junit").get())
             add("debugImplementation", libs.findLibrary("androidx_compose_ui_test_manifest").get())
+            add("testImplementation", libs.findLibrary("navigation-test").get())
         }
     }
 }

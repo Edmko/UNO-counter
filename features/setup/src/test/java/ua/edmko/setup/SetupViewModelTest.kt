@@ -3,6 +3,7 @@ package ua.edmko.setup
 import com.edmko.setup.ChangeGoal
 import com.edmko.setup.DismissDialog
 import com.edmko.setup.EditPlayers
+import com.edmko.setup.GameSettingEvent
 import com.edmko.setup.OnGoalClickEvent
 import com.edmko.setup.OnTypeClickEvent
 import com.edmko.setup.SetGameType
@@ -10,28 +11,27 @@ import com.edmko.setup.SetupNavigator
 import com.edmko.setup.SetupViewModel
 import com.edmko.setup.SetupViewState
 import com.edmko.setup.StartGame
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert
-import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
-import org.mockito.kotlin.any
+import org.mockito.kotlin.times
 import ua.edmko.domain.entities.GameType
-import ua.edmko.domain.entities.Player
+import ua.edmko.domain.entities.ResultState
 import ua.edmko.domain.interactor.CreateGame
 import ua.edmko.domain.interactor.ObserveSelectedPlayers
+import ua.edmko.testing.BaseViewModelTest
+import ua.edmko.testing.extensions.returnError
+import ua.edmko.testing.extensions.returnSuccess
+import ua.edmko.testing.extensions.returnValue
+import ua.edmko.testing.extensions.verifyCall
+import ua.edmko.testing.selectedPlayersList
 
 @RunWith(MockitoJUnitRunner::class)
-internal class SetupViewModelTest {
-
-    @Mock
-    lateinit var viewModel: SetupViewModel
+internal class SetupViewModelTest : BaseViewModelTest<SetupViewState, GameSettingEvent, SetupViewModel>() {
 
     @Mock
     lateinit var createGame: CreateGame
@@ -42,68 +42,89 @@ internal class SetupViewModelTest {
     @Mock
     lateinit var navigator: SetupNavigator
 
-    @get:Rule
-    val mainDispatcherRule = MainDispatcherRule()
-
-    @Before
-    fun setup() {
-        val players = listOf(
-            Player(266542, "John Smith"),
-            Player(254153, "Dali Bali"),
-        )
-        Mockito
-            .`when`(observeSelectedPlayers.createObservable(Unit))
-            .thenReturn(flow { emit(players) })
-        viewModel = SetupViewModel(createGame, observeSelectedPlayers, navigator)
+    override fun createViewModel(): SetupViewModel {
+        observeSelectedPlayers.returnValue(ResultState.Success(selectedPlayersList))
+        return SetupViewModel(createGame, observeSelectedPlayers, navigator)
     }
 
     @Test
-    fun `check ChangeGoal event changes state`() {
+    fun `check ChangeGoal event changes state`() = runTest {
         val goal = 500
-        viewModel.obtainEvent(ChangeGoal(500))
-        val state = viewModel.viewStates().value!!
-        Assert.assertEquals(goal, state.goal)
+        test(
+            events = listOf(ChangeGoal(goal)),
+            assertions = listOf(
+                createAssertion(goal) { it.goal },
+            ),
+        )
     }
 
     @Test
-    fun `check OnGoalClickEvent change state to opened dialog`() {
-        viewModel.obtainEvent(OnGoalClickEvent)
-        val state = viewModel.viewStates().value!!
-        Assert.assertEquals(state.dialog, SetupViewState.DialogType.EditGoal)
+    fun `check OnGoalClickEvent change state to opened dialog`() = runTest {
+        test(
+            events = listOf(OnGoalClickEvent),
+            assertions = listOf(
+                createAssertion(SetupViewState.DialogType.EditGoal) { it.dialog },
+            ),
+        )
     }
 
     @Test
-    fun `check OnTypeClickEvent change state to opened dialog`() {
-        viewModel.obtainEvent(OnTypeClickEvent)
-        val state = viewModel.viewStates().value!!
-        Assert.assertEquals(state.dialog, SetupViewState.DialogType.GameType)
+    fun `check OnTypeClickEvent change state to opened dialog`() = runTest {
+        test(
+            events = listOf(OnTypeClickEvent),
+            assertions = listOf(
+                createAssertion(SetupViewState.DialogType.GameType) { it.dialog },
+            ),
+        )
     }
 
     @Test
     fun `check EditPlayers navigate to players screen`() = runTest {
-        viewModel.obtainEvent(EditPlayers)
-        Mockito.verify(navigator).toPlayers()
+        test(
+            events = listOf(EditPlayers),
+            verifiers = listOf { Mockito.verify(navigator).toPlayers() },
+        )
     }
 
     @Test
-    fun `check DismissDialog changes viewState`() {
-        viewModel.obtainEvent(DismissDialog)
-        val state = viewModel.viewStates().value!!
-        Assert.assertEquals(state.dialog, null)
+    fun `check DismissDialog changes viewState`() = runTest {
+        test(
+            events = listOf(DismissDialog),
+            assertions = listOf(
+                createAssertion(null) { it.dialog },
+            ),
+        )
     }
 
     @Test
-    fun `check SetGameType changes viewState`() {
+    fun `check SetGameType changes viewState`() = runTest {
         val gameType = GameType.COLLECTIVE
-        viewModel.obtainEvent(SetGameType(gameType))
-        val state = viewModel.viewStates().value!!
-        Assert.assertEquals(state.gameType, gameType)
+        test(
+            events = listOf(SetGameType(gameType)),
+            assertions = listOf(
+                createAssertion(gameType) { it.gameType },
+            ),
+        )
     }
 
     @Test
     fun `check StartGame creates game and navigate to game`() = runTest {
-        viewModel.obtainEvent(StartGame)
-        Mockito.verify(createGame).invoke(any())
-        Mockito.verify(navigator).toGame(anyString())
+        createGame.returnSuccess()
+        test(
+            events = listOf(StartGame),
+            verifiers = listOf(
+                { createGame.verifyCall() },
+                { Mockito.verify(navigator).toGame(anyString()) },
+            ),
+        )
+    }
+
+    @Test
+    fun `check StartGame fail if cant create game`() = runTest {
+        createGame.returnError(Exception())
+        test(
+            events = listOf(StartGame),
+            verifiers = listOf { Mockito.verify(navigator, times(0)).toGame(anyString()) },
+        )
     }
 }
